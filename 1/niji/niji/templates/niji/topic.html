@@ -1,0 +1,271 @@
+{% extends 'niji/base.html' %}
+{% load i18n %}
+{% load niji_tags %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+
+{% block left %}
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-body">
+            <ol class="breadcrumb">
+                <li><a href="{% url 'niji:index' %}">Home</a></li>
+                <li><a href="{% url 'niji:node' pk=topic.node.pk %}">{{ topic.node.title }}</a></li>
+                <li class="active">{{ topic.title }}</li>
+            </ol>
+            <h1 class="topic-title">{{ topic.title }}</h1>
+            <div class="topic-meta row">
+                <div class="col-xs-2 col-sm-1">
+                    <img class="user-avatar" src="{% avatar_url topic.user %}" alt=""/>
+                </div>
+                <div class="col-xs-9 col-sm-10">
+                    <p class="text-muted">
+                        <a href="{% url 'niji:user_info' topic.user.pk %}">{{ topic.user.username }}</a>
+                        <br/>
+                        <span>Posted {{ topic.pub_date | naturaltime }} in <a class="text-primary" href="{% url 'niji:node' pk=topic.node.pk %}">{{ topic.node.title }}</a>, </span>
+                        <span>{% blocktrans with view_count=topic.view_count %}viewed {{ view_count }} times{% endblocktrans %}</span>
+                    </p>
+                </div>
+            </div>
+            <div class="topic-content">
+                <p>{{ topic.content_rendered | safe}}</p>
+            </div>
+        </div>
+        {% if topic.appendix_set %}
+            <ul class="list-group">
+                {% for appendix in topic.appendix_set.all %}
+                    <div class="list-group-item list-appendix-item">
+                        <p class="appendix-meta">
+                            {% blocktrans with number=forloop.counter %}appendix {{number}}{% endblocktrans %} {{appendix.pub_date|naturaltime}}
+                        </p>
+                        {{appendix.content_rendered | safe}}
+                    </div>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% if request.user == topic.user %}
+            <div class="panel-footer">
+                {% if topic.reply_count == 0 %}
+                    <a href="{% url 'niji:edit_topic' pk=topic.pk %}"><span class="label label-success">{% trans 'Edit' %}</span></a>
+                {% endif %}
+                <a href="{% url 'niji:create_appendix' pk=topic.pk %}"><span class="label label-warning">{% trans 'Append' %}</span></a>
+            </div>
+        {% endif %}
+        {% if request.user.is_superuser %}
+            <div class="panel-footer">
+                <span>{% trans 'Moderations' %}: </span>
+                <a href="#" class="moderate-action move-topic-up" data-toggle="modal" data-target="#moderation-modal" data-pk="{{ topic.pk }}" data-action="move-topic-up" data-api-url="{% url 'niji:topic-detail' topic.pk %}">
+                    <span class="label label-success">Up</span>
+                </a>
+                {% if topic.closed %}
+                    <a href="#" class="moderate-action open-topic" data-toggle="modal" data-target="#moderation-modal" data-pk="{{ topic.pk }}" data-action="open-topic" data-api-url="{% url 'niji:topic-detail' topic.pk %}">
+                        <span class="label label-info">Open</span>
+                    </a>
+                {% else %}
+                    <a href="#" class="moderate-action close-topic" data-toggle="modal" data-target="#moderation-modal" data-pk="{{ topic.pk }}" data-action="close-topic" data-api-url="{% url 'niji:topic-detail' topic.pk %}">
+                        <span class="label label-warning">Close</span>
+                    </a>
+                {% endif %}
+                <a href="#" class="moderate-action hide-topic" data-toggle="modal" data-target="#moderation-modal" data-pk="{{ topic.pk }}" data-action="hide-topic" data-api-url="{% url 'niji:topic-detail' topic.pk %}">
+                    <span class="label label-danger">Hide</span>
+                </a>
+            </div>
+        {% endif %}
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {% if topic.reply_count %}
+                {% blocktrans count reply_count=topic.reply_count %}{{ reply_count }} Reply{% plural %}{{ reply_count }} Replies{% endblocktrans %}
+            {% else %}
+                {% trans "No Replies" %}
+            {% endif %}
+        </div>
+        <!-- List group -->
+        <ul class="list-group reply-list">
+            {% for post in posts %}
+                <li class="list-group-item reply-item">
+                    <div class="topic-meta row">
+                        <div class="col-xs-2 col-sm-1">
+                            <img class="user-avatar" src="{% avatar_url post.user %}" alt=""/>
+                        </div>
+                        <div class="col-xs-9 col-sm-10">
+                            <p class="text-muted">
+                                <a href="{% url 'niji:user_info' post.user_id %}">{{ post.user }}</a> <br/>
+                                <span>{{ post.pub_date | naturaltime }}</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="reply-content">
+                        <p>
+                            {{ post.content_rendered | safe}}
+                        </p>
+                    </div>
+                    <p class="reply-link">
+                        <a href="#" data-username="{{ post.user.username }}" class="reply-to">{% trans "Reply" %}</a>
+                    </p>
+                    {% if request.user.is_superuser %}
+                        <hr>
+                        <p class="moderation-links">
+                            <a href="#" class="moderate-action hide-reply" data-toggle="modal" data-target="#moderation-modal" data-pk="{{ topic.pk }}" data-action="hide-reply" data-api-url="{% url 'niji:post-detail' post.pk %}">
+                                <span class="label label-danger">Hide</span>
+                            </a>
+                        </p>
+                    {% endif %}
+                </li>
+            {% endfor %}
+            {% if not posts %}
+                <li class="list-group-item reply-item"><p>{% trans "Be the first to reply!" %}</p></li>
+            {% endif %}
+        </ul>
+        <div class="panel-footer">
+            {% get_pagination %}
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">{% trans "Leave a Reply"%}</div>
+        <div class="panel-body">
+            {% if topic.closed %}
+                <div class="alert alert-warning" role="alert">
+                    <p>{% trans "This topic is closed" %}</p>
+                </div>
+            {% else %}
+                {% if request.user.is_authenticated %}
+                    <form action="{% url 'niji:topic' pk=topic.pk %}" method="POST">
+                        {% crispy form %}
+                    </form>
+                {% else %}
+                    <div class="alert alert-warning" role="alert">
+                        {% url niji_login_url_name as login_url %}
+                        {% url niji_reg_url_name as reg_url %}
+                        {% blocktrans %}
+                            Please <a href="{{ login_url }}">Login</a> or <a href="{{ reg_url }}">Create a New User</a> to reply
+                        {% endblocktrans %}
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block widget_after %}
+    {% include 'niji/widgets/node_info.html' %}
+{% endblock %}
+
+{% block footer_ext %}
+    <script>
+        $(document).ready(function(){
+            $('.reply-to').click(function(e){
+                e.preventDefault();
+                var box = $("#reply-content-input, #id_content_raw");
+                box.val(box.val() + "@"+$(this).data('username')+"\n");
+            });
+        });
+    </script>
+    {% if request.user.is_superuser %}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.12.0/babel.min.js"></script>
+        <div id="moderation-modal" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Modal title</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>One fine body&hellip;</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-warning modal-confirm">Confirm</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <script type="text/babel">
+            let patchTopic = function(url, data){
+                $.ajax({
+                    dataType: 'json',
+                    method: 'PATCH',
+                    url: url,
+                    data: data
+                }).done(()=>{
+                    $('#moderation-modal').find('.modal-body').html(`<p class="text-success">{% trans 'Operation successful' %}</p>`);
+                }).fail((xhr, status, error)=>{
+                    $('#moderation-modal').find('.modal-body').html(`<p class="text-danger">${status}</p>`);
+                    console.log(xhr.responseText);
+                    console.log(error);
+                }).always(()=>{
+                    $('.modal-confirm').hide();
+                });
+            };
+            $('#moderation-modal').on('show.bs.modal', function (event) {
+                $('.modal-confirm').show();
+                let button = $(event.relatedTarget);
+                let recipient = button.data('whatever');
+                let modal = $(this);
+                let modalTitle;
+                let modalBody;
+                let modalCb;
+                switch (button.data('action')) {
+                    case 'move-topic-up':
+                        modalTitle = '{% trans 'Stick to Top' %}';
+                        modalBody = `<form>
+                              <div class="form-group">
+                                <label for="recipient-name" class="control-label">{% trans 'Level (1 - Highest)' %}:</label>
+                                <select class="form-control" name="move-topic-up-level">
+                                  <option>1</option>
+                                  <option>2</option>
+                                  <option>3</option>
+                                  <option>{% trans "Don't stick to stop" %}</option>
+                                </select>
+                              </div>
+                            </form>`;
+                        modalCb = () => {
+                            let level = $('select[name="move-topic-up-level"]').val();
+                            if (level === "{% trans "Don't stick to stop" %}") {
+                                level = 10
+                            } else {
+                                level = parseInt(level)
+                            }
+                            patchTopic(
+                                button.data('api-url'), {order: level}
+                            )
+                        };
+                        break;
+                    case 'open-topic':
+                        modalTitle = "{% trans 'Open Topic' %}";
+                        modalBody = "{% trans 'Please confirm your action' %}";
+                        modalCb = () => {
+                            patchTopic(button.data('api-url'), {closed: false});
+                        };
+                        break;
+                    case 'close-topic':
+                        modalTitle = "{% trans 'Close Topic' %}";
+                        modalBody = "{% trans 'Please confirm your action' %}";
+                        modalCb = () => {
+                            patchTopic(button.data('api-url'), {closed: true});
+                        };
+                        break;
+                    case 'hide-topic':
+                        modalTitle = "{% trans 'Hide Topic' %}";
+                        modalBody = "{% trans 'Please confirm your action' %}";
+                        modalCb = () => {
+                            patchTopic(button.data('api-url'), {hidden: true});
+                        };
+                        break;
+                    case 'hide-reply':
+                        modalTitle = "{% trans 'Hide Reply' %}";
+                        modalBody = "{% trans 'Please confirm your action' %}";
+                        modalCb = () => {
+                            patchTopic(button.data('api-url'), {hidden: true});
+                        };
+                        break;
+                    default:
+                        modalTitle = modalBody = modalCb = '';
+                }
+                modal.find('.modal-confirm').click(modalCb);
+                modal.find('.modal-title').text(modalTitle);
+                modal.find('.modal-body').html(modalBody);
+            })
+        </script>
+    {% endif %}
+{% endblock %}

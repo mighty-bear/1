@@ -1,0 +1,74 @@
+{% extends 'niji/base.html' %}
+{% load i18n %}
+{% load niji_tags %}
+{% load humanize %}
+
+{% block left %}
+    {% block before_main_left %}{% endblock %}
+    <div class="panel panel-default">
+        <div class="panel-body panel-subtitle">
+            <span class="label label-success">{{ panel_title }}</span>
+            {% if show_order %}
+              <span class="pull-right ordering">
+                Order:
+                <span>
+                  <a href="{% change_topic_ordering request '-last_replied' %}">Last Replied</a>
+                </span>
+                <span>
+                  <a href="{% change_topic_ordering request '-pub_date' %}">Topic Date</a>
+                </span>
+              </span>
+            {% endif %}
+        </div>
+        <!-- List group -->
+        <ul class="list-group topic-list">
+            {% for topic in topics %}
+                <li class="list-group-item topic-entry">
+                    <div class="entry media">
+                        <div class="media-left media-middle">
+                            <a class="list-avatar-link" href="{% url 'niji:user_info' topic.user.pk %}"><img class="user-avatar" src="{% avatar_url topic.user %}"></a>
+                        </div>
+                        <div class="media-body media-middle">
+                            <a href="{% url 'niji:topic' pk=topic.pk %}" class="entry-link">
+                                {{ topic.title }}
+                            </a>
+                            <p class="entry-meta">
+                                {% if topic.order <= 3 %}
+                                <span class="meta">
+                                    <span class="label label-info meta-top">
+                                        TOP
+                                    </span>
+                                </span>
+                                {% endif %}
+                                <span class="meta">
+                                    <a href="{% url 'niji:node' topic.node.pk %}">
+                                        <span class="label label-default meta-node">
+                                        {{ topic.node.title }}
+                                        </span>
+                                    </a>
+                                </span>
+                                    <span class="meta meta-username">
+                                        <a href="{% url 'niji:user_info' topic.user.pk %}">
+                                            {{ topic.user.username }}
+                                        </a>
+                                    </span>
+                                    <span class="meta meta-pub_date">
+                                        {{ topic.pub_date | naturaltime }}
+                                    </span>
+                                    <span class="meta meta-last_replied hidden-xs">
+                                        {% trans "Last Replied" %}: {{ topic.last_replied | naturaltime }}
+                                    </span>
+                            </p>
+                        </div>
+                        <div class="media-right media-middle">
+                            <span class="badge">{{ topic.reply_count }}</span>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="panel-footer">
+            {% get_pagination %}
+        </div>
+    </div>
+{% endblock %}

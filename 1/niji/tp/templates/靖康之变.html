@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/backgroundimg.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/echarts.min.js"></script>
+    <script type="text/javascript" src="/static/jquery-1.10.2.min.js"></script>
+    <style type="text/css">
+        .player_f{
+            position: relative;
+            width: 400px;
+            height: 200px;
+            top: 80px;
+            left: 400px;
+        }
+        .player_s{
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            top: 60px;
+            left: 120px;
+        }
+        .jpg1{
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            top: 150px;
+            left: 800px;
+        }
+        .back1{
+            position: absolute;
+            width: 100px;
+            height: 30px;
+            top: 10px;
+            right: 120px;
+        }
+        .back2{
+            position: absolute;
+            width: 100px;
+            height: 30px;
+            top: 10px;
+            right: 10px;
+        }
+        .text1{
+            position: absolute;
+            width: 700px;
+            height: 350px;
+            top: 500px;
+            left: 400px;
+        }
+    </style>    
+    <title>靖康之变</title>
+</head>
+<body>
+    
+    <!--背景-->
+    <div class="wrapper">     
+        <div id="web_bg" style="background-image: url(/static/历史背景.jpg);"></div>
+    </div>
+
+    <!-- 返回按钮 -->
+    <div class="back1">
+        <input type="button" style="width: 90px;" name="Submit" onclick="window.location.href='/'" value="返回首页">
+    </div>
+    <div class="back2">
+        <input type="button" style="width: 90px;" name="Submit" onclick="javascript:history.back(-1);" value="返回上一页">
+    </div>
+
+    <center>
+        <div>
+            <h1 style="position: relative; top: 30px; color: black;">靖康之变</h1>
+        </div>
+    </center>
+    
+    <!-- 相关视频 -->
+    <div class="player_f">
+        <a href="https://baijiahao.baidu.com/s?id=1613869240006555927&amp;wfr=content" target="_blank" class="small_img_con">
+            <img src="/static/靖康之耻视频.jpg" width="320" height="180" alt="">
+            <div class="player_s"><span class="glyphicon glyphicon-play-circle glyphicon-lg" style="font-size: 80px; color:grey;" aria-hidden="true"></span></div>
+        </a>        
+    </div>
+ 
+    <!-- 相关图片 -->
+    <div class="jpg1">
+        <img src="/static/靖康之耻.jpg" alt="JPG">
+    </div>
+
+    <!--文字描述  -->
+    <div class="text1"> 
+        <p style="font-size: 20px;">
+            靖康二年四月，金军攻破汴州（今开封），俘虏了宋徽宗、宋钦宗父子及大量赵氏皇族、后宫嫔妃与贵卿、朝臣等三千余人，押解北上，城中公私积蓄为之一空。史称“靖康之变”靖康之变标志着北宋的灭亡，又称靖康之耻、靖康之乱、靖康之难、靖康之祸。
+        </p>
+    </div>
+
+    <!-- 节点图谱 -->
+    <div id="container" style="width: 100%;height: 680px;position: absolute;top: 630px;"></div>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/world.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/bmap.min.js"></script>
+    <script type="text/javascript">
+        var dom = document.getElementById("container");
+        var myChart = echarts.init(dom);
+        var app = {};
+        var get=function(e){
+            var newStr=" ";
+            var start,end;
+            var name_len=e.name.length;    　　　　　　　　　　　　   //每个内容名称的长度
+            var max_name=4;    　　　　　　　　　　　　　　　　　　//每行最多显示的字数
+            var new_row = Math.ceil(name_len / max_name); 　　　　// 最多能显示几行，向上取整
+                if(name_len>max_name){ 　　　　　　　　　　　　　　  //如果长度大于每行最多显示的字数
+                    for(var i=0;i<new_row;i++){ 　　　　　　　　　　　   //循环次数就是行数
+                        var old='';    　　　　　　　　　　　　　　　　    //每次截取的字符
+                        start=i*max_name;    　　　　　　　　　　     //截取的起点
+                        end=start+max_name;    　　　　　　　　　  //截取的终点
+                        if(i==new_row-1){    　　　　　　　　　　　　   
+                            old=e.name.substring(start);
+                        }else{
+                            old=e.name.substring(start,end)+"\n";    
+                        }
+                        newStr+=old; //拼接字符串
+                    }
+                }else{                                          //如果小于每行最多显示的字数就返回原来的字符串
+                    newStr=e.name; 
+                }
+                return newStr;
+        }
+        option = null;
+        option = {
+            series: [
+                {
+                    type: 'graph',
+                    layout: 'force',
+                    symbolSize: 80,
+                    roam: false,
+                    edgeSymbol: ['circle', 'circle'],
+                    edgeSymbolSize: [1, 1],
+                    edgeLabel: {
+                        normal: {
+                            textStyle: {
+                                fontSize: 20
+                            }
+                        }
+                    },
+                    force: {
+                        repulsion: 1000,
+                        edgeLength: [10, 50]
+                    },
+                    draggable: true,
+                    itemStyle: {
+                        normal: {
+                            color: 'royalblue'
+                        }
+                    },
+                    lineStyle: {
+                        normal: {
+                            width: 2,
+                            color: '#4b565b'
+
+                        }
+                    },
+                    label: {
+                        show: true,
+                            formatter:get,
+                            textStyle: {
+                            align:"center",
+                            baseline:"middle",
+                            }
+                    },
+                    data: [
+                        {
+                            name: '靖康之变',
+                            itemStyle: {
+                                    normal: {
+                                        color: '#a52a2a'
+                                    }
+                                },
+                        }, {
+                            name: '重要人物',
+                            itemStyle: {
+                                    normal: {
+                                        color: '#4b565b'
+                                    }
+                                },
+                        }, {
+                            name: '关键地点',
+                            itemStyle: {
+                                    normal: {
+                                        color: '#4b565b'
+                                    }
+                                },
+                        }, {
+                            name: '时间段：北宋末-南宋初',
+                            itemStyle: {
+                                    normal: {
+                                        color: '#4b565b'
+                                    }
+                                },
+                        }, {
+                            name: '宋钦宗'
+                        }, {
+                            name: '宋徽宗'
+                        }, {
+                            name: '汴州'
+                        }, {
+                            name: '满江红·写怀'
+                        }, {
+                            name: '相见欢·金陵城上西楼'
+                        }, {
+                            name: '蝶恋花·上巳召亲族'
+                        }, {
+                            name: '题临安邸'
+                        }, {
+                            name: '念奴娇·炎精中否'
+                        }, {
+                            name: '声声慢·寻寻觅觅'
+                        }
+                    ],
+                    links: [
+                        {
+                            source: 0,
+                            target: 1,
+                        }, {
+                            source: 0,
+                            target: 2,
+                        }, {
+                            source: 0,
+                            target: 3,
+                        }, {
+                            source: 1,
+                            target: 4,
+                        }, {
+                            source: 1,
+                            target: 5,
+                        }, {
+                            source: 2,
+                            target: 6,
+                        }, {
+                            source: 3,
+                            target: 7,
+                        }, {
+                            source: 3,
+                            target: 8,
+                        }, {
+                            source: 3,
+                            target: 9,
+                        }, {
+                            source: 3,
+                            target: 10,
+                        }, {
+                            source: 3,
+                            target: 11,
+                        }, {
+                            source: 3,
+                            target: 12,
+                        }
+                    ]
+                }
+            ]
+        };
+        myChart.setOption(option, true);
+        myChart.on('click', function (param){
+            var name=param.name;
+            if(name=="宋徽宗"){
+                top.location.href="/tp/宋徽宗/";
+            }
+            else if(name=="宋钦宗"){
+                top.location.href="/tp/宋钦宗/";
+            }
+            else if(name=="宋高宗"){
+                top.location.href="/tp/宋高宗/";
+            }
+            else if(name=="韩世忠"){
+                top.location.href="/tp/韩世忠/";
+            }
+            else if(name=="岳飞"){
+                top.location.href="/tp/岳飞/";
+            }
+            else if(name=="秦桧"){
+                top.location.href="/tp/秦桧/";
+            }
+            else if(name=="汴州"){
+                top.location.href="/tp/汴州/";
+            }
+            else if(name=="杭州"){
+                top.location.href="/tp/杭州/";
+            }
+            else if(name=="燕云十六州"){
+                top.location.href="/tp/燕云十六州/";
+            }
+            else if(name=="满江红·写怀"){
+                top.location.href="/tp/满江红·写怀/";
+            }
+            else if(name=="题临安邸"){
+                top.location.href="/tp/题临安邸/";
+            }
+            else if(name=="声声慢·寻寻觅觅"){
+                top.location.href="/tp/声声慢·寻寻觅觅/";
+            }
+            else if(name=="念奴娇·炎精中否"){
+                top.location.href="/tp/念奴娇·炎精中否/";
+            }
+            else if(name=="相见欢·金陵城上西楼"){
+                top.location.href="/tp/相见欢·金陵城上西楼/";
+            }
+            else if(name=="蝶恋花·上巳召亲族"){
+                top.location.href="/tp/蝶恋花·上巳召亲族/";
+            }
+            else if(name=="示儿"){
+                top.location.href="/tp/示儿/";
+            }
+            else if(name=="夏日绝句"){
+                top.location.href="/tp/夏日绝句/";
+            }
+            else if(name=="菩萨蛮·书江西造口壁"){
+                top.location.href="/tp/菩萨蛮·书江西造口壁/";
+            }
+            else if(name=="诉衷情·当年万里觅封侯"){
+                top.location.href="/tp/诉衷情·当年万里觅封侯/";
+            }
+            else if(name=="书愤"){
+                top.location.href="/tp/书愤/";
+            }
+            else if(name=="秋夜将晓出篱门迎凉有感二首其二"){
+                top.location.href="/tp/秋夜将晓出篱门迎凉有感二首其二/";
+            }
+            else if(name=="病起书怀"){
+                top.location.href="/tp/病起书怀/";
+            }
+            else if(name=="贺新郎·送胡邦衡待制"){
+                top.location.href="/tp/贺新郎·送胡邦衡待制/";
+            }
+            else if(name=="夜游宫·记梦寄师伯浑"){
+                top.location.href="/tp/夜游宫·记梦寄师伯浑/";
+            }
+            else if(name=="十一月四日风雨大作·其二"){
+                top.location.href="/tp/十一月四日风雨大作·其二/";
+            }
+            else if(name=="添字丑奴儿·窗前谁种芭蕉树"){
+                top.location.href="/tp/添字丑奴儿·窗前谁种芭蕉树/";
+            }
+            else if(name=="念奴娇·登多景楼"){
+                top.location.href="/tp/念奴娇·登多景楼/";
+            }
+            else if(name=="长相思·惜梅"){
+                top.location.href="/tp/长相思·惜梅/";
+            }
+            else if(name=="永遇乐·京口北固亭怀古"){
+                top.location.href="/tp/永遇乐·京口北固亭怀古/";
+            }
+       	});
+        myChart.on('click',eConsole);
+    </script>
+
+</body>
+</html>

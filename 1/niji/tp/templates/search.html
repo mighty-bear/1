@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/echarts.min.js"></script>
+    <script type="text/javascript" src="/static/jquery-1.10.2.min.js"></script>
+    <style type="text/css">
+        .searchbox{
+            width: 600px;
+            height: 100px;
+            position: relative;
+            top: 50px;
+            left: 0px;
+        }
+        .logo{
+            width: 300px;
+            height: 300px;
+            /* position: fixed; */
+            top: 50px;
+            left: 200px;
+        }
+        .back1{
+            position: absolute;
+            width: 100px;
+            height: 30px;
+            top: 10px;
+            right: 120px;
+        }
+        .back2{
+            position: absolute;
+            width: 100px;
+            height: 30px;
+            top: 10px;
+            right: 10px;
+        }
+    </style>
+    <title>事理图谱古诗词学习工具</title>
+</head>
+
+<body background="/static/background.png">
+
+    <!-- Logo -->
+    <!-- <div class="logo">
+        <img src="/static/IMG_09081.jpg" alt="Logo" class="img-circle" width="140px" height="140px">
+    </div> -->
+    
+    <!-- system name -->
+    <center>
+    <div>
+        <h2 style="position: relative; left: 10px;color: black;">事理图谱古诗词学习工具</h2>
+    </div>
+    </center>
+
+    <div class="back1">
+        <input type="button" style="width: 90px;" name="Submit" onclick="window.location.href='/'" value="返回首页">
+    </div>
+    <div class="back2">
+        <input type="button" style="width: 90px;" name="Submit" onclick="javascript:history.back(-1);" value="返回上一页">
+    </div>
+    
+    <!-- 主页面的两个列表项 -->
+    <a href="/tp/古诗词列表/" style="color: black; position: relative; left: 685px;"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>古诗词列表</a>
+    <a href="/tp/历史列表/" style="color: black; position: relative; left: 685px;"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>历史列表</a>
+
+    <!-- 搜索框 -->
+    <center>
+    <div class="searchbox">
+        <form method="POST" action="/tp/search">
+            <input class="form-control" type="text" name="title" placeholder="请输入图谱节点名称、古诗词题目、历史地点或者历史人物">
+            <br>
+            <input style="margin-left:5px;" class="btn btn-default" type="submit" value="确认">
+            <input style="margin-left:50px;" class="btn btn-default" type="reset" value="重置">          
+        </form>
+    </div>
+    </center>
+
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <div style="margin-left:600px;">
+        <h3>搜索结果</h3>
+        <ul>
+            {% for item, score in sea_list.items %}
+            <li> <a href="/tp/{{item}}" style="color:purple;font-size:20px;">{{item}}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div style="width: 100%;height: 120px;">
+        <!-- 占位 -->
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,219 @@
+﻿{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+<title>自我检测-E课思通</title>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="{% static 'niji/css/bootstrap.min.css'%}">
+<link rel="stylesheet" href="{% static 'niji/css/themify-icons.css'%}">
+<link rel="stylesheet" href="{% static 'niji/css/owl.carousel.min.css'%}">
+<link rel="stylesheet" href="{% static 'niji/css/slick.css'%}">
+<link rel="stylesheet" href="{% static 'niji/css/slick-theme.css'%}">
+<link rel="stylesheet" href="{% static 'niji/css/animate.css'%}">
+<link rel="stylesheet" href="{% static 'niji/css/magnific-popup.css'%}">
+<link rel="stylesheet" href="{% static 'niji/css/style.css'%}">
+<link rel="stylesheet" href="{% static 'niji/css/responsive.css'%}">
+
+</head>
+
+<body>
+<div id="preloader">
+	<div id="ctn-preloader" class="ctn-preloader"><img src="{%static 'niji/picture/loader.gif' %}" alt=""></div>
+</div>
+<div class="body_wrapper">
+	<header class="header_area header_position" id="fixed_top">
+		<nav class="navbar navbar-expand-lg">
+			<div class="container custom_container">
+				<a class="navbar-brand" href="#"><img src="{% static 'niji/picture/ecustlogo.png' %}" alt="logo"><img src="{% static 'niji/picture/ecustlogo.png' %}" alt=""></a>
+				<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="menu_toggle">
+						<span class="hamburger">
+							<span></span>
+							<span></span>
+							<span></span>
+						</span>
+						<span class="hamburger-cross">
+							<span></span>
+							<span></span>
+						</span>
+					</span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav ml-auto menu">
+						<li class="nav-item dropdown submenu active">
+							<a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							首页
+							</a>
+							<ul class="dropdown-menu">
+								<li class="nav-item active"><a href="/" class="nav-link">首页</a></li>
+								<li class="nav-item"><a href="/login" class="nav-link">登录</a></li>
+								<li class="nav-item"><a href="/reg" class="nav-link">注册</a></li>
+							</ul>
+						</li>
+						<li class="nav-item"><a class="nav-link" href="about-us.html">关于我们</a></li>
+						<li class="nav-item"><a class="nav-link" href="service.html">服务</a></li>
+						<li class="nav-item"><a class="nav-link" href="team.html">团队信息</a></li>
+						<li class="nav-item dropdown submenu">
+							<a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							论坛
+							</a>
+							<ul class="dropdown-menu">
+								<li class="nav-item"><a href="/index" class="nav-link">BBS社区</a></li>
+								<li class="nav-item"><a href="/login" class="nav-link">我的BBS</a></li>
+							</ul>
+						</li>
+						<li class="nav-item"><a class="nav-link" href="https://www.ecust.edu.cn/">联系我们</a></li>
+					</ul>
+				</div>
+				<ul class="list-unstyled social_icon ml_50">
+					<li><a href="#"><i class="ti-heart"></i></a></li>
+					<li><a href="/tp/search"><i class="ti-search"></i></a></li>
+					<li><a href="/login"><i class="ti-user"></i></a></li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+	
+	<section class="business_service_area sec_gap" style="background: url('static/images/background.png') no-repeat; background-size: 200%;">
+		<div class="container custom_container">
+			<div class="st_section_title text-center" style="padding-top: 50px;">
+				<h2 class="st_title">自 我 检 测<br> 个性化、多选择式测试</h2>
+				<p>多朝代知识检测，多方位检测学习状态！</p>
+			</div>
+			<div class="row" style="padding-top: 50px;">
+				<div class="col-lg-3 col-md-6">
+					<div class="business_service_item wow fadeInUp" data-wow-delay="0.2s">
+						<img src='{% static "niji/images/唐.png" %}' style="margin-bottom:15px;">
+						<h4 class="b_title">唐朝 HOT</h4>
+						<p class="b_p">唐诗的形式和风格是丰富多彩、推陈出新的。它把我国古曲诗歌的音节和谐、文字精炼的艺术特色，推到前所未有的高度。</p>
+						<a href="/test/tang" class="read_btn">点击进入</a>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<div class="business_service_item wow fadeInUp" data-wow-delay="0.4s">
+						<img src="{% static 'niji/images/宋.png' %}" style="margin-bottom:15px;">
+						<h4 class="b_title">宋朝 HOT</h4>
+						<p class="b_p">宋词是一种相对于古体诗的新体诗歌之一，为宋代儒客文人智慧精华，标志宋代文学的最高成就。宋词句子有长有短，便于歌唱。</p>
+						<a href="/test/song" class="read_btn">点击进入</a>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<div class="business_service_item wow fadeInUp" data-wow-delay="0.6s">
+						<img src="{% static 'niji/images/元.png' %}" style="margin-bottom:15px;">
+						<h4 class="b_title">元朝</h4>
+						<p class="b_p">元代诗人鄙弃宋诗而专学唐诗的风气对明代诗歌有很大的影响；元代散文则沿着 唐宋古文的道路发展，并下启明代文风。</p>
+						<a href="#" class="read_btn">点击进入</a>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<div class="business_service_item wow fadeInUp" data-wow-delay="0.8s">
+						<img src="{% static 'niji/images/more.png' %}" style="margin-bottom:15px;">
+						<h4 class="b_title">更多</h4>
+						<p class="b_p"><br>敬请期待～<br><br><br></p>
+						<a href="#" class="read_btn">点击进入</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	<footer class="st_footer_area">
+		<div class="business_footer_top">
+			<div class="container custom_container">
+				<div class="row">
+					<div class="col-lg-3 col-sm-12">
+						<div class="f_widget about_widget wow fadeInLeft" data-wow-delay="0.2s">
+							<a href="#" class="f_logo"><img src="{% static 'niji/picture/ecust.png' %}" alt=""></a>
+							<p>属于华理人的线上学习平台</p>
+							<p>基于事理图谱的古诗词学习系统</p>
+							<ul class="list-unstyled">
+								<li><a href="#"><i class="ti-facebook"></i></a></li>
+								<li><a href="#"><i class="ti-twitter-alt"></i></a></li>
+								<li><a href="#"><i class="ti-pinterest"></i></a></li>
+								<li><a href="#"><i class="ti-google"></i></a></li>
+								<li><a href="#"><i class="ti-vimeo-alt"></i></a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-lg-2 col-sm-6">
+						<div class="f_widget link_widget wow fadeInLeft" data-wow-delay="0.4s">
+							<h2 class="f_title">我们</h2>
+							<ul class="list-unstyled">
+								<li><a href="#">关于学校</a></li>
+								<li><a href="#">关于学院</a></li>
+								<li><a href="#">团队成员</a></li>
+								<li><a href="#">项目详情</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-lg-2 col-sm-6">
+						<div class="f_widget link_widget wow fadeInLeft" data-wow-delay="0.6s">
+							<h2 class="f_title">探索</h2>
+							<ul class="list-unstyled">
+								<li><a href="/index">BBS社区</a></li>
+								<li><a href="/tp">知识图谱</a></li>
+								<li><a href="/tp/search">搜索</a></li>
+								<li><a href="/test">自我检测</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-lg-2 col-sm-6">
+						<div class="f_widget link_widget wow fadeInLeft" data-wow-delay="0.8s">
+							<h2 class="f_title">个人中心</h2>
+							<ul class="list-unstyled">
+								<li><a href="/reg">注册</a></li>
+								<li><a href="/login">登录</a></li>
+								<li><a href="/index">论坛发帖</a></li>
+								<li><a href="#">推荐</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-lg-3 col-sm-6">
+						<div class="f_widget flicker_widget">
+							<h2 class="f_title">一站服务</h2>
+							<ul class="list-unstyled">
+								<li><a href="https://my.ecust.edu.cn"><img src="/static/picture/flicker_1.jpg" alt=""></a></li>
+								<li><a href="https://jwc.ecust.edu.cn"><img src="/static/picture/flicker_2.jpg" alt=""></a></li>
+								<li><a href="https://xxb.ecust.edu.cn"><img src="/static/picture/flicker_3.jpg" alt=""></a></li>
+								<li><a href="https://tw.ecust.edu.cn"><img src="/static/picture/flicker_4.jpg" alt=""></a></li>
+								<li><a href="https://cise.ecust.edu.cn"><img src="/static/picture/flicker_5.jpg" alt=""></a></li>
+								<li><a href="https://hq.ecust.edu.cn"><img src="/static/picture/flicker_6.jpg" alt=""></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="footer_bottom">
+			<div class="container custom_container">
+				<div class="border-line"></div>
+				<p>Copyright &copy; 2021.E Courstale All rights reserved.</p>
+			</div>
+		</div>
+	</footer>
+</div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="{% static 'niji/js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'niji/js/popper.min.js' %}"></script>
+<script src="{% static 'niji/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'niji/js/jquery.stellar.js' %}"></script>
+<script src="{% static 'niji/js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'niji/js/slick.min.js' %}"></script>
+<script src="{% static 'niji/js/imagesloaded.pkgd.min.js' %}"></script>
+<script src="{% static 'niji/js/isotope-min.js' %}"></script>
+<script src="{% static 'niji/js/jquery.counterup.min.js' %}"></script>
+<script src="{% static 'niji/js/jquery.waypoints.min.js' %}"></script>
+<script src="{% static 'niji/js/jquery.magnific-popup.min.js' %}"></script>
+<script src="{% static 'niji/js/wow.min.js' %}"></script>
+<script src="{% static 'niji/js/jquery.hover3d.js' %}"></script>
+<script src="{% static 'niji/js/custom.js' %}"></script>
+
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/backgroundimg.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/echarts.min.js"></script>
+    <script type="text/javascript" src="/static/jquery-1.10.2.min.js"></script>
+    <style type="text/css">
+        .pome_table{
+            width: 800px;
+            height: 100%;
+            /* position: relative;
+            top: 50px;
+            left: 0px; */
+        }
+        .back1{
+            position: absolute;
+            width: 100px;
+            height: 30px;
+            top: 10px;
+            right: 10px;
+        }
+    </style>
+    <title>古诗词列表</title>
+</head>
+<body>
+
+    <!--背景-->
+    <div class="wrapper">     
+        <div id="web_bg" style="background-image: url(/static/列表背景.jpg);"></div>
+    </div>    
+
+    <!-- 返回按钮 -->
+    <div class="back1">
+        <input type="button" style="width: 90px;" name="Submit" onclick="window.location.href='/'" value="返回首页">
+    </div>
+    
+    <center>
+        <h1>古诗词列表</h1>   
+    </center>
+
+    <!-- 列表主体 -->
+    <center>
+        <div class="pome_table">
+            <table class="table table-hover ">
+                <tr>
+                    <th>古诗词题目</th>
+                    <th>朝代</th>
+                    <th>作者</th>
+                </tr>
+                <tr onclick="location.href='/tp/满江红·写怀/';">
+                    <td>满江红·写怀</td>
+                    <td>宋代</td>
+                    <td>岳飞</td>
+                </tr>
+                <tr onclick="location.href='/tp/示儿/';">
+                    <td>示儿</td>
+                    <td>宋代</td>
+                    <td>陆游</td>
+                </tr>             
+                <tr onclick="location.href='/tp/夏日绝句/';">
+                    <td>夏日绝句</td>
+                    <td>宋代</td>
+                    <td>李清照</td>
+                </tr>
+                <tr onclick="location.href='/tp/菩萨蛮·书江西造口壁/';">
+                    <td>菩萨蛮·书江西造口壁</td>
+                    <td>宋代</td>
+                    <td>辛弃疾</td>
+                </tr>
+                <tr onclick="location.href='/tp/诉衷情·当年万里觅封侯/';">
+                    <td>诉衷情·当年万里觅封侯</td>
+                    <td>宋代</td>
+                    <td>陆游</td>
+                </tr>
+                <tr onclick="location.href='/tp/书愤/';">
+                    <td>书愤</td>
+                    <td>宋代</td>
+                    <td>陆游</td>
+                </tr>
+                <tr onclick="location.href='/tp/秋夜将晓出篱门迎凉有感二首其二/';">
+                    <td>秋夜将晓出篱门迎凉有感二首其二</td>
+                    <td>宋代</td>
+                    <td>陆游</td>
+                </tr>
+                <tr onclick="location.href='/tp/病起书怀/';">
+                    <td>病起书怀</td>
+                    <td>宋代</td>
+                    <td>陆游</td>
+                </tr>
+                <tr onclick="location.href='/tp/相见欢·金陵城上西楼/';">
+                    <td>相见欢·金陵城上西楼</td>
+                    <td>宋代</td>
+                    <td>朱敦儒</td>
+                </tr>
+                <tr onclick="location.href='/tp/贺新郎·送胡邦衡待制/';">
+                    <td>贺新郎·送胡邦衡待制</td>
+                    <td>宋代</td>
+                    <td>张元干</td>
+                </tr>
+                <tr onclick="location.href='/tp/蝶恋花·上巳召亲族/';">
+                    <td>蝶恋花·上巳召亲族</td>
+                    <td>宋代</td>
+                    <td>李清照</td>
+                </tr>
+                <tr onclick="location.href='/tp/夜游宫·记梦寄师伯浑/';">
+                    <td>夜游宫·记梦寄师伯浑</td>
+                    <td>宋代</td>
+                    <td>陆游</td>
+                </tr>
+                <tr onclick="location.href='/tp/十一月四日风雨大作·其二/';">
+                    <td>十一月四日风雨大作·其二</td>
+                    <td>宋代</td>
+                    <td>陆游</td>
+                </tr>
+                <tr onclick="location.href='/tp/添字丑奴儿·窗前谁种芭蕉树/';">
+                    <td>添字丑奴儿·窗前谁种芭蕉树</td>
+                    <td>宋代</td>
+                    <td>李清照</td>
+                </tr>
+                <tr onclick="location.href='/tp/题临安邸/';">
+                    <td>题临安邸</td>
+                    <td>宋代</td>
+                    <td>林升</td>
+                </tr>
+                <tr onclick="location.href='/tp/念奴娇·登多景楼/';">
+                    <td>念奴娇·登多景楼</td>
+                    <td>宋代</td>
+                    <td>陈亮</td>
+                </tr>
+                <tr onclick="location.href='/tp/念奴娇·炎精中否/';">
+                    <td>念奴娇·炎精中否</td>
+                    <td>宋代</td>
+                    <td>黄中辅</td>
+                </tr>
+                <tr onclick="location.href='/tp/声声慢·寻寻觅觅/';">
+                    <td>声声慢·寻寻觅觅</td>
+                    <td>宋代</td>
+                    <td>李清照</td>
+                </tr>
+                <tr onclick="location.href='/tp/长相思·惜梅/';">
+                    <td>长相思·惜梅</td>
+                    <td>宋代</td>
+                    <td>刘克庄</td>
+                </tr>
+                <tr onclick="location.href='/tp/永遇乐·京口北固亭怀古/';">
+                    <td>永遇乐·京口北固亭怀古</td>
+                    <td>宋代</td>
+                    <td>辛弃疾</td>
+                </tr>
+            </table>    
+        </div>
+    </center>
+
+</body>
+</html>

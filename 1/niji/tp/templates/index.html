@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/echarts.min.js"></script>
+    <script type="text/javascript" src="/static/jquery-1.10.2.min.js"></script>
+    <style type="text/css">
+        .searchbox{
+            width: 600px;
+            height: 100px;
+            position: relative;
+            top: 50px;
+            left: 0px;
+        }
+        .logo{
+            width: 300px;
+            height: 300px;
+            /* position: fixed; */
+            top: 50px;
+            left: 200px;
+        }
+        .back2{
+            position: absolute;
+            width: 100px;
+            height: 30px;
+            top: 10px;
+            right: 10px;
+        }
+    </style>
+    <title>事理图谱古诗词学习工具</title>
+</head>
+
+<body background="/static/background.png">
+
+    <!-- Logo -->
+    <!-- <div class="logo">
+        <img src="/static/IMG_09081.jpg" alt="Logo" class="img-circle" width="140px" height="140px">
+    </div> -->
+    
+    <!-- system name -->
+    <center>
+    <div>
+        <h2 style="position: relative; left: 10px;color: black;">事理图谱古诗词学习工具</h2>
+    </div>
+    </center>
+
+    <div class="back2">
+        <input type="button" style="width: 90px;" name="Submit" onclick="window.location.href='/'" value="返回首页">
+    </div>
+
+    <!-- 主页面的两个列表项 -->
+    <a href="/tp/古诗词列表/" style="color: black; position: relative; left: 685px;"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>古诗词列表</a>
+    <a href="/tp/历史列表/" style="color: black; position: relative; left: 685px;"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>历史列表</a>
+
+    <!-- 搜索框 -->
+    <center>
+    <div class="searchbox">
+        <form method="POST" action="/tp/search">
+            <input class="form-control" type="text" name="title" placeholder="请输入图谱节点名称、古诗词题目、历史地点或者历史人物">
+            <br>
+            <input style="margin-left:5px;" class="btn btn-default" type="submit" value="确认">
+            <input style="margin-left:50px;" class="btn btn-default" type="reset" value="重置">          
+        </form>      
+    </div>
+    </center>
+
+    <!-- 图谱总图 -->
+    <div id="container" style="width: 90%;height: 550px;position: relative; top: 70px;left: 75px;"></div>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/world.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/bmap.min.js"></script>
+    <script type="text/javascript">
+        var dom = document.getElementById("container");
+        var myChart = echarts.init(dom);
+        var app = {};
+        var get=function(e){
+            var newStr=" ";
+            var start,end;
+            var name_len=e.name.length;    　　　　　　　　　　　　   //每个内容名称的长度
+            var max_name=4;    　　　　　　　　　　　　　　　　　　//每行最多显示的字数
+            var new_row = Math.ceil(name_len / max_name); 　　　　// 最多能显示几行，向上取整
+                if(name_len>max_name){ 　　　　　　　　　　　　　　  //如果长度大于每行最多显示的字数
+                    for(var i=0;i<new_row;i++){ 　　　　　　　　　　　   //循环次数就是行数
+                        var old='';    　　　　　　　　　　　　　　　　    //每次截取的字符
+                        start=i*max_name;    　　　　　　　　　　     //截取的起点
+                        end=start+max_name;    　　　　　　　　　  //截取的终点
+                        if(i==new_row-1){    　　　　　　　　　　　　   //最后一行就不换行了
+                            old=e.name.substring(start);
+                        }else{
+                            old=e.name.substring(start,end)+"\n";    
+                        }
+                        newStr+=old; //拼接字符串
+                    }
+                }else{                                          //如果小于每行最多显示的字数就返回原来的字符串
+                    newStr=e.name; 
+                }
+                return newStr;
+        }
+        option = null;
+        option = {
+            title: {
+                text: '北宋末年-南宋初年',
+                x: 'center',
+                y: '10px',
+            },
+            // tooltip: {},（鼠标放到某个节点或者边时显示的悬浮框）
+            animationDurationUpdate: 1500,
+            animationEasingUpdate: 'quinticInOut',
+            series: [
+                {
+                    type: 'graph',
+                    layout: 'none',
+                    symbolSize: 70,
+                    focusNodeAdjacency: true,
+                    roam: false,
+                    label: {
+                        show: true,
+                        formatter:get,
+                        textStyle: {
+                        align:"center",
+                        baseline:"middle",
+                            }
+                    },
+                    edgeSymbol: ['circle', 'arrow'],
+                    edgeSymbolSize: [1, 10],
+                    edgeLabel: {
+                        fontSize: 50,
+                        normal: {
+                            show: true,
+                            formatter: function (x) {
+                                return x.data.name;
+                            }
+                        }
+                    },
+                    itemStyle: {
+                            normal: {
+                                lineStyle:{
+                                    width:2//设置线条粗细
+                                }
+                            }
+                        },
+                    data: [{
+                        name: '宋徽宗不理朝政',
+                        x: 200,
+                        y: 150
+                    }, {
+                        name: '北宋联金攻辽',
+                        x: 250,
+                        y: 150
+                    }, {
+                        name: '海上之盟',
+                        x: 300,
+                        y: 150
+                    }, {
+                        name: '辽国灭亡',
+                        x: 350,
+                        y: 150
+                    }, {
+                        name: '金国撕毁海上之盟',
+                        x: 400,
+                        y: 150
+                    }, {
+                        name: '金国攻打北宋',
+                        x: 450,
+                        y: 150
+                    }, {
+                        name: '徽钦二宗被掳',
+                        x: 500,
+                        y: 130
+                    }, {
+                        name: '金军占领汴州',
+                        x: 500,
+                        y: 170
+                    }, {
+                        name: '靖康之变',
+                        x: 550,
+                        y: 150
+                    }, {
+                        name: '北宋灭亡',
+                        x: 600,
+                        y: 150
+                    }, {
+                        name: '康王赵构南下继位宋高宗',
+                        x: 600,
+                        y: 200
+                    }, {
+                        name: '南宋建立',
+                        x: 550,
+                        y: 200
+                    }, {
+                        name: '金军南扑',
+                        x: 500,
+                        y: 200
+                    }, {
+                        name: '宋军英勇反抗',
+                        x: 450,
+                        y: 180
+                    }, {
+                        name: '宋高宗入海逃避',
+                        x: 450,
+                        y: 220
+                    }, {
+                        name: '金军北撤',
+                        x: 400,
+                        y: 200
+                    }, {
+                        name: '韩世忠围困金军',
+                        x: 350,
+                        y: 200
+                    }, {
+                        name: '岳飞大败金军',
+                        x: 300,
+                        y: 200
+                    }, {
+                        name: '宋金议和',
+                        x: 250,
+                        y: 200
+                    }, {
+                        name: '金毁和约攻南宋',
+                        x: 200,
+                        y: 200
+                    }, {
+                        name: '岳飞抗金',
+                        x: 200,
+                        y: 250
+                    }, {
+                        name: '南宋采用投降政策',
+                        x: 250,
+                        y: 230
+                    }, {
+                        name: '秦桧任宰相',
+                        x: 250,
+                        y: 270
+                    }, {
+                        name: '岳飞被害',
+                        x: 300,
+                        y: 250
+                    }, {
+                        name: '宋金和议《绍兴和约》',
+                        x: 350,
+                        y: 250
+                    }, {
+                        name: '南宋偏安杭州',
+                        x: 400,
+                        y: 250
+                    }, {
+                        name: '南宋不思北上中原',
+                        x: 450,
+                        y: 250
+                    }],
+                    links: [{
+                        source: 0,
+                        target: 1,
+                        name: '先后',
+                        
+                    }, {
+                        source: 1,
+                        target: 2,
+                        name: '因果'
+                    }, {
+                        source: 2,
+                        target: 3,
+                        name: "先后"
+                    }, {
+                        source: 3,
+                        target: 4,
+                        name: "转折"
+                    }, {
+                        source: 4,
+                        target: 5,
+                        name: "因果"
+                    }, {
+                        source: 5,
+                        target: 6,
+                        name: "先后"
+                    }, {
+                        source: 5,
+                        target: 7,
+                        name: "先后"
+                    }, {
+                        source: 6,
+                        target: 7,
+                        name: "并列",
+                        lineStyle: {
+                                normal: {
+                                    type: 'dotted'
+                                }
+                            },
+                        symbolSize: '1'
+                    }, {
+                        source: 6,
+                        target: 8,
+                        name: "因果"
+                    }, {
+                        source: 7,
+                        target: 8,
+                        name: "因果"
+                    }, {
+                        source: 8,
+                        target: 9,
+                        name: "标志"
+                    }, {
+                        source: 9,
+                        target: 10,
+                        name: "先后"
+                    }, {
+                        source: 10,
+                        target: 11,
+                        name: "标志"
+                    }, {
+                        source: 11,
+                        target: 12,
+                        name: "因果"
+                    }, {
+                        source: 12,
+                        target: 13,
+                        name: "先后"
+                    }, {
+                        source: 12,
+                        target: 14,
+                        name: "先后"
+                    },{
+                        source: 13,
+                        target: 14,
+                        name: "并列",
+                        lineStyle: {
+                                normal: {
+                                    type: 'dotted'
+                                }
+                            },
+                        symbolSize: '1'
+                    }, {
+                        source: 13,
+                        target: 15,
+                        name: "因果"
+                    }, {
+                        source: 14,
+                        target: 15,
+                        name: "先后"
+                    }, {
+                        source: 15,
+                        target: 16,
+                        name: "先后"
+                    }, {
+                        source: 16,
+                        target: 17,
+                        name: "转折"
+                    }, {
+                        source: 17,
+                        target: 18,
+                        name: "因果"
+                    }, {
+                        source: 18,
+                        target: 19,
+                        name: "转折"
+                    }, {
+                        source: 19,
+                        target: 20,
+                        name: "因果"
+                    }, {
+                        source: 20,
+                        target: 21,
+                        name: "先后"
+                    }, {
+                        source: 20,
+                        target: 22,
+                        name: "先后"
+                    },{
+                        source: 21,
+                        target: 22,
+                        name: "并列",
+                        lineStyle: {
+                                normal: {
+                                    type: 'dotted',
+                                }
+                            },
+                        symbolSize: '1'
+                    }, {
+                        source: 21,
+                        target: 23,
+                        name: "因果"
+                    }, {
+                        source: 22,
+                        target: 23,
+                        name: "因果"
+                    }, {
+                        source: 23,
+                        target: 24,
+                        name: "先后"
+                    }, {
+                        source: 24,
+                        target: 25,
+                        name: "因果"
+                    }, {
+                        source: 25,
+                        target: 26,
+                        name: "先后"
+                    }],
+                    lineStyle: {
+                        opacity: 0.9,
+                        width: 2,
+                        curveness: 0,
+                        normal:{
+                                color: '#000'
+                        },
+                    }
+                }
+            ]
+        };;
+        myChart.setOption(option, true);
+        myChart.on('click', function (param){
+            var name=param.name;
+            if(name=="靖康之变"){
+                top.location.href="/tp/靖康之变/";
+            }
+            else if(name=="宋徽宗不理朝政"){
+                top.location.href="/tp/宋徽宗不理朝政/";
+            }
+            else if(name=="北宋联金攻辽"){
+                top.location.href="/tp/北宋联金攻辽/";
+            }
+            else if(name=="海上之盟"){
+                top.location.href="/tp/海上之盟/";
+            }
+            else if(name=="辽国灭亡"){
+                top.location.href="/tp/辽国灭亡/";
+            }
+            else if(name=="金国撕毁海上之盟"){
+                top.location.href="/tp/金国撕毁海上之盟/";
+            }
+            else if(name=="金国攻打北宋"){
+                top.location.href="/tp/金国攻打北宋/";
+            }
+            else if(name=="徽钦二宗被掳"){
+                top.location.href="/tp/徽钦二宗被掳/";
+            }
+            else if(name=="金军占领汴州"){
+                top.location.href="/tp/金军占领汴州/";
+            }
+            else if(name=="北宋灭亡"){
+                top.location.href="/tp/北宋灭亡/";
+            }
+            else if(name=="康王赵构南下继位宋高宗"){
+                top.location.href="/tp/康王赵构南下继位宋高宗/";
+            }
+            else if(name=="南宋建立"){
+                top.location.href="/tp/南宋建立/";
+            }
+            else if(name=="金军南扑"){
+                top.location.href="/tp/金军南扑/";
+            }
+            else if(name=="宋军英勇反抗"){
+                top.location.href="/tp/宋军英勇反抗/";
+            }
+            else if(name=="宋高宗入海逃避"){
+                top.location.href="/tp/宋高宗入海逃避/";
+            }
+            else if(name=="金军北撤"){
+                top.location.href="/tp/金军北撤/";
+            }
+            else if(name=="韩世忠围困金军"){
+                top.location.href="/tp/韩世忠围困金军/";
+            }
+            else if(name=="岳飞大败金军"){
+                top.location.href="/tp/岳飞大败金军/";
+            }
+            else if(name=="宋金议和"){
+                top.location.href="/tp/宋金议和/";
+            }
+            else if(name=="金毁和约攻南宋"){
+                top.location.href="/tp/金毁和约攻南宋/";
+            }
+            else if(name=="岳飞抗金"){
+                top.location.href="/tp/岳飞抗金/";
+            }
+            else if(name=="南宋采用投降政策"){
+                top.location.href="/tp/南宋采用投降政策/";
+            }
+            else if(name=="秦桧任宰相"){
+                top.location.href="/tp/秦桧任宰相/";
+            }
+            else if(name=="岳飞被害"){
+                top.location.href="/tp/岳飞被害/";
+            }
+            else if(name=="宋金和议《绍兴和约》"){
+                top.location.href="/tp/宋金和议《绍兴和约》/";
+            }
+            else if(name=="南宋偏安杭州"){
+                top.location.href="/tp/南宋偏安杭州/";
+            }
+            else if(name=="南宋不思北上中原"){
+                top.location.href="/tp/南宋不思北上中原/";
+            }
+       	});
+        myChart.on('click',eConsole);
+    </script>
+
+    <div style="width: 100%;height: 120px;">
+        <!-- 占位 -->
+    </div>
+
+</body>
+</html>

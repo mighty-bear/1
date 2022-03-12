@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/backgroundimg.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        .player_f{
+            position: relative;
+            width: 350px;
+            height: 200px;
+            top: 150px;
+            left: 200px;
+        }
+        .player_s{
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            top: 50px;
+            left: 120px;
+        }
+        .jpg1{
+            position: absolute;
+            width: 500px;
+            height: 300px;
+            top: 150px;
+            left: 700px;
+        }
+        .jpg2{
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            top: 150px;
+            left: 1100px;
+        }
+        .text1{
+            position: absolute;
+            width: 1130px;
+            height: 200px;
+            top: 500px;
+            left: 200px;
+        }
+        .back1{
+            position: absolute;
+            width: 100px;
+            height: 30px;
+            top: 10px;
+            right: 120px;
+        }
+        .back2{
+            position: absolute;
+            width: 100px;
+            height: 30px;
+            top: 10px;
+            right: 10px;
+        }
+    </style>
+    <title>宋钦宗赵桓</title>
+</head>
+<body>
+
+    <!--背景-->
+    <div class="wrapper">     
+        <div id="web_bg" style="background-image: url(/static/历史背景.jpg);"></div>
+    </div>
+
+    <!-- 返回按钮 -->
+    <div class="back1">
+        <input type="button" style="width: 90px;" name="Submit" onclick="window.location.href='/'" value="返回首页">
+    </div>
+    <div class="back2">
+        <input type="button" style="width: 90px;" name="Submit" onclick="javascript:history.back(-1);" value="返回上一页">
+    </div>
+
+    <center>
+        <div>
+            <h1 style="position: relative; top: 30px; color: black;">宋钦宗赵桓</h1>
+        </div>
+    </center>
+
+    <!-- 相关视频 -->
+    <div class="player_f">
+        <a href="https://baijiahao.baidu.com/s?id=1653507846424977836&wfr=content" target="_blank" class="small_img_con">
+            <img src="https://vdposter.bdstatic.com/01e4d0f0840b870cae5a0899363790c5.jpeg?x-bce-process=image/resize,m_fill,w_320,h_180/format,f_jpg/quality,Q_100" width="320" height="180" alt="">
+            <div class="player_s"><span class="glyphicon glyphicon-play-circle glyphicon-lg" style="font-size: 80px; color:grey;" aria-hidden="true"></span></div>
+        </a>
+        <div style="position: absolute;top: 170px;left: 100px;"><h3 style="color: mediumblue;"><b>宋钦宗赵桓</b></h3></div>
+    </div>
+
+    <!-- 图片1 -->
+    <div class="jpg1">
+    <img src="/static/宋钦宗像.jpg" width="250px" alt="">
+    <h3 style="margin-left: 100px;color: mediumblue;"><b>宋钦宗像</b></h3>
+    </div>
+
+    <!-- 图片2 -->
+    <div class="jpg2">
+    <img src="/static/靖康之耻2.jpg" alt="靖康之耻">
+    <h3 style="margin-left: 110px;color: mediumblue;"><b>靖康之耻</b></h3>
+    </div>
+
+    <!-- 文字描述 -->
+    <div class="text1">
+    <p style="font-size: 20px;">
+        宋钦宗是宋朝的第九位皇帝，北宋末代皇帝，宋徽宗赵佶长子，宋高宗赵构异母兄，母显恭皇后王氏。
+        <br>宋钦宗是临危即位，宣和七年（1125年）十月，金国在消灭了辽国之后，分兵两路南下进攻宋朝，直逼宋朝国都开封。这时赵桓受父宋徽宗赵佶禅让登基。
+        <br>宋钦宗赵桓与其父宋徽宗赵佶一样，优柔寡断，反复无常，对政治问题缺乏判断力。靖康二年（1127年）三月，与徽宗赵佶被金人掳去。
+    </p>
+    </div>
+
+</body>
+</html>

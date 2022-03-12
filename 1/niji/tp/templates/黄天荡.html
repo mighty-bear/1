@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/backgroundimg.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        .player_f1{
+            position: relative;
+            width: 350px;
+            height: 200px;
+            top: 50px;
+            left: 600px;
+        }
+        .player_f2{
+            position: relative;
+            width: 350px;
+            height: 200px;
+            top: -150px;
+            left: 1000px;
+        }
+        .player_f3{
+            position: relative;
+            width: 350px;
+            height: 200px;
+            top: -350px;
+            left: 200px;
+        }
+        .player_s{
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            top: 50px;
+            left: 120px;
+        }
+        .text1{
+            position: absolute;
+            width: 1130px;
+            height: 200px;
+            top: 500px;
+            left: 200px;
+        }
+        .jpg1{
+            position: absolute;
+            width: 500px;
+            height: 300px;
+            top: 150px;
+            left: 550px;
+        }
+        .back1{
+            position: absolute;
+            width: 100px;
+            height: 30px;
+            top: 10px;
+            left: 10px;
+        }
+        .back2{
+            position: absolute;
+            width: 100px;
+            height: 30px;
+            top: 10px;
+            left: 120px;
+        }
+    </style>
+    <title>黄天荡</title>
+</head>
+<body>
+    
+    <!--背景-->
+    <div class="wrapper">     
+        <div id="web_bg" style="background-image: url(/static/历史背景.jpg);"></div>
+    </div>
+
+    <!-- 返回按钮 -->
+    <div class="back1">
+        <input type="button" style="width: 90px;" name="Submit" onclick="window.location.href='/'" value="返回主页">
+    </div>
+    <div class="back2">
+        <input type="button" style="width: 90px;" name="Submit" onclick="javascript:history.back(-1);" value="返回上一页">
+    </div>
+
+    <center>
+        <div>
+            <h1 style="position: relative; top: 30px; color: black;">黄天荡</h1>
+        </div>
+    </center>
+
+    <!-- 图片1 -->
+    <div class="jpg1">
+        <img src="/static/黄天荡.jpg" width="400px" alt="">
+        <h3 style="margin-left: 150px;color: mediumblue;"><b>黄天荡地图</b></h3>
+    </div>
+
+    <!-- 文字描述 -->
+    <div class="text1">
+    <p style="font-size: 20px;">
+        黄天荡位于南京市栖霞区栖霞山和龙潭之间的冲积平原上，古时江面辽阔，为南北险渡，经专家考证，黄天荡故址在栖霞山摄山湖一带，原为大江支汊湖荡，今已为陆地，即今栖霞街道至龙潭街道沿江一带。
+        <br>史载南宋建炎四年（1130年）三月，浙西制置使韩世忠与金完颜宗弼（即金兀术）会战于此，此役史称“黄天荡之役”。
+    </p>
+    </div>
+
+</body>
+</html>
