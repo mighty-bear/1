@@ -107,315 +107,185 @@
         }
         option = null;
         option = {
-            title: {
-                text: '北宋末年-南宋初年',
-                x: 'center',
-                y: '10px',
-            },
-            // tooltip: {},（鼠标放到某个节点或者边时显示的悬浮框）
-            animationDurationUpdate: 1500,
-            animationEasingUpdate: 'quinticInOut',
             series: [
                 {
                     type: 'graph',
-                    layout: 'none',
-                    symbolSize: 70,
-                    focusNodeAdjacency: true,
+                    layout: 'force',
+                    symbolSize: 80,
                     roam: false,
-                    label: {
-                        show: true,
-                        formatter:get,
-                        textStyle: {
-                        align:"center",
-                        baseline:"middle",
-                            }
-                    },
-                    edgeSymbol: ['circle', 'arrow'],
-                    edgeSymbolSize: [1, 10],
+                    edgeSymbol: ['circle', 'circle'],
+                    edgeSymbolSize: [1, 1],
                     edgeLabel: {
-                        fontSize: 50,
                         normal: {
-                            show: true,
-                            formatter: function (x) {
-                                return x.data.name;
+                            textStyle: {
+                                fontSize: 20
                             }
                         }
                     },
+                    force: {
+                        repulsion: 1000,
+                        edgeLength: [10, 50]
+                    },
+                    draggable: true,
                     itemStyle: {
-                            normal: {
-                                lineStyle:{
-                                    width:2//设置线条粗细
-                                }
-                            }
-                        },
-                    data: [{
-                        name: '宋徽宗不理朝政',
-                        x: 200,
-                        y: 150
-                    }, {
-                        name: '北宋联金攻辽',
-                        x: 250,
-                        y: 150
-                    }, {
-                        name: '海上之盟',
-                        x: 300,
-                        y: 150
-                    }, {
-                        name: '辽国灭亡',
-                        x: 350,
-                        y: 150
-                    }, {
-                        name: '金国撕毁海上之盟',
-                        x: 400,
-                        y: 150
-                    }, {
-                        name: '金国攻打北宋',
-                        x: 450,
-                        y: 150
-                    }, {
-                        name: '徽钦二宗被掳',
-                        x: 500,
-                        y: 130
-                    }, {
-                        name: '金军占领汴州',
-                        x: 500,
-                        y: 170
-                    }, {
-                        name: '靖康之变',
-                        x: 550,
-                        y: 150
-                    }, {
-                        name: '北宋灭亡',
-                        x: 600,
-                        y: 150
-                    }, {
-                        name: '康王赵构南下继位宋高宗',
-                        x: 600,
-                        y: 200
-                    }, {
-                        name: '南宋建立',
-                        x: 550,
-                        y: 200
-                    }, {
-                        name: '金军南扑',
-                        x: 500,
-                        y: 200
-                    }, {
-                        name: '宋军英勇反抗',
-                        x: 450,
-                        y: 180
-                    }, {
-                        name: '宋高宗入海逃避',
-                        x: 450,
-                        y: 220
-                    }, {
-                        name: '金军北撤',
-                        x: 400,
-                        y: 200
-                    }, {
-                        name: '韩世忠围困金军',
-                        x: 350,
-                        y: 200
-                    }, {
-                        name: '岳飞大败金军',
-                        x: 300,
-                        y: 200
-                    }, {
-                        name: '宋金议和',
-                        x: 250,
-                        y: 200
-                    }, {
-                        name: '金毁和约攻南宋',
-                        x: 200,
-                        y: 200
-                    }, {
-                        name: '岳飞抗金',
-                        x: 200,
-                        y: 250
-                    }, {
-                        name: '南宋采用投降政策',
-                        x: 250,
-                        y: 230
-                    }, {
-                        name: '秦桧任宰相',
-                        x: 250,
-                        y: 270
-                    }, {
-                        name: '岳飞被害',
-                        x: 300,
-                        y: 250
-                    }, {
-                        name: '宋金和议《绍兴和约》',
-                        x: 350,
-                        y: 250
-                    }, {
-                        name: '南宋偏安杭州',
-                        x: 400,
-                        y: 250
-                    }, {
-                        name: '南宋不思北上中原',
-                        x: 450,
-                        y: 250
-                    }],
-                    links: [{
-                        source: 0,
-                        target: 1,
-                        name: '先后',
-                        
-                    }, {
-                        source: 1,
-                        target: 2,
-                        name: '因果'
-                    }, {
-                        source: 2,
-                        target: 3,
-                        name: "先后"
-                    }, {
-                        source: 3,
-                        target: 4,
-                        name: "转折"
-                    }, {
-                        source: 4,
-                        target: 5,
-                        name: "因果"
-                    }, {
-                        source: 5,
-                        target: 6,
-                        name: "先后"
-                    }, {
-                        source: 5,
-                        target: 7,
-                        name: "先后"
-                    }, {
-                        source: 6,
-                        target: 7,
-                        name: "并列",
-                        lineStyle: {
-                                normal: {
-                                    type: 'dotted'
-                                }
-                            },
-                        symbolSize: '1'
-                    }, {
-                        source: 6,
-                        target: 8,
-                        name: "因果"
-                    }, {
-                        source: 7,
-                        target: 8,
-                        name: "因果"
-                    }, {
-                        source: 8,
-                        target: 9,
-                        name: "标志"
-                    }, {
-                        source: 9,
-                        target: 10,
-                        name: "先后"
-                    }, {
-                        source: 10,
-                        target: 11,
-                        name: "标志"
-                    }, {
-                        source: 11,
-                        target: 12,
-                        name: "因果"
-                    }, {
-                        source: 12,
-                        target: 13,
-                        name: "先后"
-                    }, {
-                        source: 12,
-                        target: 14,
-                        name: "先后"
-                    },{
-                        source: 13,
-                        target: 14,
-                        name: "并列",
-                        lineStyle: {
-                                normal: {
-                                    type: 'dotted'
-                                }
-                            },
-                        symbolSize: '1'
-                    }, {
-                        source: 13,
-                        target: 15,
-                        name: "因果"
-                    }, {
-                        source: 14,
-                        target: 15,
-                        name: "先后"
-                    }, {
-                        source: 15,
-                        target: 16,
-                        name: "先后"
-                    }, {
-                        source: 16,
-                        target: 17,
-                        name: "转折"
-                    }, {
-                        source: 17,
-                        target: 18,
-                        name: "因果"
-                    }, {
-                        source: 18,
-                        target: 19,
-                        name: "转折"
-                    }, {
-                        source: 19,
-                        target: 20,
-                        name: "因果"
-                    }, {
-                        source: 20,
-                        target: 21,
-                        name: "先后"
-                    }, {
-                        source: 20,
-                        target: 22,
-                        name: "先后"
-                    },{
-                        source: 21,
-                        target: 22,
-                        name: "并列",
-                        lineStyle: {
-                                normal: {
-                                    type: 'dotted',
-                                }
-                            },
-                        symbolSize: '1'
-                    }, {
-                        source: 21,
-                        target: 23,
-                        name: "因果"
-                    }, {
-                        source: 22,
-                        target: 23,
-                        name: "因果"
-                    }, {
-                        source: 23,
-                        target: 24,
-                        name: "先后"
-                    }, {
-                        source: 24,
-                        target: 25,
-                        name: "因果"
-                    }, {
-                        source: 25,
-                        target: 26,
-                        name: "先后"
-                    }],
+                        normal: {
+                            color: 'royalblue'
+                        }
+                    },
                     lineStyle: {
-                        opacity: 0.9,
-                        width: 2,
-                        curveness: 0,
-                        normal:{
-                                color: '#000'
-                        },
-                    }
+                        normal: {
+                            width: 2,
+                            color: '#4b565b'
+
+                        }
+                    },
+                    label: {
+                        show: true,
+                            formatter:get,
+                            textStyle: {
+                            align:"center",
+                            baseline:"middle",
+                            }
+                    },
+                    data: [
+                        {
+                            name: '岳阳楼',
+                            id:'0',
+                            itemStyle: {
+                                    normal: {
+                                        color: '#a52a2a'
+                                    }
+                                },
+                        }, {
+                            name: '历史沿革',
+                            id:'1',
+                            itemStyle: {
+                                    normal: {
+                                        color: '#4b565b'
+                                    }
+                                },
+                        }, {
+                            name: '建筑格局',
+                            id:'2',
+                            itemStyle: {
+                                    normal: {
+                                        color: '#4b565b'
+                                    }
+                                },
+                        }, {
+                            name: '相关诗文',
+                            id:'3',
+                            itemStyle: {
+                                    normal: {
+                                        color: '#4b565b'
+                                    }
+                                },
+                        }, {
+                            name: '主要建筑',
+                            id:'14',
+                            itemStyle: {
+                                    normal: {
+                                        color: '#4b565b'
+                                    }
+                                },
+                        }, {
+                            name: '临江仙·巴陵',
+                            id:'4'
+                        }, {
+                            name: '绝句',
+                            id:'5'
+                        },{
+                            name:'与夏十二登岳阳楼',
+                            id:'6'
+                        },{
+                            name:'题岳阳楼',
+                            id:'7'
+                        },{
+                            name:'登岳阳楼',
+                            id:'8'
+                        },{
+                            name:'岳阳楼记',
+                            id:'9'
+                        },{
+                            name:'游岳阳楼记',
+                            id:'10'
+                        },{
+                            name:'雨中登岳阳楼望君山',
+                            id:'11'
+                        },{
+                            name:'泊岳阳城下',
+                            id:'12'
+                        },{
+                            name:'咸阳值雨',
+                            id:'13'
+                        },{
+                            name:'仙梅亭',
+                            id:'15'
+                        },{
+                            name:'怀甫亭',
+                            id:'16'
+                        },{
+                            name:'散醉亭',
+                            id:'17'
+                        }
+                    ],
+                    links: [
+                        {
+                            source: '0',
+                            target: '1',
+                        }, {
+                            source: '0',
+                            target: '2',
+                        }, {
+                            source: '0',
+                            target: '3',
+                        }, {
+                            source: '0',
+                            target: '14',
+                        }, {
+                            source:'3',
+                            target:'4',
+                        }, {
+                            source:'3',
+                            target:'5',
+                        }, {
+                            source:'3',
+                            target:'6',
+                        }, {
+                            source:'3',
+                            target:'7',
+                        }, {
+                            source:'3',
+                            target:'8',
+                        }, {
+                            source:'3',
+                            target:'9',
+                        }, {
+                            source:'3',
+                            target:'10',
+                        }, {
+                            source:'3',
+                            target:'11',
+                        }, {
+                            source:'3',
+                            target:'12',
+                        }, {
+                            source:'3',
+                            target:'13',
+                        }, {
+                            source:'14',
+                            target:'15',
+                        }, {
+                            source:'14',
+                            target:'16',
+                        }, {
+                            source:'14',
+                            target:'17',
+                        }
+                    ]
                 }
             ]
-        };;
+        };
         myChart.setOption(option, true);
         myChart.on('click', function (param){
             var name=param.name;
