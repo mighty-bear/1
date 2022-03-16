@@ -58,14 +58,14 @@ i:before {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: "Muli", sans-serif;
-  color: #1a1d31;
+  color: #1694AD;//功能介绍tittle字体颜色
 }
 
 body {
   font: 400 16px/28px "Muli", sans-serif;
   letter-spacing: 0px;
   padding: 0px;
-  color: #77798a;
+  color: #5A75FF;//功能介绍字体颜色
   z-index: 0;
 }
 
@@ -106,8 +106,11 @@ a:hover, a:focus, .btn:hover, .btn:focus, button:hover, button:focus {
 }
 
 .bg_color {
-  background: #fbfbfd;
+  background-image:url(https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201808%2F09%2F20180809091207_ydndy.jpeg&refer=http%3A%2F%2Fb-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1649987073&t=2353abe7b6d4499f4704acf5b57be8c2);
+  //background: #75FFCA;//社区背景颜色
 }
+
+
 
 .st_section_title {
   margin-bottom: 60px;
@@ -152,10 +155,11 @@ a:hover, a:focus, .btn:hover, .btn:focus, button:hover, button:focus {
 /*====================================================*/
 /*============ st_btn css ============*/
 .st_btn {
-  font-size: 14px;
+  font-size: 35px;
   line-height: 50px;
   font-weight: 600;
-  background: #3452ff;
+  background-image:url(https://img2.baidu.com/it/u=3228637291,3164506035&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500);
+  //了解更多诗人
   display: inline-block;
   color: #fff;
   padding: 0px 28px;
@@ -167,12 +171,13 @@ a:hover, a:focus, .btn:hover, .btn:focus, button:hover, button:focus {
 }
 
 .st_btn:hover {
-  background: transparent;
+  background: transparent;https://img2.baidu.com/it/u=3228637291,3164506035&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500
   color: #3452ff;
 }
 
 .w_btn {
-  background: #fff;
+  background-image:url(https://img0.baidu.com/it/u=4293798593,856298294&fm=253&fmt=auto&app=138&f=JPEG?w=960&h=400);
+  //开头按键
   color: #3452ff;
   border-color: #fff;
   -webkit-transition: all 0.3s linear;
@@ -181,7 +186,7 @@ a:hover, a:focus, .btn:hover, .btn:focus, button:hover, button:focus {
 }
 
 .w_btn:hover {
-  background: #3452ff;
+  background-image:url(https://img0.baidu.com/it/u=4293798593,856298294&fm=253&fmt=auto&app=138&f=JPEG?w=960&h=400);
   border-color: #3452ff;
   color: #fff;
 }
@@ -192,11 +197,11 @@ a:hover, a:focus, .btn:hover, .btn:focus, button:hover, button:focus {
 
 .stock_btn {
   background: transparent;
-  color: #3452ff;
+  color: #EF3554;
 }
 
 .stock_btn:hover {
-  background: #3452ff;
+  background: #EF3554;
   color: #fff;
 }
 
@@ -212,7 +217,7 @@ a:hover, a:focus, .btn:hover, .btn:focus, button:hover, button:focus {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  background: #fff;
+  background-image:url(https://img0.baidu.com/it/u=4293798593,856298294&fm=253&fmt=auto&app=138&f=JPEG?w=960&h=400);;
   height: 100%;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
@@ -416,7 +421,8 @@ a:hover, a:focus, .btn:hover, .btn:focus, button:hover, button:focus {
 }
 
 .btn_get {
-  background: #b4bc2e;
+  background-image:url(https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201808%2F09%2F20180809091207_ydndy.jpeg&refer=http%3A%2F%2Fb-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1649987073&t=2353abe7b6d4499f4704acf5b57be8c2);
+  //载入界面背景
   font-size: 14px;
   font-weight: 600;
   color: #fff;
@@ -427,17 +433,17 @@ a:hover, a:focus, .btn:hover, .btn:focus, button:hover, button:focus {
 }
 
 .btn_get:hover {
-  background: #fff;
+  background-image:url(https://img0.baidu.com/it/u=4293798593,856298294&fm=253&fmt=auto&app=138&f=JPEG?w=960&h=400);
   color: #3452ff;
 }
 
 .btn_blue {
-  background: #3452ff;
+  background-image:url(https://img0.baidu.com/it/u=4293798593,856298294&fm=253&fmt=auto&app=138&f=JPEG?w=960&h=400);
   color: #fff;
 }
 
 .btn_blue:hover {
-  background: #fff;
+  background-image:url(https://img0.baidu.com/it/u=4293798593,856298294&fm=253&fmt=auto&app=138&f=JPEG?w=960&h=400);
   color: #3452ff;
 }
 
@@ -458,14 +464,15 @@ a:hover, a:focus, .btn:hover, .btn:focus, button:hover, button:focus {
   border-radius: 50%;
   text-align: center;
   display: inline-block;
-  background: #fff;
+  background-image:url(https://img2.baidu.com/it/u=1680470552,945278972&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800);
+  //小圆圈背景
   -webkit-transition: all 0.3s linear;
   -o-transition: all 0.3s linear;
   transition: all 0.3s linear;
 }
 
 .social_icon li a:hover {
-  background: #3452ff;
+  background-image:url(https://img0.baidu.com/it/u=4293798593,856298294&fm=253&fmt=auto&app=138&f=JPEG?w=960&h=400);
   color: #fff;
 }
 
@@ -478,7 +485,7 @@ a:hover, a:focus, .btn:hover, .btn:focus, button:hover, button:focus {
 }
 
 .header_top {
-  background: #3452ff;
+  background-image:url(https://img0.baidu.com/it/u=4293798593,856298294&fm=253&fmt=auto&app=138&f=JPEG?w=960&h=400);
   padding: 15px 0px;
 }
 
@@ -501,7 +508,7 @@ a:hover, a:focus, .btn:hover, .btn:focus, button:hover, button:focus {
   content: "";
   width: 1px;
   height: 14px;
-  background: #b6c0fa;
+  background-image:url(https://img0.baidu.com/it/u=4293798593,856298294&fm=253&fmt=auto&app=138&f=JPEG?w=960&h=400);
   display: inline-block;
   margin-right: 21px;
   top: 2px;
@@ -553,7 +560,7 @@ a:hover, a:focus, .btn:hover, .btn:focus, button:hover, button:focus {
   content: "";
   width: 1px;
   height: 20px;
-  background: #d1d5ef;
+  background-image:url(https://img0.baidu.com/it/u=4293798593,856298294&fm=253&fmt=auto&app=138&f=JPEG?w=960&h=400);
   display: inline-block;
   top: 2px;
   left: -13px;
@@ -743,7 +750,7 @@ a:hover, a:focus, .btn:hover, .btn:focus, button:hover, button:focus {
 }
 
 .navbar_fixed.header_area .menu > .nav-item > .nav-link:before {
-  background: #1a1d31;
+  background-image:url(https://img0.baidu.com/it/u=4293798593,856298294&fm=253&fmt=auto&app=138&f=JPEG?w=960&h=400);
 }
 
 .navbar_fixed.header_area .menu_toggle .hamburger span, .navbar_fixed.header_area .menu_toggle .hamburger-cross span {
@@ -751,7 +758,8 @@ a:hover, a:focus, .btn:hover, .btn:focus, button:hover, button:focus {
 }
 
 .navbar_fixed .btn_get:hover {
-  background: #3452ff;
+  background-image:url(https://img0.baidu.com/it/u=4293798593,856298294&fm=253&fmt=auto&app=138&f=JPEG?w=960&h=400);
+
   color: #fff;
 }
 
@@ -784,7 +792,7 @@ a:hover, a:focus, .btn:hover, .btn:focus, button:hover, button:focus {
   height: 1000px;
   position: relative;
   overflow: hidden;
-  background: #151828;
+  background-image:url(https://img0.baidu.com/it/u=4293798593,856298294&fm=253&fmt=auto&app=138&f=JPEG?w=960&h=400);
   z-index: 1;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -838,7 +846,8 @@ a:hover, a:focus, .btn:hover, .btn:focus, button:hover, button:focus {
   width: 150px;
   height: 150px;
   border: 1px solid #fff;
-  background: rgba(255, 255, 255, 0.1);
+    background-image:url(https://img0.baidu.com/it/u=4293798593,856298294&fm=253&fmt=auto&app=138&f=JPEG?w=960&h=400);
+
   display: block;
   margin-left: auto;
   margin-right: 0;
@@ -943,7 +952,8 @@ a:hover, a:focus, .btn:hover, .btn:focus, button:hover, button:focus {
   -ms-flex-align: center;
   align-items: center;
   text-align: center;
-  background: #320A08;
+    //background-image:url(https://img0.baidu.com/it/u=4293798593,856298294&fm=253&fmt=auto&app=138&f=JPEG?w=960&h=400);
+//那个臭臭的深红背景
 }
 
 .business_slider .slider_item .overlay_bg {
@@ -2000,7 +2010,7 @@ input[type="text"] {
 .st_action_area {
   position: relative;
   overflow: hidden;
-  background: #151828;
+  background: #EF3554;
   text-align: center;
   padding: 96px 0px;
   z-index: 1;
