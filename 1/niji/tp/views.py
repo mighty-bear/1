@@ -269,6 +269,66 @@ def yanyunshiliuzhou(request):
 def huangtiandang(request):
     return render(request, '黄天荡.html')
 
+def One(request):
+    return render(request, '1.html')
+
+def Two(request):
+    return render(request, '2.html')
+
+def Three(request):
+    return render(request, '3.html')
+
+def Four(request):
+    return render(request, '4.html')
+
+def Five(request):
+    return render(request, '5.html')
+
+def Six(request):
+    return render(request, '6.html')
+
+def Seven(request):
+    return render(request, '7.html')
+
+def Eight(request):
+    return render(request, '8.html')
+
+def Nine(request):
+    return render(request, '9.html')
+
+def Ten(request):
+    return render(request, '10.html')
+
+def Eleven(request):
+    return render(request, '11.html')
+
+def Twelve(request):
+    return render(request, '12.html')
+
+def Thirteen(request):
+    return render(request, '13.html')
+
+def Fourteen(request):
+    return render(request, '14.html')
+
+def Fifteen(request):
+    return render(request, '15.html')
+
+def Sixteen(request):
+    return render(request, '16.html')
+
+def Seventeen(request):
+    return render(request, '17.html')
+
+def Eighteen(request):
+    return render(request, '18.html')
+
+def Nineteen(request):
+    return render(request, '19.html')
+
+def Twenty(request):
+    return render(request, '20.html')
+
 def test(request):
     if request.method == 'GET':
         poem = paper.objects.filter(Title="声声慢·寻寻觅觅").first()
