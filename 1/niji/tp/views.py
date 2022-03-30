@@ -329,6 +329,46 @@ def Nineteen(request):
 def Twenty(request):
     return render(request, '20.html')
 
+def TiYueYangLou(request):
+    return render(request, '题岳阳楼.html')
+
+def YuZhongDengYueYangLouWangJunShan(request):
+    return render(request, "雨中登岳阳楼望君山.html")
+
+def LinJiangXianBaLin(request):
+    return render(request, "临江仙·巴陵.html")
+
+def JueJu(request):
+    return render(request, "绝句.html")
+
+def YuXiaShiErDengYueYangLou(request):
+    return render(request, "与夏十二登岳阳楼.html")
+
+def YouYueYangLouJi(request):
+    return render(request, "游岳阳楼记.html")
+
+def YueYangLouJi(request):
+    return render(request, "岳阳楼记.html")
+
+def BoYueYangChengXia(request):
+    return render(request, "泊岳阳城下.html")
+
+def XianYangZhiYu(request):
+    return render(request, "咸阳值雨.html")
+
+def DengYueYangLou(request):
+    return render(request, "登岳阳楼.html")
+
+def YueYangLouLiShiYanGe(request):
+    return render(request, "岳阳楼历史沿革.html")
+
+def YueYangLouJianZhuGeJu(request):
+    return render(request, "岳阳楼建筑格局.html")
+
+def YueYangLouZhuYaoJianZhu(request):
+    return render(request, "岳阳楼主要建筑.html")
+
+
 def test(request):
     if request.method == 'GET':
         poem = paper.objects.filter(Title="声声慢·寻寻觅觅").first()
