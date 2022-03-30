@@ -189,11 +189,8 @@
                                     }
                                 },
                         }, {
-                            name: '临江仙·巴陵',
+                            name: '岳阳楼',
                             id:'4'
-                        }, {
-                            name: '绝句',
-                            id:'5'
                         },{
                             name:'与夏十二登岳阳楼',
                             id:'6'
@@ -216,16 +213,13 @@
                             name:'泊岳阳城下',
                             id:'12'
                         },{
-                            name:'咸阳值雨',
-                            id:'13'
-                        },{
                             name:'仙梅亭',
                             id:'15'
                         },{
                             name:'怀甫亭',
                             id:'16'
                         },{
-                            name:'散醉亭',
+                            name:'三醉亭',
                             id:'17'
                         }
                     ],
@@ -245,9 +239,6 @@
                         }, {
                             source:'3',
                             target:'4',
-                        }, {
-                            source:'3',
-                            target:'5',
                         }, {
                             source:'3',
                             target:'6',
@@ -270,9 +261,6 @@
                             source:'3',
                             target:'12',
                         }, {
-                            source:'3',
-                            target:'13',
-                        }, {
                             source:'14',
                             target:'15',
                         }, {
@@ -289,17 +277,15 @@
         myChart.setOption(option, true);
         myChart.on('click', function (param){
             var name=param.name;
+            var id=param.dataIndex;
             if(name=="题岳阳楼"){
                 top.location.href="/tp/题岳阳楼/";
             }
             else if(name=="雨中登岳阳楼望君山"){
                 top.location.href="/tp/雨中登岳阳楼望君山/";
             }
-            else if(name=="临江仙·巴陵"){
-                top.location.href="/tp/临江仙·巴陵/";
-            }
-            else if(name=="绝句"){
-                top.location.href="/tp/绝句/";
+            else if(id==5){
+                top.location.href="/tp/岳阳楼/";
             }
             else if(name=="与夏十二登岳阳楼"){
                 top.location.href="/tp/与夏十二登岳阳楼/";
@@ -308,13 +294,10 @@
                 top.location.href="/tp/游岳阳楼记/";
             }
             else if(name=="岳阳楼记"){
-                top.location.href="/tp/游岳阳楼记/";
+                top.location.href="/tp/岳阳楼记/";
             }
             else if(name=="泊岳阳城下"){
                 top.location.href="/tp/泊岳阳城下/";
-            }
-            else if(name=="咸阳值雨"){
-                top.location.href="/tp/咸阳值雨/";
             }
             else if(name=="登岳阳楼"){
                 top.location.href="/tp/登岳阳楼/";
@@ -334,7 +317,7 @@
             else if(name=="仙梅亭"){
                 top.location.href="/tp/岳阳楼主要建筑/";
             }
-            else if(name=="散醉亭"){
+            else if(name=="三醉亭"){
                 top.location.href="/tp/岳阳楼主要建筑/";
             }
             else if(name=="宋高宗入海逃避"){

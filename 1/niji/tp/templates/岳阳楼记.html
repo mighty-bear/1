@@ -32,7 +32,7 @@
         }
         .text1{
             position: absolute;
-            width: 500px;
+            width: 1000px;
             height: 350px;
             top: 500px;
             left: 750px;
@@ -52,7 +52,7 @@
             right: 10px;
         }
     </style>
-    <title>蝶恋花·上巳召亲族</title>
+    <title>岳阳楼记</title>
 </head>
 <body>
 
@@ -71,13 +71,13 @@
     
     <!-- 古诗（图） -->
     <div class="jpg1">
-        <img src="/static/蝶恋花·上巳召亲族.png" width="900" height="450" alt="">
+        <img src="/static/岳阳楼记诗.jpeg" width="1200" height="400" alt="">
     </div>
 
     <!-- 相关视频 -->
     <div class="player_f">
-        <a href="https://baijiahao.baidu.com/s?id=1643374643177522394&wfr=content" target="_blank" class="small_img_con">
-            <img src="https://vdposter.bdstatic.com/1cc44e5c085b0e4d209f2c59d9954b33.jpeg?x-bce-process=image/resize,m_fill,w_320,h_180/format,f_jpg/quality,Q_100" alt="">
+        <a href="https://v.youku.com/v_show/id_XNDU3NzA5MTI4MA==.html" target="_blank" class="small_img_con">
+            <img src="/static/岳阳楼记.jpg" width="350" alt="">
             <div class="player_s"><span class="glyphicon glyphicon-play-circle glyphicon-lg" style="font-size: 80px; color:grey;" aria-hidden="true"></span></div>
         </a>
     </div>
@@ -85,222 +85,21 @@
     <!-- 文字描述 -->
     <div class="text1">
         <p style="font-size: 30px;">
-            汴京沦陷，北宋灭亡，李清照无奈南渡，但是南宋建立之处政局动荡不堪。便有了这首《蝶恋花》。这首词题是“上巳召亲族”，带含丰富的思想内容，深厚的感伤情绪，写得委婉曲折，层层深入而笔意浑成，具有长调铺叙的气势。写出作者的国破家亡之恨，寄寓词人对国家社稷的赤子之情。
+            <b>岳阳楼记</b>
+        </p>
+    <p>范仲淹 〔宋代〕</p>
+　　 庆历四年春，滕子京谪守巴陵郡。越明年，政通人和，百废具兴，乃重修岳阳楼，增其旧制，刻唐贤今人诗赋于其上，属予作文以记之。
+<br>
+　　予观夫巴陵胜状，在洞庭一湖。衔远山，吞长江，浩浩汤汤，横无际涯，朝晖夕阴，气象万千，此则岳阳楼之大观也，前人之述备矣。然则北通巫峡，南极潇湘，迁客骚人，多会于此，览物之情，得无异乎？
+<br>
+　　若夫淫雨霏霏，连月不开，阴风怒号，浊浪排空，日星隐曜，山岳潜形，商旅不行，樯倾楫摧，薄暮冥冥，虎啸猿啼。登斯楼也，则有去国怀乡，忧谗畏讥，满目萧然，感极而悲者矣。
+<br>
+　　至若春和景明，波澜不惊，上下天光，一碧万顷，沙鸥翔集，锦鳞游泳，岸芷汀兰，郁郁青青。而或长烟一空，皓月千里，浮光跃金，静影沉璧，渔歌互答，此乐何极！登斯楼也，则有心旷神怡，宠辱偕忘，把酒临风，其喜洋洋者矣。
+<br>
+　　嗟夫！予尝求古仁人之心，或异二者之为，何哉？不以物喜，不以己悲，居庙堂之高则忧其民，处江湖之远则忧其君。是进亦忧，退亦忧。然则何时而乐耶？其必曰“先天下之忧而忧，后天下之乐而乐”乎！噫！微斯人，吾谁与归？时六年九月十五日。
+
         </p>
     </div>
 
-    <!-- 子图 -->
-    <div id="container" style="width: 90%;height: 400px;position: relative; top: 700px;left: 75px;"></div>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/world.js"></script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/bmap.min.js"></script>
-        <script type="text/javascript">
-            var dom = document.getElementById("container");
-            var myChart = echarts.init(dom);
-            var app = {};
-            var get=function(e){
-                var newStr=" ";
-                var start,end;
-                var name_len=e.name.length;    　　　　　　　　　　　　   //每个内容名称的长度
-                var max_name=4;    　　　　　　　　　　　　　　　　　　//每行最多显示的字数
-                var new_row = Math.ceil(name_len / max_name); 　　　　// 最多能显示几行，向上取整
-                    if(name_len>max_name){ 　　　　　　　　　　　　　　  //如果长度大于每行最多显示的字数
-                        for(var i=0;i<new_row;i++){ 　　　　　　　　　　　   //循环次数就是行数
-                            var old='';    　　　　　　　　　　　　　　　　    //每次截取的字符
-                            start=i*max_name;    　　　　　　　　　　     //截取的起点
-                            end=start+max_name;    　　　　　　　　　  //截取的终点
-                            if(i==new_row-1){    　　　　　　　　　　　　   
-                                old=e.name.substring(start);
-                            }else{
-                                old=e.name.substring(start,end)+"\n";    
-                            }
-                            newStr+=old; //拼接字符串
-                        }
-                    }else{                                          
-                        newStr=e.name; 
-                    }
-                    return newStr;
-            }
-            option = null;
-            option = {
-                title: {
-                },
-                // tooltip: {},（鼠标放到某个节点或者边时显示的悬浮框）
-                animationDurationUpdate: 1500,
-                animationEasingUpdate: 'quinticInOut',
-                series: [
-                    {
-                        type: 'graph',
-                        layout: 'none',
-                        symbolSize: 70,
-                        focusNodeAdjacency: true,
-                        roam: false,
-                        label: {
-                            show: true,
-                            formatter:get,
-                            textStyle: {
-                            align:"center",
-                            baseline:"middle",
-                                }
-                        },
-                        edgeSymbol: ['circle', 'arrow'],
-                        edgeSymbolSize: [1, 10],
-                        edgeLabel: {
-                            fontSize: 50,
-                            normal: {
-                                show: true,
-                                formatter: function (x) {
-                                    return x.data.name;
-                                }
-                            }
-                        },
-                        itemStyle: {
-                                normal: {
-                                    lineStyle:{
-                                        width:2//设置线条粗细
-                                    }
-                                }
-                            },
-                        data: [{
-                            name: '金军占领汴州',
-                            x: 500,
-                            y: 170
-                        }, {
-                            name: '靖康之变',
-                            x: 550,
-                            y: 150
-                        }, {
-                            name: '北宋灭亡',
-                            x: 600,
-                            y: 150
-                        }, {
-                            name: '康王赵构南下继位宋高宗',
-                            x: 600,
-                            y: 200
-                        }, {
-                            name: '南宋建立',
-                            x: 550,
-                            y: 200
-                        }],
-                        links: [{
-                            source: 0,
-                            target: 1,
-                            name: "因果"
-                        }, {
-                            source: 1,
-                            target: 2,
-                            name: "标志"
-                        }, {
-                            source: 2,
-                            target: 3,
-                            name: "先后"
-                        }, {
-                            source: 3,
-                            target: 4,
-                            name: "标志"
-                        }],
-                        lineStyle: {
-                            opacity: 0.9,
-                            width: 2,
-                            curveness: 0,
-                             normal: {
-                                         color: '#000'
-                                     },
-                        }
-                    }
-                ]
-            };;
-            myChart.setOption(option, true);
-            myChart.on('click', function (param){
-                var name=param.name;
-                if(name=="靖康之变"){
-                top.location.href="/tp/靖康之变/";
-                }
-                else if(name=="宋徽宗不理朝政"){
-                    top.location.href="/tp/宋徽宗不理朝政/";
-                }
-                else if(name=="北宋联金攻辽"){
-                    top.location.href="/tp/北宋联金攻辽/";
-                }
-                else if(name=="海上之盟"){
-                    top.location.href="/tp/海上之盟/";
-                }
-                else if(name=="辽国灭亡"){
-                    top.location.href="/tp/辽国灭亡/";
-                }
-                else if(name=="金国撕毁海上之盟"){
-                    top.location.href="/tp/金国撕毁海上之盟/";
-                }
-                else if(name=="金国攻打北宋"){
-                    top.location.href="/tp/金国攻打北宋/";
-                }
-                else if(name=="徽钦二宗被掳"){
-                    top.location.href="/tp/徽钦二宗被掳/";
-                }
-                else if(name=="金军占领汴州"){
-                    top.location.href="/tp/金军占领汴州/";
-                }
-                else if(name=="北宋灭亡"){
-                    top.location.href="/tp/北宋灭亡/";
-                }
-                else if(name=="康王赵构南下继位宋高宗"){
-                    top.location.href="/tp/康王赵构南下继位宋高宗/";
-                }
-                else if(name=="南宋建立"){
-                    top.location.href="/tp/南宋建立/";
-                }
-                else if(name=="金军南扑"){
-                    top.location.href="/tp/金军南扑/";
-                }
-                else if(name=="宋军英勇反抗"){
-                    top.location.href="/tp/宋军英勇反抗/";
-                }
-                else if(name=="宋高宗入海逃避"){
-                    top.location.href="/tp/宋高宗入海逃避/";
-                }
-                else if(name=="金军北撤"){
-                    top.location.href="/tp/金军北撤/";
-                }
-                else if(name=="韩世忠围困金军"){
-                    top.location.href="/tp/韩世忠围困金军/";
-                }
-                else if(name=="岳飞大败金军"){
-                    top.location.href="/tp/岳飞大败金军/";
-                }
-                else if(name=="宋金议和"){
-                    top.location.href="/tp/宋金议和/";
-                }
-                else if(name=="金毁和约攻南宋"){
-                    top.location.href="/tp/金毁和约攻南宋/";
-                }
-                else if(name=="岳飞抗金"){
-                    top.location.href="/tp/岳飞抗金/";
-                }
-                else if(name=="南宋采用投降政策"){
-                    top.location.href="/tp/南宋采用投降政策/";
-                }
-                else if(name=="秦桧任宰相"){
-                    top.location.href="/tp/秦桧任宰相/";
-                }
-                else if(name=="岳飞被害"){
-                    top.location.href="/tp/岳飞被害/";
-                }
-                else if(name=="宋金议和《绍兴和约》"){
-                    top.location.href="/tp/宋金议和《绍兴和约》/";
-                }
-                else if(name=="南宋偏安杭州"){
-                    top.location.href="/tp/南宋偏安杭州/";
-                }
-                else if(name=="南宋不思北上中原"){
-                    top.location.href="/tp/南宋不思北上中原/";
-                }
-       	    });
-            myChart.on('click',eConsole);
-        </script>
-    
 </body>
 </html>

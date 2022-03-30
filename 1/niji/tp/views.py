@@ -335,11 +335,8 @@ def TiYueYangLou(request):
 def YuZhongDengYueYangLouWangJunShan(request):
     return render(request, "雨中登岳阳楼望君山.html")
 
-def LinJiangXianBaLin(request):
-    return render(request, "临江仙·巴陵.html")
-
-def JueJu(request):
-    return render(request, "绝句.html")
+def YueYangLou(request):
+    return render(request, "岳阳楼.html")
 
 def YuXiaShiErDengYueYangLou(request):
     return render(request, "与夏十二登岳阳楼.html")
@@ -352,9 +349,6 @@ def YueYangLouJi(request):
 
 def BoYueYangChengXia(request):
     return render(request, "泊岳阳城下.html")
-
-def XianYangZhiYu(request):
-    return render(request, "咸阳值雨.html")
 
 def DengYueYangLou(request):
     return render(request, "登岳阳楼.html")
