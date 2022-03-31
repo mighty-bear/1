@@ -21,6 +21,19 @@
 </head>
 
 <body>
+<script type="text/javascript">
+        function myfun() 　　{ 　　
+            var x=1;　　
+            var urls=new Array();
+            for (var i=0;i<x;i++)
+            {
+                urls[i]="/tp/"+String(i+1)+"/";
+            }
+            var n=Math.floor(Math.random()*x);
+            //alert(urls[3]);
+            location.href=urls[n];
+        } 　　
+</script>
 <div id="preloader">
 	<div id="ctn-preloader" class="ctn-preloader"><img src="{% static 'niji/picture/loader.gif' %} " alt=""></div>
 </div>
@@ -163,7 +176,7 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div class="business_features_item wow fadeInUp" data-wow-delay="0.2s">
-									<a href="/tp/" name="service"><img src="{% static 'niji/images/tupu1.png' %}" style="margin-bottom:15px;"></a>
+									<a href="javascript:myfun()" name="service"><img src="{% static 'niji/images/tupu1.png' %}" style="margin-bottom:15px;"></a>
 									<i class="ti-folder"></i>
 									<h4>诗人行迹</h4>
 									<p style="font-size:15px;">诗人一生行迹展示页面，包含了查看诗人经行路径模块、查看历史年表模块、历史事件事理图谱全图和子图的展示模块、古诗词解析模块、历史详解模块等子模块。</p>
