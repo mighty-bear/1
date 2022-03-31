@@ -17,23 +17,10 @@
 <link rel="stylesheet" href="{% static 'niji/css/magnific-popup.css'%}">
 <link rel="stylesheet" href="{% static 'niji/css/style.css'%}">
 <link rel="stylesheet" href="{% static 'niji/css/responsive.css'%}">
-
+<link rel="stylesheet" href="{% static 'niji/css/index.css'%}">
 </head>
 
 <body>
-<script type="text/javascript">
-        function myfun() 　　{ 　　
-            var x=1;　　
-            var urls=new Array();
-            for (var i=0;i<x;i++)
-            {
-                urls[i]="/tp/"+String(i+1)+"/";
-            }
-            var n=Math.floor(Math.random()*x);
-            //alert(urls[3]);
-            location.href=urls[n];
-        } 　　
-</script>
 <div id="preloader">
 	<div id="ctn-preloader" class="ctn-preloader"><img src="{% static 'niji/picture/loader.gif' %} " alt=""></div>
 </div>
@@ -93,6 +80,7 @@
 		</nav>
 	</header>
 	<section class="business_slider">
+
 		<div class="main_slider">
 			<div class="slider_item">
 				<div class="overlay_bg one"></div>
@@ -121,7 +109,51 @@
 			<i class="ti-arrow-left left_arrow"></i>
 			<i class="ti-arrow-right right_arrow"></i>
 		</div>
+
 	</section>
+	<div class="conrainer">
+        <div class="box">
+            <h2>
+                壹
+            </h2>
+            <h3>
+                搜索模式
+            </h3>
+            <p>
+                用户搜索“金军做了什么”就可以查看金军相关的历史事件以及和这个历史事件相关联的古诗词。
+            </p>
+            <a href="#">Read More</a>
+        </div>
+        <div class="box">
+            <h2>
+                贰
+            </h2>
+            <h4>诗人行迹</h4>
+			<p style="font-size:15px;">诗人一生行迹展示页面，包含了查看诗人经行路径模块、查看历史年表模块、历史事件事理图谱全图和子图的展示模块、古诗词解析模块、历史详解模块等子模块。</p>
+            <a href="#">Read More</a>
+        </div>
+
+        <div class="box">
+            <h2>
+                叁
+            </h2>
+            <h3>
+                BBS社区
+            </h3>
+            <p>
+                由用户注册、登录、发帖模块、回帖模块等子模块组成。其中发帖模块可供用户自己发帖或浏览别的用户发布的贴文，使用户能够将自己对于古诗词的所学所想以贴文的形式整理发布在平台上，并与别的用户分享。
+            </p>
+            <a href="#">Read More</a>
+        </div>
+        <div class="box">
+            <h2>
+               肆
+            </h2>
+            <h4>测试模式</h4>
+			<p style="font-size:15px;">测试模块可供用户对于图谱中的某些古诗词及其相关历史事件或相关人物进行自我测试，以检验用户的学习成果，激发用户学习兴趣。</p>
+            <a href="#">Read More</a>
+        </div>
+    </div>
 	<section class="business_features_area sec_gap">
 		<div class="container">
 			<div class="row">
@@ -131,7 +163,7 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div class="business_features_item wow fadeInUp" data-wow-delay="0.2s">
-									<a href="javascript:myfun()" name="service"><img src="{% static 'niji/images/tupu1.png' %}" style="margin-bottom:15px;"></a>
+									<a href="/tp/" name="service"><img src="{% static 'niji/images/tupu1.png' %}" style="margin-bottom:15px;"></a>
 									<i class="ti-folder"></i>
 									<h4>诗人行迹</h4>
 									<p style="font-size:15px;">诗人一生行迹展示页面，包含了查看诗人经行路径模块、查看历史年表模块、历史事件事理图谱全图和子图的展示模块、古诗词解析模块、历史详解模块等子模块。</p>
@@ -452,8 +484,7 @@
 				<div class="col-md-3 col-6">
 					<div class="st_fact_item wow fadeIn" data-wow-delay="0.8s">
 						<h1><span class="counter">4</span></h1>
-						<p>一日一赏<br>每天为您推送不同的诗句</p>
-					</div>
+						<p>每日一赏<br>每天为您推荐优美的诗句</p>
 				</div>
 			</div>
 		</div>
