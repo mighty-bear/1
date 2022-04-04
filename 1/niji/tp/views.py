@@ -362,6 +362,9 @@ def YueYangLouJianZhuGeJu(request):
 def YueYangLouZhuYaoJianZhu(request):
     return render(request, "岳阳楼主要建筑.html")
 
+def YueYangLouLiShiYanGeTuPu(request):
+    return render(request, "岳阳楼历史沿革图谱.html")
+
 
 def test(request):
     if request.method == 'GET':
