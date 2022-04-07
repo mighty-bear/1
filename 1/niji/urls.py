@@ -6,5 +6,6 @@ from django.contrib import admin
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('niji.urls')),
-    path('tp/', include('tp.urls'))
+    path('tp/', include('tp.urls')),
+    path('xj/', include('xj.urls'))
 ]

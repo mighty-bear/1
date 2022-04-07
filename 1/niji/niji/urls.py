@@ -38,5 +38,5 @@ urlpatterns = [
     url(r'^test$', views.test),
     url(r'^test/tang$', views.tang),
     url(r'^test/song$', views.song),
-    url(r'^test/success$', views.success)
+    url(r'^test/success$', views.success),
 ]

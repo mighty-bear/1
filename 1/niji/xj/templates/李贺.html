@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+   </head>
+   <body style="height: 100%; margin: 0">
+       <div id="container" style="height: 100%"></div>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/world.js"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/bmap.min.js"></script>
+       <script type="text/javascript">
+var dom = document.getElementById("container");
+var myChart = echarts.init(dom);
+var app = {};
+option = null;
+var geoCoordMap = {
+
+    "山西":[112.53,37.87],
+
+    "陕西":[108.95,34.27],
+
+
+    "江苏":[118.78,32.04],
+
+
+    "浙江":[120.19,30.26],
+
+
+
+    "安徽":[117.27,31.86],
+    "湖北":[114.31,30.52],
+
+};
+
+var convertData = function (data) {
+    var res = [];
+    for (var i = 0; i < data.length; i++) {
+        var geoCoord = geoCoordMap[data[i].name];
+        if (geoCoord) {
+            res.push(geoCoord.concat(data[i].value));
+        }
+    }
+    return res;
+};
+
+option = {
+    backgroundColor: '#404a59',
+    title: {
+        text: '李贺一生行迹',
+        subtext: '诗遍天涯————古诗词与可视化的有机结合',
+        sublink: 'http://www.pm25.in',
+        left: 'center',
+        textStyle: {
+            color: '#fff'
+        }
+    },
+    tooltip: {
+        trigger: 'item'
+    },
+    legend: {
+        orient: 'vertical',
+        top: 'bottom',
+        left: 'right',
+        data:['pm2.5'],
+        textStyle: {
+            color: '#fff'
+        }
+    },
+    visualMap: {
+        min: 0,
+        max: 300,
+        splitNumber: 5,
+        color: ['#d94e5d','#eac736','#50a3ba'],
+        textStyle: {
+            color: '#fff'
+        }
+    },
+    geo: {
+        map: 'china',
+        label: {
+            emphasis: {
+                show: false
+            }
+        },
+        itemStyle: {
+            normal: {
+                areaColor: '#323c48',
+                borderColor: '#111'
+            },
+            emphasis: {
+                areaColor: '#2a333d'
+            }
+        }
+    },
+
+
+
+    series: [
+        {
+            name: 'pm2.5',
+            type: 'scatter',
+            coordinateSystem: 'geo',
+            data: convertData([
+
+                {name: "山西", value: 39},
+
+               { name: "陕西", value: 61},
+
+                {name: "江苏", value: 67},
+
+                {name: "浙江", value: 84},
+
+
+
+                {name: "安徽", value: 229},
+                {name: "湖北", value: 273},
+
+            ]),
+            symbolSize: 12,
+            label: {
+                normal: {
+                    show: false
+                },
+                emphasis: {
+                    show: false
+                }
+            },
+            itemStyle: {
+                emphasis: {
+                    borderColor: '#fff',
+                    borderWidth: 1
+                }
+            }
+        }
+    ]
+};
+if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+}
+myChart.setOption(option);
+        // 处理点击事件并且弹出数据名称
+        myChart.on('click', function (params) {
+           // alert(params.name);
+            var name=params.name;
+            if(name=="山西"){
+                top.location.href="https://baike.baidu.com/item/%E9%AB%98%E5%B9%B3%E5%8E%BF%E4%B8%9C%E7%A7%81%E8%B7%AF/7909860?fr=aladdin"
+            }
+            if(name=="陕西"){
+                top.location.href="https://hanyu.baidu.com/shici/detail?pid=525f60c89a4b47a8831ac0224d25d160&from=kg0&highlight=%E9%9B%AA%E4%B8%8B%E6%A1%82%E8%8A%B1%E7%A8%80%EF%BC%8C%E5%95%BC%E4%B9%8C%E8%A2%AB%E5%BC%B9%E5%BD%92"
+            }
+            if(name=="江苏"){
+                top.location.href="1"
+            }
+            if(name=="浙江"){
+                top.location.href="2"
+            }
+            if(name=="郑州"){
+                top.location.href="https://hanyu.baidu.com/shici/detail?pid=bb0fefdee0d248a384d61d5f728652cc&from=kg0&highlight=%E5%AE%98%E4%B8%8D%E6%9D%A5%EF%BC%8C%E8%80%81%E6%A1%90%E9%94%99%E5%B9%B2%E9%9D%92%E9%BE%99%E6%84%81"
+            }
+            if(name=="安徽"){
+                top.location.href="https://so.gushiwen.cn/mingju/juv_bb5e60b3fbe6.aspx"
+            }
+            if(name=="湖北"){
+                top.location.href="https://hanyu.baidu.com/shici/detail?pid=d1eb12267d914ea885237bf9d8cf2b08&from=kg0&highlight=%E8%8D%89%E7%94%9F%E9%BE%99%E5%9D%A1%E4%B8%8B%EF%BC%8C%E9%B8%A6%E5%99%AA%E5%9F%8E%E5%A0%9E%E5%A4%B4"
+            }
+
+        });
+       </script>
+   </body>
+</html>

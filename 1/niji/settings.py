@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'pagedown',
     'rest_framework',
     'tp',
+    'xj',
 ]
 
 MIDDLEWARE = [
