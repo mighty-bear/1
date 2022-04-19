@@ -9,12 +9,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'testsettings'
 DEBUG = True
 
+'''
 ALLOWED_HOSTS = [
     '127.0.0.1',
     '172.16.0.247',
     'localhost',
     '0.0.0.0',
 ]
+'''
+ALLOWED_HOSTS=['*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -118,7 +121,11 @@ CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
 CELERY_ALWAYS_EAGER = True
 
 STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "niji/static")
+#STATICFILES_DIRS=[
+#    os.path.join(BASE_DIR,"static")
+#]
+STATIC_ROOT=os.path.join(BASE_DIR,"static")
+#STATIC_ROOT = os.path.join(BASE_DIR, "niji/static")
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
