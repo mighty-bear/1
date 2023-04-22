@@ -9,7 +9,7 @@ from django.db.models.deletion import CASCADE
 from django.urls import reverse
 # from django.utils.encoding import python_2_unicode_compatible
 from six import python_2_unicode_compatible
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from functools import partial
 from niji.tasks import notify
 from PIL import Image

@@ -241,6 +241,9 @@ def YueYangLouLiShiYanGeTuPu(request):
 def YueYangLouXiangGuanShiWen(request):
     return render(request, "岳阳楼相关诗文.html")
 
+def LiShiLieBiao(request):
+    return render(request, "历史列表.html")
+
 
 def test(request):
     if request.method == 'GET':
