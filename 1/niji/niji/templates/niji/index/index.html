@@ -122,17 +122,20 @@
 			<i class="ti-arrow-left left_arrow"></i>
 			<i class="ti-arrow-right right_arrow"></i>
 		</div>
+        <!--
 <audio autoplay loop>
       <source src="{% static 'niji/music/bgm01.mp3'%}">
 </audio>
+-->
 	</section>
+    <!--
 	<div class="conrainer">
         <div class="box">
             <h2>
                 壹
             </h2>
             <h3>
-                搜索模式
+                模糊搜索
             </h3>
             <p>
                 用户搜索“岳阳楼”就可以查看岳阳楼发展的历史沿革以及和这个岳阳楼关联的古诗词及介绍。
@@ -145,7 +148,7 @@
             </h2>
             <h4>诗人行迹</h4>
 			<p style="font-size:15px;">诗人一生行迹展示页面，包含了查看诗人经行路径模块、查看历史年表模块、历史事件事理图谱全图和子图的展示模块、古诗词解析模块、历史详解模块等子模块。</p>
-            <a href="/xj/李贺">Read More</a>
+            <a href="/NER/locationProcess">Read More</a>
         </div>
 
         <div class="box">
@@ -153,22 +156,23 @@
                 叁
             </h2>
             <h3>
-                BBS社区
+                意象识别
             </h3>
             <p>
-                由用户注册、登录、发帖模块、回帖模块等子模块组成。其中发帖模块可供用户自己发帖或浏览别的用户发布的贴文，使用户能够将自己对于古诗词的所学所想以贴文的形式整理发布在平台上，并与别的用户分享。
+                在该模式下可以对诗词中的意象进行提取，并对古诗词进行分类
             </p>
-            <a href="/index">Read More</a>
+            <a href="/NER/yxProcess">Read More</a>
         </div>
         <div class="box">
             <h2>
                肆
             </h2>
-            <h4>测试模式</h4>
-			<p style="font-size:15px;">测试模块可供用户对于图谱中的某些古诗词及其相关历史事件或相关人物进行自我测试，以检验用户的学习成果，激发用户学习兴趣。</p>
-            <a href="/test">Read More</a>
+            <h4>传统文化知识图谱</h4>
+			<p style="font-size:15px;">查看文化融合图谱、查看文化发展事理图谱、古诗词解析板块等</p>
+            <a href="/tp/1">Read More</a>
         </div>
     </div>
+    -->
 	<section class="business_features_area sec_gap">
 		<div class="container">
 			<div class="row">
@@ -178,36 +182,49 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div class="business_features_item wow fadeInUp" data-wow-delay="0.2s">
-									<a href="/xj/李贺" name="service"><img src="{% static 'niji/images/tupu1.png' %}" style="margin-bottom:15px;"></a>
+									<a href="/NER/locationProcess" name="service"><img src="{% static 'niji/images/tupu1.png' %}" style="margin-bottom:15px;"></a>
 									<i class="ti-folder"></i>
 									<h4>诗人行迹</h4>
 									<p style="font-size:15px;">诗人一生行迹展示页面，包含了查看诗人经行路径模块、查看历史年表模块、历史事件事理图谱全图和子图的展示模块、古诗词解析模块、历史详解模块等子模块。</p>
 								</div>
 							</div>
+
+							<div class="col-md-6">
+								<div class="business_features_item wow fadeInUp" data-wow-delay="0.4s">
+									<a href="/tp/tpshow"><img src="{% static 'niji/images/search1.png' %}" style="margin-bottom:15px;"></a>
+									<i class="ti-face-smile"></i>
+									<h4>古诗词图谱展示</h4>
+									<p style="font-size:15px;">将古诗词以知识图谱的形式进行展示，便于学习</p>
+								</div>
+							</div>
+
 							<div class="col-md-6">
 								<div class="business_features_item wow fadeInUp" data-wow-delay="0.4s">
 									<a href="/tp/search"><img src="{% static 'niji/images/search1.png' %}" style="margin-bottom:15px;"></a>
 									<i class="ti-face-smile"></i>
-									<h4>搜索模式</h4>
+									<h4>模糊搜索</h4>
 									<p style="font-size:15px;">用户搜索“岳阳楼”就可以查看岳阳楼相关的历史沿革以及和这个与岳阳楼相关联的古诗词。用户搜索“岳阳楼相关诗文”，就可以看到《岳阳楼记》和《雨中登岳阳楼望君山》等诸多诗文。</p>
 								</div>
 							</div>
+
 							<div class="col-md-6">
 								<div class="business_features_item wow fadeInUp" data-wow-delay="0.6s">
-									<a href="/index"><img src="{% static 'niji/images/BBS.png' %}" style="margin-bottom:15px;"></a>
+									<a href="/NER/yxProcess"><img src="{% static 'niji/images/BBS.png' %}" style="margin-bottom:15px;"></a>
 									<i class="ti-brush-alt"></i>
-									<h4>BBS社区</h4>
-									<p style="font-size:15px;">由用户注册、登录、发帖模块、回帖模块等子模块组成。其中发帖模块可供用户自己发帖或浏览别的用户发布的贴文，使用户能够将自己对于古诗词的所学所想以贴文的形式整理发布在平台上，并与别的用户分享。讨论模块则给用户提供了一个互相交流的空间，用户还可以回帖，与别的用户一同探讨交流。</p>
+									<h4>意象识别</h4>
+									<p style="font-size:15px;">在该模式下可以对诗词中的意象进行提取，并对古诗词进行分类</p>
 								</div>
 							</div>
+                            <!--
 							<div class="col-md-6">
 								<div class="business_features_item wow fadeInUp" data-wow-delay="0.8s">
-									<a href="/test"><img src="{% static 'niji/images/test1.png' %}" style="margin-bottom:15px;"></a>
+									<a href="/tp/1"><img src="{% static 'niji/images/test1.png' %}" style="margin-bottom:15px;"></a>
 									<i class="ti-cup"></i>
-									<h4>测试模式</h4>
-									<p style="font-size:15px;">测试模块可供用户对于图谱中的某些古诗词及其相关历史事件或相关人物进行自我测试，以检验用户的学习成果，激发用户学习兴趣。用户可以选择自己感兴趣或较为擅长的朝代分类做题，较为个性化。</p>
+									<h4>可视化图谱展示</h4>
+									<p style="font-size:15px;">查看文化融合图谱、查看文化发展事理图谱、古诗词解析板块等</p>
 								</div>
 							</div>
+							-->
 						</div>
 					</div>
 				</div>
@@ -231,7 +248,7 @@
 				<div class="col-lg-3 col-md-6">
 					<div class="business_service_item wow fadeInUp" data-wow-delay="0.2s">
 						<img src="{% static 'niji/images/tupu_red.png' %}" style="margin-bottom:15px;">
-						<h4 class="b_title">可视化图谱展示模式</h4>
+						<h4 class="b_title">传统文化知识图谱</h4>
 						<p class="b_p">查看文化融合图谱、查看文化发展事理图谱、古诗词解析板块等<br><br></p>
 						<a onclick="myfun()" class="read_btn">点击进入</a>
 					</div>
@@ -239,9 +256,9 @@
 				<div class="col-lg-3 col-md-6">
 					<div class="business_service_item wow fadeInUp" data-wow-delay="0.4s">
 						<img src="{% static 'niji/images/search.png' %}" style="margin-bottom:15px;">
-						<h4 class="b_title">模糊搜索</h4>
-						<p class="b_p">提供模糊查询的功能，在该模式下可以对诗词中的各类信息进行查询，输入你想搜索的关键词，就会得到意想不到的答案哟～</p>
-						<a href="/tp/search" class="read_btn">点击进入</a>
+						<h4 class="b_title">意象识别</h4>
+						<p class="b_p">在该模式下可以对诗词中的意象进行提取，并对古诗词进行分类</p>
+						<a href="/NER/yxProcess" class="read_btn">点击进入</a>
 					</div>
 				</div>
 				<div class="col-lg-3 col-md-6">
@@ -252,14 +269,25 @@
 						<a href="/test" class="read_btn">点击进入</a>
 					</div>
 				</div>
+
 				<div class="col-lg-3 col-md-6">
 					<div class="business_service_item wow fadeInUp" data-wow-delay="0.8s">
 						<img src="{% static 'niji/images/person.png' %}" style="margin-bottom:15px;">
-						<h4 class="b_title">个人中心</h4>
-						<p class="b_p">在这个属于你的空间中，可以注册新用户或登录系统，也可以在论坛发帖、回帖……更多内容等你来发现哦～<br></p>
-						<a href="/index" class="read_btn">点击进入</a>
+						<h4 class="b_title">模糊搜索</h4>
+						<p class="b_p">用户搜索“岳阳楼”就可以查看岳阳楼相关的历史沿革以及和这个与岳阳楼相关联的古诗词。用户搜索“岳阳楼相关诗文”，就可以看到《岳阳楼记》和《雨中登岳阳楼望君山》等诸多诗文。<br></p>
+						<a href="/tp/search" class="read_btn">点击进入</a>
 					</div>
 				</div>
+                <!--
+				<div class="col-lg-3 col-md-6">
+					<div class="business_service_item wow fadeInUp" data-wow-delay="0.8s">
+						<img src="{% static 'niji/images/person.png' %}" style="margin-bottom:15px;">
+						<h4 class="b_title">古诗词图谱展示</h4>
+						<p class="b_p">将古诗词以知识图谱的形式进行展示，便于学习<br></p>
+						<a href="/tp/tpshow" class="read_btn">点击进入</a>
+					</div>
+				</div>
+				-->
 			</div>
 		</div>
 	</section>
@@ -401,9 +429,9 @@
 						<div class="business_blog_img">
 							<img src="{% static 'niji/picture/blog01.jpg' %}" alt="">
 							<div class="b_hover_overlay"></div>
-							<a href="https://kns.cnki.net/kcms/detail/detail.aspx?dbcode=CJFD&dbname=CJFDLAST2020&filename=JFYZ202006014&v=aoPaMcN2cSZ2PyHc9lKMibWkCS3m0ougZ35VG2Cgy%25mmd2F72kzZRQSa6ZSaNe7bXKRu6" class="arrow"><i class="ti-arrow-right"></i></a>
+							<a href="NER/locationProcess" class="arrow"><i class="ti-arrow-right"></i></a>
 						</div>
-						<a href="https://kns.cnki.net/kcms/detail/detail.aspx?dbcode=CJFD&dbname=CJFDLAST2020&filename=JFYZ202006014&v=aoPaMcN2cSZ2PyHc9lKMibWkCS3m0ougZ35VG2Cgy%25mmd2F72kzZRQSa6ZSaNe7bXKRu6">
+						<a href="#">
                             <h3>诗词接龙</h3>
                         </a>
 						<div class="post_date">January 16, 2021</div>

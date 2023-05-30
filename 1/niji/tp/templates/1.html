@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/bootstrap.min.css">
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/bootstrap.min.js"></script>
     <script type="text/javascript" src="/static/echarts.min.js"></script>
     <script type="text/javascript" src="/static/jquery-1.10.2.min.js"></script>
     <style type="text/css">
@@ -41,7 +41,7 @@
     <!-- <div class="logo">
         <img src="/static/IMG_09081.jpg" alt="Logo" class="img-circle" width="140px" height="140px">
     </div> -->
-    
+
     <!-- system name -->
     <center>
     <div>
@@ -64,8 +64,8 @@
             <input class="form-control" type="text" name="title" placeholder="请输入图谱节点名称、古诗词题目、历史地点或者历史人物">
             <br>
             <input style="margin-left:5px;" class="btn btn-default" type="submit" value="确认">
-            <input style="margin-left:50px;" class="btn btn-default" type="reset" value="重置">          
-        </form>      
+            <input style="margin-left:50px;" class="btn btn-default" type="reset" value="重置">
+        </form>
     </div>
     </center>
 
@@ -96,12 +96,12 @@
                         if(i==new_row-1){    　　　　　　　　　　　　   //最后一行就不换行了
                             old=e.name.substring(start);
                         }else{
-                            old=e.name.substring(start,end)+"\n";    
+                            old=e.name.substring(start,end)+"\n";
                         }
                         newStr+=old; //拼接字符串
                     }
                 }else{                                          //如果小于每行最多显示的字数就返回原来的字符串
-                    newStr=e.name; 
+                    newStr=e.name;
                 }
                 return newStr;
         }

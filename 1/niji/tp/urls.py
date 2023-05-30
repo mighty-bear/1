@@ -45,5 +45,8 @@ urlpatterns = [
     path('岳阳楼主要建筑/', views.YueYangLouZhuYaoJianZhu),
     path('岳阳楼历史沿革图谱/', views.YueYangLouLiShiYanGeTuPu),
     path('岳阳楼相关诗文/', views.YueYangLouXiangGuanShiWen),
-    path('历史列表/', views.LiShiLieBiao)
+    path('历史列表/', views.LiShiLieBiao),
+    path('十一月四日风雨大作/', views.ShiYiYueSiRiFengYuDaZuo),
+    path('玉门关/', views.YuMenGuan),
+    path('tpshow/', views.tpshow)
 ]

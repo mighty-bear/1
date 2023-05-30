@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/echarts.min.js"></script>
+    <script type="text/javascript" src="/static/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=DSEXOnZZrPH2F41cU2xyfbMcdEjibd4G"></script>
+    <style type="text/css">
+        .searchbox{
+            width: 600px;
+            height: 100px;
+            position: relative;
+            top: 50px;
+            left: 0px;
+        }
+        .logo{
+            width: 300px;
+            height: 300px;
+            /* position: fixed; */
+            top: 50px;
+            left: 200px;
+        }
+        .back1{
+            position: absolute;
+            width: 100px;
+            height: 30px;
+            top: 10px;
+            right: 120px;
+        }
+        .back2{
+            position: absolute;
+            width: 100px;
+            height: 30px;
+            top: 10px;
+            right: 10px;
+        }
+        #map {
+            width: 100%;
+            position:center;
+            top: 100px;
+            height: 800px;
+        }
+    </style>
+    <title>诗人行迹</title>
+</head>
+
+<body background="/static/background.png">
+
+    <!-- Logo -->
+    <!-- <div class="logo">
+        <img src="/static/IMG_09081.jpg" alt="Logo" class="img-circle" width="140px" height="140px">
+    </div> -->
+    
+    <!-- system name -->
+    <center>
+    <div>
+        <h2 style="position: relative; left: 10px;color: black;">诗人行迹</h2>
+    </div>
+    </center>
+
+    <div class="back1">
+        <input type="button" style="width: 90px;" name="Submit" onclick="window.location.href='/'" value="返回首页">
+    </div>
+    <div class="back2">
+        <input type="button" style="width: 90px;" name="Submit" onclick="javascript:history.back(-1);" value="返回上一页">
+    </div>
+    
+    
+
+    <!-- 搜索框 -->
+    <center>
+    <div class="searchbox">
+        <form method="POST" action="/NER/locationProcess">
+            <textarea class="form-control" name="input_sentence" rows="3" cols="40" placeholder="请输入诗人生平"></textarea>
+            <br>
+            <input style="margin-left:5px;" class="btn btn-default" type="submit" value="确认">
+            <input style="margin-left:50px;" class="btn btn-default" type="reset" value="重置">          
+        </form>
+    </div>
+    </center>
+     <div id="map">
+    <script type="text/javascript">
+        // 初始化地图
+        var map = new BMap.Map("map");
+
+        // 设置地图中心点和缩放级别
+        var point = new BMap.Point(116.404, 39.915);
+        map.centerAndZoom(point, 5);
+
+        // 添加地名标注
+        var loc = {{ res|safe }};
+        //var loc = ["北京市", "上海市", "广州市", "深圳市", "杭州市"];
+        for (var i = 0; i < loc.length; i++) {
+            var myGeo = new BMap.Geocoder();
+            myGeo.getPoint(loc[i], function(point){
+                if (point) {
+                    var marker = new BMap.Marker(point);
+                    map.addOverlay(marker);
+                }
+            }, "中国");
+        }
+        map.enableScrollWheelZoom(true);
+    </script>
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
+
+   
+
+    <div style="width: 100%;height: 120px;">
+        <!-- 占位 -->
+    </div>
+
+</body>
+</html>

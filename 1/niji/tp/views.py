@@ -9,7 +9,8 @@ import re
 from django.contrib.auth.models import User
 from docx import Document
 from fuzzywuzzy import fuzz
-
+from neo4j import GraphDatabase
+from django.conf import settings
 
 def index(request):
     names = ["靖康之变", "夏日绝句", "汴州", "宋徽宗", "满江红·写怀", "示儿", "菩萨蛮·书江西造口壁", "诉衷情·当年万里觅封侯", "书愤", "秋夜将晓出篱门迎凉有感二首其二", "病起书怀",
@@ -244,9 +245,119 @@ def YueYangLouXiangGuanShiWen(request):
 def LiShiLieBiao(request):
     return render(request, "历史列表.html")
 
+def ShiYiYueSiRiFengYuDaZuo(request):
+    return render(request, "十一月四日风雨大作.html")
+
+def YuMenGuan(request):
+    return render(request, "玉门关.html")
 
 def test(request):
     if request.method == 'GET':
         poem = paper.objects.filter(Title="声声慢·寻寻觅觅").first()
         que = poem.selection_set.filter(Title2_id=poem.Id)
         return render(request, 'test.html', {'que': que, 'title': poem.Title})
+
+def tpshow(request):
+    driver = GraphDatabase.driver(
+        f"bolt://{settings.NEO4J_HOST}:{settings.NEO4J_PORT}",
+        auth=(settings.NEO4J_USERNAME, settings.NEO4J_PASSWORD)
+    )
+
+    with driver.session() as session:
+        selected_dynasty = request.POST.get('dynasty')
+        input_author = request.POST.get('author')
+        input_title = request.POST.get('title')
+        # 执行Neo4j查询，获取知识图谱数据
+        if request.method == 'GET' or (selected_dynasty == '' and input_author == '' and input_title == ''):
+            query = """
+            MATCH (poem:Poem)-[:BELONGS_TO]->(dynasty:Dynasty),
+                  (poem:Poem)-[:WRITTEN_BY]->(author:Author)
+            WHERE dynasty.name = '唐'
+            RETURN poem.title AS title, poem.content AS content,
+                   dynasty.name AS dynasty, author.name AS author
+            LIMIT 50
+            UNION
+            MATCH (poem:Poem)-[:BELONGS_TO]->(dynasty:Dynasty),
+                  (poem:Poem)-[:WRITTEN_BY]->(author:Author)
+            WHERE dynasty.name = '宋'
+            RETURN poem.title AS title, poem.content AS content,
+                   dynasty.name AS dynasty, author.name AS author
+            LIMIT 50
+            UNION
+            MATCH (poem:Poem)-[:BELONGS_TO]->(dynasty:Dynasty),
+                  (poem:Poem)-[:WRITTEN_BY]->(author:Author)
+            WHERE dynasty.name = '元'
+            RETURN poem.title AS title, poem.content AS content,
+                   dynasty.name AS dynasty, author.name AS author
+            LIMIT 50
+            UNION
+            MATCH (poem:Poem)-[:BELONGS_TO]->(dynasty:Dynasty),
+                  (poem:Poem)-[:WRITTEN_BY]->(author:Author)
+            WHERE dynasty.name = '明'
+            RETURN poem.title AS title, poem.content AS content,
+                   dynasty.name AS dynasty, author.name AS author
+            LIMIT 50
+            UNION
+            MATCH (poem:Poem)-[:BELONGS_TO]->(dynasty:Dynasty),
+                  (poem:Poem)-[:WRITTEN_BY]->(author:Author)
+            WHERE dynasty.name = '清'
+            RETURN poem.title AS title, poem.content AS content,
+                   dynasty.name AS dynasty, author.name AS author
+            LIMIT 50
+            """
+        else:
+            query = """
+                    MATCH (poem:Poem)-[:BELONGS_TO]->(dynasty:Dynasty),
+                          (poem:Poem)-[:WRITTEN_BY]->(author:Author) WHERE true
+                    """
+
+            if selected_dynasty:
+                query += "\nAND dynasty.name = '"+selected_dynasty+"'"
+
+            if input_author:
+                query += "\nAND author.name = '"+input_author+"'"
+
+            if input_title:
+                query += "\nAND poem.title CONTAINS '"+input_title+"'"
+
+            query += "\nRETURN poem.title AS title, poem.content AS content,dynasty.name AS dynasty, author.name AS author LIMIT 200"
+
+        print(query)
+        result = session.run(query)
+        print(result)
+
+        nodes = []
+        links = []
+
+        # 整理查询结果为echarts所需的节点和关系数据
+        for record in result:
+            poem_title = record["title"]
+            poem_content = record["content"]
+            dynasty_name = record["dynasty"]
+            author_name = record["author"]
+
+            # 添加Poem节点
+            if {"name": poem_title, "category": 0, "content": poem_content} not in nodes:
+                nodes.append({"name": poem_title, "category": 0, "content": poem_content})
+            # 添加Dynasty节点
+            if {"name": dynasty_name, "category": 1} not in nodes:
+                nodes.append({"name": dynasty_name, "category": 1})
+            # 添加Author节点
+            if {"name": author_name, "category": 2} not in nodes:
+                nodes.append({"name": author_name, "category": 2})
+            # 添加BELONGS_TO关系
+            links.append({"source": poem_title, "target": dynasty_name, "value": "BELONGS_TO"})
+            # 添加WRITTEN_BY关系
+            links.append({"source": poem_title, "target": author_name, "value": "WRITTEN_BY"})
+
+        context = {
+            "nodes": nodes,
+            "links": links,
+            "query_result": len(nodes)>0
+        }
+
+    driver.close()
+    #print(nodes)
+    #print(links)
+
+    return render(request, 'tpshow.html', context)

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/backgroundimg.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        .jpg1{
+            position: relative;
+            width: 400px;
+            height: 200px;
+            top: 550px;
+            left: 350px;
+        }
+        .jpg2{
+            position: relative;
+            width: 400px;
+            height: 200px;
+            top: 650px;
+            left: 350px;
+        }
+        .jpg3{
+            position: relative;
+            width: 400px;
+            height: 200px;
+            top: 750px;
+            left: 350px;
+        }
+        .text1{
+            position: absolute;
+            width: 900px;
+            height: 200px;
+            top: 550px;
+            left: 750px;
+        }
+        .text2{
+            position: absolute;
+            width: 900px;
+            height: 200px;
+            top: 850px;
+            left: 750px;
+        }
+        .text3{
+            position: absolute;
+            width: 900px;
+            height: 200px;
+            top: 1150px;
+            left: 750px;
+        }
+        .player_s{
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            top: 200px;
+            left: 400px;
+        }
+        .player_f{
+            position: absolute;
+            width: 900px;
+            height: 450px;
+            top: 50px;
+            left: 350px;
+        }
+        .back1{
+            position: absolute;
+            width: 100px;
+            height: 30px;
+            top: 10px;
+            right: 120px;
+        }
+        .back2{
+            position: absolute;
+            width: 100px;
+            height: 30px;
+            top: 10px;
+            right: 10px;
+        }
+    </style>
+    <title>玉门关</title>
+</head>
+<body>
+
+    <!--背景-->
+    <div class="wrapper">
+        <div id="web_bg" style="background-image: url(/static/古诗词背景.jpg);"></div>
+    </div>
+
+    <!-- 返回按钮 -->
+    <div class="back1">
+        <input type="button" style="width: 90px;" name="Submit" onclick="window.location.href='/'" value="返回首页">
+    </div>
+    <div class="back2">
+        <input type="button" style="width: 90px;" name="Submit" onclick="javascript:history.back(-1);" value="返回上一页">
+    </div>
+
+    <!-- 古诗（图） -->
+    <div class="jpg1">
+        <img src="/static/玉门关2.jpg" width="350" height="250" alt="">
+    </div>
+
+    <!-- 相关视频 -->
+    <div class="player_f">
+        <a href="https://baike.baidu.com/item/%E7%8E%89%E9%97%A8%E5%85%B3/5869?fr=aladdin" target="_blank" class="small_img_con">
+            <img src="/static/玉门关.jpg" width="900" height="450" alt="">
+            <div class="player_s"><span class="glyphicon glyphicon-play-circle glyphicon-lg" style="font-size: 80px; color:grey;" aria-hidden="true"></span></div>
+        </a>
+    </div>
+
+    <!-- 文字描述 -->
+    <div class="text1">
+
+        <p style="font-size: 30px;">
+            玉门关，始置于汉武帝开通西域道路，汉时为通往西域各地的门户，故址在今甘肃省敦煌市西北小方盘城。元鼎或元封中（公元前116年至前105年）修筑酒泉至玉门间的长城，玉门关当随之设立。现存的城垣完整，总体呈方形，东西长24米，南北宽26.4米，残垣高9.7米，全为黄胶土筑成，面积633平方米，西墙、北墙各开一门，城北坡下有东西大车道，是历史上中原和西域诸国来往及邮驿之路。
+2014年6月22日，在卡塔尔多哈召开的联合国教科文组织第38届世界遗产委员会会议上，玉门关遗址作为中国、哈萨克斯坦和吉尔吉斯斯坦三国联合申遗的“丝绸之路：长安—天山廊道的路网”中的一处遗址点成功列入《世界遗产名录》。
+        </p>
+    </div>
+
+
+    </div>
+
+
+</html>

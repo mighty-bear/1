@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/backgroundimg.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        .player_f{
+            position: relative;
+            width: 400px;
+            height: 200px;
+            top: 500px;
+            left: 350px;
+        }
+        .player_s{
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            top: 50px;
+            left: 120px;
+        }
+        .jpg1{
+            position: absolute;
+            width: 900px;
+            height: 450px;
+            top: 50px;
+            left: 350px;
+        }
+        .text1{
+            position: absolute;
+            width: 500px;
+            height: 350px;
+            top: 500px;
+            left: 750px;
+        }
+        .back1{
+            position: absolute;
+            width: 100px;
+            height: 30px;
+            top: 10px;
+            right: 120px;
+        }
+        .back2{
+            position: absolute;
+            width: 100px;
+            height: 30px;
+            top: 10px;
+            right: 10px;
+        }
+    </style>
+    <title>十一月四日风雨大作</title>
+</head>
+<body>
+
+    <!--背景-->
+    <div class="wrapper">
+        <div id="web_bg" style="background-image: url(/static/古诗词背景.jpg);"></div>
+    </div>
+
+    <!-- 返回按钮 -->
+    <div class="back1">
+        <input type="button" style="width: 90px;" name="Submit" onclick="window.location.href='/'" value="返回首页">
+    </div>
+    <div class="back2">
+        <input type="button" style="width: 90px;" name="Submit" onclick="javascript:history.back(-1);" value="返回上一页">
+    </div>
+
+    <!-- 古诗（图） -->
+    <div class="jpg1">
+        <img src="/static/十一月四日风雨大作.jpg" width="900" height="450" alt="">
+    </div>
+
+    <!-- 相关视频 -->
+    <div class="player_f">
+        <a href="https://baike.baidu.com/item/%E5%8D%81%E4%B8%80%E6%9C%88%E5%9B%9B%E6%97%A5%E9%A3%8E%E9%9B%A8%E5%A4%A7%E4%BD%9C%E4%BA%8C%E9%A6%96/16712039?fromtitle=%E5%8D%81%E4%B8%80%E6%9C%88%E5%9B%9B%E6%97%A5%E9%A3%8E%E9%9B%A8%E5%A4%A7%E4%BD%9C&fromid=7426019&fr=aladdin" target="_blank" class="small_img_con">
+            <img src="/static/十一月四日风雨大作2.jpg" width="350" height="200" alt="">
+            <div class="player_s"><span class="glyphicon glyphicon-play-circle glyphicon-lg" style="font-size: 80px; color:grey;" aria-hidden="true"></span></div>
+        </a>
+    </div>
+
+    <!-- 文字描述 -->
+    <div class="text1">
+        <p style="font-size: 30px;">
+            《十一月四日风雨大作二首》是南宋诗人陆游创作的七言绝句组诗作品。是绍熙三年（1192年）十一月作者退居家乡山阴时所作。第一首诗写大雨和诗人所处，第二首诗表明陆游投身抗战、为国雪耻的壮志至老不衰。但是，诗人空怀壮志，却不为朝廷所重，只能“僵卧孤村”，把为国家恢复中原的理想寄托到梦境之中。感情深沉悲壮，凝聚了诗人的爱国主义激情。
+        </p>
+    </div>
+
+</body>
+</html>

@@ -3,6 +3,7 @@ A settings file for running tests
 """
 
 import os
+import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -19,6 +20,12 @@ ALLOWED_HOSTS = [
 '''
 ALLOWED_HOSTS=['*']
 
+NEO4J_HOST = 'localhost'
+NEO4J_PORT = 7687
+NEO4J_USERNAME = 'neo4j'
+NEO4J_PASSWORD = 'neo4j'
+
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -33,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'tp',
     'xj',
+    'NER',
 ]
 
 MIDDLEWARE = [

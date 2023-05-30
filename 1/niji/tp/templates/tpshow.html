@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>古诗词知识图谱</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.0/dist/echarts.min.js"></script>
+    <style type="text/css">
+        .searchbox{
+            width: 600px;
+            height: 100px;
+            position: relative;
+            top: 50px;
+            left: 0px;
+        }
+        .logo{
+            width: 300px;
+            height: 300px;
+            /* position: fixed; */
+            top: 50px;
+            left: 200px;
+        }
+        .back2{
+            position: absolute;
+            width: 100px;
+            height: 30px;
+            top: 10px;
+            right: 10px;
+        }
+    </style>
+</head>
+<body background="/static/background.png">
+    <center>
+    <div>
+        <h2 style="position: relative; left: 10px;color: black;">古诗词知识图谱</h2>
+    </div>
+    </center>
+
+    <div class="back2">
+        <input type="button" style="width: 90px;" name="Submit" onclick="window.location.href='/'" value="返回首页">
+    </div>
+    <center>
+    <div>
+        <form method="post">
+            {% csrf_token %}
+            <label for="select-dynasty">朝代：</label>
+            <select id="select-dynasty" name="dynasty">
+                <option value="">全部</option>
+                <option value="唐">唐</option>
+                <option value="宋">宋</option>
+                <option value="元">元</option>
+                <option value="明">明</option>
+                <option value="清">清</option>
+                <option value="秦">秦</option>
+                <option value="汉">汉</option>
+                <option value="隋">隋</option>
+                <option value="金">金</option>
+                <option value="晋">晋</option>
+                <option value="商">商</option>
+                <option value="周">周</option>
+                <option value="南北朝">南北朝</option>
+                <option value="五代十国">五代十国</option>
+                <option value="三国">三国</option>
+                <option value="近现代">近现代</option>
+                <option value="现代">现代</option>
+                <option value="当代">当代</option>
+            </select>
+            <label for="input-author">作者：</label>
+            <input type="text" id="input-author" name="author">
+            <label for="input-title">标题：</label>
+            <input type="text" id="input-title" name="title">
+            <button type="submit">查询</button>
+        </form>
+    </div>
+    </center>
+
+    {% if not query_result %}
+        <p style="color: red;">没有符合条件的古诗词！</p>
+    {% endif %}
+    <div id="chart" style="width: 100%; height: 1000px;"></div>
+
+    <script>
+        // 初始化echarts实例
+        var chart = echarts.init(document.getElementById('chart'));
+
+        // 获取后端传递的节点和关系数据
+        var nodes = {{ nodes|safe }};
+        var links = {{ links|safe }};
+
+        // 设置节点和关系的类别
+        nodes.forEach(function (node) {
+            node.category = node.category || 0;
+        });
+
+        // 配置项
+        var option = {
+            tooltip: {
+                show: true,
+                formatter: function(params) {
+                    if (params.data.category === 0) {
+                        return params.data.name + '<br>' + params.data.content;
+                    }
+                }
+                },
+            series: [
+                {
+                    draggable:true,
+                    type: 'graph',
+                    layout: 'force',
+                    roam: true,
+                    label: {
+                        show: true
+                    },
+                    force: {
+                        repulsion: 100,
+                        edgeLength:100
+                    },
+                    data: nodes,
+                    links: links,
+                    categories: [
+                        {name: '诗'},
+                        {name: '朝代'},
+                        {name: '作者'}
+                    ],
+                    label: {
+                        show: true,
+                        position: 'right',
+                        formatter: '{b}'
+                    },
+                    emphasis: {
+                        focus: 'adjacency',
+                        lineStyle: {
+                            width: 10
+                        }
+                    }
+                }
+            ]
+        };
+
+        // 使用配置项绘制知识图谱
+        chart.setOption(option);
+    </script>
+</body>
+</html>

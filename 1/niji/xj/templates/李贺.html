@@ -4,6 +4,10 @@
        <meta charset="utf-8">
    </head>
    <body style="height: 100%; margin: 0">
+   <div style="position: fixed; right: 20px; top: 20px;">
+    <input type="text" id="myInput">
+    <button onclick="submitText()">Submit</button>
+    </div>
        <div id="container" style="height: 100%"></div>
        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
@@ -13,6 +17,7 @@
        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/world.js"></script>
        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/bmap.min.js"></script>
        <script type="text/javascript">
+
 var dom = document.getElementById("container");
 var myChart = echarts.init(dom);
 var app = {};
@@ -101,7 +106,7 @@ option = {
 
     series: [
         {
-            name: 'pm2.5',
+            name: '',
             type: 'scatter',
             coordinateSystem: 'geo',
             data: convertData([
