@@ -8,5 +8,6 @@ urlpatterns = [
     path('', include('niji.urls')),
     path('tp/', include('tp.urls')),
     path('xj/', include('xj.urls')),
-    path('NER/', include('NER.urls'))
+    path('NER/', include('NER.urls')),
+    path('fhl/', include('fhl.urls'))
 ]

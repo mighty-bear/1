@@ -11,6 +11,7 @@ from docx import Document
 from fuzzywuzzy import fuzz
 from neo4j import GraphDatabase
 from django.conf import settings
+from django.http import JsonResponse
 
 def index(request):
     names = ["靖康之变", "夏日绝句", "汴州", "宋徽宗", "满江红·写怀", "示儿", "菩萨蛮·书江西造口壁", "诉衷情·当年万里觅封侯", "书愤", "秋夜将晓出篱门迎凉有感二首其二", "病起书怀",
@@ -54,7 +55,7 @@ def index(request):
         #                     obj['Id'] = i
         #                     i += 1
         #                     selection.objects.create(**obj)
-        return render(request, 'index.html')
+        return render(request, 'test.html')
         # for name in names:
         #     i = name.find(t)
         #     j = t.find(name)
@@ -66,7 +67,7 @@ def index(request):
         #         break
         # if i == -1 and j == -1:
         #     print('?')
-        #     return render(request, 'index.html')
+        #     return render(request, 'test.html')
         # else:
         #     print(t)
         #     return redirect(t)
@@ -79,7 +80,7 @@ def index(request):
         # if t == '宋徽宗':
         #     return redirect('/宋徽宗/')
         # else:
-        #     return render(request, 'index.html')
+        #     return render(request, 'test.html')
 
 
 def search(request):
@@ -102,6 +103,9 @@ def search(request):
                 break
         marks = dict(marks)
     return render(request, 'search.html', {'sea_list': marks})
+
+def QA(request):
+    return render(request,'QA.html')
 
 
 def gushiciliebiao(request):
@@ -361,3 +365,15 @@ def tpshow(request):
     #print(links)
 
     return render(request, 'tpshow.html', context)
+
+def chat(request):
+    if request.method == 'POST':
+        user_message = request.POST.get('message')
+        # 在这里根据用户的输入进行逻辑处理，生成系统的回答
+        system_message = get_system_response(user_message)
+        return JsonResponse({'user_message': user_message, 'system_message': system_message})
+    return render(request, 'QA.html')
+
+def get_system_response(user_message):
+    # 这里是一个简单的示例，你可以根据实际需求进行修改
+    return "1"

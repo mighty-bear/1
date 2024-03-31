@@ -40,7 +40,7 @@ def get_topic_ordering(request):
 class Index(ListView):
     model = Topic
     paginate_by = 30
-    template_name = 'niji/index.html'
+    template_name = 'niji/test.html'
     context_object_name = 'topics'
 
     def get_queryset(self):

@@ -7,6 +7,7 @@ import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+
 SECRET_KEY = 'testsettings'
 DEBUG = True
 
@@ -23,7 +24,7 @@ ALLOWED_HOSTS=['*']
 NEO4J_HOST = 'localhost'
 NEO4J_PORT = 7687
 NEO4J_USERNAME = 'neo4j'
-NEO4J_PASSWORD = 'neo4j'
+NEO4J_PASSWORD = 'xhr542127823'
 
 
 INSTALLED_APPS = [
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'tp',
     'xj',
     'NER',
+    'fhl'
 ]
 
 MIDDLEWARE = [
@@ -146,4 +148,3 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 # Site Name
 NIJI_SITE_NAME = "E Courstale"
-

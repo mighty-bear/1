@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<body>
+    <h1>Welcome to the Poetry Game!</h1>
+    <button id="start">Start Game</button>
+    <div id="chat-container">
+        <div id="message-container"></div>
+        <input type="text" id="poem" placeholder="Enter your poem (AAAAA,BBBBB)" autocomplete="off">
+        <button id="reply">Reply</button>
+        <p id="response"></p>
+        <p>Score: <span id="score">0</span></p>
+        <button id="restart" style="display:none;">Restart</button>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            var score = 0;
+            var answeredPoems = [];
+
+            $('#start').click(function() {
+                score = 0;
+                answeredPoems = [];
+                $('#score').text(score);
+                $('#restart').hide();
+                $.ajax({
+                    type: 'POST',
+                    url: '/fhl/start_game',
+                    success: function(response) {
+                        $('#message-container').append('<div class="system-message">' + response.c_keyword + '</div>');
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+
+            $('#reply').click(function() {
+                var c_keyword = $('#message-container').children().last().text();
+                var poem = $('#poem').val();
+
+                if (answeredPoems.includes(poem)) {
+                    $('#response').text('You have already answered this poem. Please try a different one.');
+                    return;
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/fhl/check_answer',
+                    data: {
+                        c_keyword: c_keyword,
+                        poem: poem,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function(response) {
+                        $('#response').text(response.message);
+                        if (response.correct) {
+                            score++;
+                            $('#score').text(score);
+                            answeredPoems.push(poem);
+                            $('#response').append('<br>Your current score: ' + score);
+                        } else {
+                            $('#restart').show();
+                            $('#poem').prop('disabled', true);
+                            $('#reply').prop('disabled', true);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+
+            $('#restart').click(function() {
+                $('#game_area').hide();
+                $('#restart').hide();
+                $('#poem').prop('disabled', false).val('');
+                $('#reply').prop('disabled', false);
+                $('#response').text('');
+            });
+        });
+    </script>
+</body>
+</html>

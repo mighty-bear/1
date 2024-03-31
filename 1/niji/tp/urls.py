@@ -10,7 +10,7 @@ urlpatterns = [
     path('index/', views.index),
     path('古诗词列表/', views.gushiciliebiao),
     path('古建筑历史列表/', views.lishiliebiao),
-    path('search', views.search),
+    path('search', views.QA),
     # new
     path('1/', views.One),
     path('2/', views.Two),
@@ -48,5 +48,6 @@ urlpatterns = [
     path('历史列表/', views.LiShiLieBiao),
     path('十一月四日风雨大作/', views.ShiYiYueSiRiFengYuDaZuo),
     path('玉门关/', views.YuMenGuan),
-    path('tpshow/', views.tpshow)
+    path('tpshow/', views.tpshow),
+    path('chat',views.chat)
 ]

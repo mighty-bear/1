@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.0/dist/echarts.min.js"></script>
+    <style type="text/css">
+        .chat-container{
+            width: 600px;
+            height: 100px;
+            position: relative;
+            top: 50px;
+            left: 0px;
+        }
+        .logo{
+            width: 300px;
+            height: 300px;
+            /* position: fixed; */
+            top: 50px;
+            left: 200px;
+        }
+        .back1{
+            position: absolute;
+            width: 100px;
+            height: 30px;
+            top: 10px;
+            right: 120px;
+        }
+        .back2{
+            position: absolute;
+            width: 100px;
+            height: 30px;
+            top: 10px;
+            right: 10px;
+        }
+        #wrapper{
+            display: flex;
+            justify-content: space-between;
+            align-content: flex-start;
+        }
+        div#result {
+            font-size: 25px;
+            width: 30%;
+        }
+        div#echats-chart{
+            width: 50%;
+        }
+    </style>
+    <title>飞花令</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body background="/static/background.png">
+
+    <!-- Logo -->
+    <!-- <div class="logo">
+        <img src="/static/IMG_09081.jpg" alt="Logo" class="img-circle" width="140px" height="140px">
+    </div> -->
+
+    <!-- system name -->
+    <center>
+    <div>
+        <h2 style="position: relative; left: 10px;color: black;">飞花令</h2>
+    </div>
+    </center>
+
+    <div class="back1">
+        <input type="button" style="width: 90px;" name="Submit" onclick="window.location.href='/'" value="返回首页">
+    </div>
+    <div class="back2">
+        <input type="button" style="width: 90px;" name="Submit" onclick="javascript:history.back(-1);" value="返回上一页">
+    </div>
+
+
+
+    <!-- 搜索框 -->
+    <center>
+    <div id="chat-container">
+        <div id="message-container"></div>
+        <input type="text" id="poem" placeholder="空山新雨后，天气晚来秋" autocomplete="off">
+        <button id="reply">确认</button>
+        <p id="response"></p>
+        <p>分数: <span id="score">0</span></p>
+        <button id="start">开始游戏</button>
+        <button id="restart" style="display:none;">重新开始</button>
+    </div>
+    </center>
+    <script>
+        var globalKeyword
+        $(document).ready(function() {
+            var score = 0;
+            var answeredPoems = [];
+
+            $('#start').click(function() {
+                score = 0;
+                $('#poem').prop('disabled', false);
+                $('#reply').prop('disabled', false);
+                answeredPoems = [];
+                $('#score').text(score);
+                $('#restart').hide();
+                $.ajax({
+                    type: 'POST',
+                    url: '/fhl/start_game',
+                    success: function(response) {
+                        $('#message-container').html('<div class="system-message">关键词：' + response.c_keyword
+                        + '。请回答诗中带有"' + response.c_keyword + '"字的诗句，用逗号分隔。<br>例：空山新雨后，天气晚来秋</div>');
+                        globalKeyword = response.c_keyword
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+
+            $('#reply').click(function() {
+                var c_keyword = globalKeyword;
+                var poem = $('#poem').val();
+
+                if (answeredPoems.includes(poem)) {
+                    $('#response').text('你已经答过这句诗了！');
+                    return;
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/fhl/check_answer',
+                    data: {
+                        c_keyword: c_keyword,
+                        poem: poem,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function(response) {
+                        $('#response').text(response.message);
+                        if (response.correct) {
+                            score++;
+                            $('#score').text(score);
+                            answeredPoems.push(poem);
+                        } else {
+                            $('#restart').show();
+                            $('#poem').prop('disabled', true);
+                            $('#reply').prop('disabled', true);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+
+            $('#restart').click(function() {
+                score = 0;
+                $('#game_area').hide();
+                $('#restart').hide();
+                $('#poem').prop('disabled', false);
+                $('#reply').prop('disabled', false);
+                $('#response').text('');
+            });
+        });
+    </script>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <!-- 输出框 -->
+    <div id="wrapper">
+    <div id="chart" style="width: 70%;height: 700px;position: relative;"></div>
+
+    </div>
+
+</body>
+</html>
+
+
