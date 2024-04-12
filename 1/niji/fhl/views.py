@@ -14,7 +14,8 @@ def start_game(request):
     if request.method == 'POST':
         keyword = random.choice(keywords.objects.all())
         c_keyword = keyword.name
-        return JsonResponse({'c_keyword': c_keyword})
+        poem = puzzle.objects.filter(keyword=c_keyword).first().content
+        return JsonResponse({'c_keyword': c_keyword, 'poem': poem})
     else:
         return JsonResponse({'error': 'Invalid request method'})
 
@@ -23,30 +24,23 @@ def check_answer(request):
         data = request.POST
         c_keyword = data.get('c_keyword')
         input_poem = data.get('poem')
+        answered_poems = data.getlist('answeredPoems[]')
 
         if not c_keyword or not input_poem:
             return JsonResponse({'error': 'Missing data'})
 
-        previous, latter = input_poem.split('，')
-        previous = previous.strip()
-        latter = latter.strip()
-
-        puzzles = puzzle.objects.filter(keyword=c_keyword)
+        answer = puzzle.objects.filter(keyword=c_keyword, content=input_poem).first()
         correct = False
-        answer = puzzle.objects
-        for puzzle_instance in puzzles:
-            # print(puzzle_instance.previous_content,puzzle_instance.extracted_content,puzzle_instance.latter_content)
-            if (puzzle_instance.previous_content == previous and puzzle_instance.extracted_content == latter) or \
-                    (puzzle_instance.extracted_content == previous and puzzle_instance.latter_content == latter):
-                correct = True
-                answer = puzzle_instance
-                break
+        if answer:
+            correct = True
 
         if correct:
-            response = {'correct': True, 'message': '回答正确! "' + input_poem + '" 出自'
-                                                    + answer.author + '的《' + answer.title + '》'}
+            answered_poems.append(answer.content)
+            reply_poem = puzzle.objects.filter(keyword=c_keyword).exclude(content__in=answered_poems).first().content
+            message = '非常好! "' + input_poem + '" 出自' + answer.author + '的《' + answer.title + '》。' + '轮到我了：' + reply_poem
+            response = {'correct': True, 'message': message, 'replyPoem': reply_poem}
         else:
-            response = {'correct': False, 'message': '回答错误，游戏结束'}
+            response = {'correct': False, 'message': '找不到这首诗，是不是答错了呢？记住诗句之间用全角逗号分隔哦'}
 
         return JsonResponse(response)
     else:

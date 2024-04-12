@@ -34,6 +34,55 @@
             top: 10px;
             right: 10px;
         }
+        .chatbox {
+          background: rgba(255, 255, 255, 0.5);
+          padding: 10px;
+          margin:0 auto;
+          height:800px;
+          overflow-y: auto;
+          width:600px;
+        }
+        .chatleft {
+          /* width:fit-content; */
+          margin-top: 10px;
+          max-width: 90%;
+          word-wrap:break-word;
+        }
+        .chatright {
+          margin-top: 10px;
+          max-width: 90%;
+        }
+        .flex {
+          display: flex;
+        }
+        .flex-col {
+          flex-direction: column;
+        }
+        .flex-1 {
+          flex: 1;
+        }
+        .p-5 {
+          padding: 5rem;
+        }
+        .m-5 {
+          margin: 5rem;
+        }
+        .gptlogo {
+          width: 40px;
+          height: 40px;
+        }
+        .chatitem {
+          background: rgba(000, 000, 000, 0.3);
+          display: inline-block;
+          width:fit-content;
+          padding: 10px;
+          color:white;
+          border-radius:15px;
+          word-wrap:break-word;
+        }
+        .self-end {
+          align-self: flex-end;
+        }
         #wrapper{
             display: flex;
             justify-content: space-between;
@@ -78,12 +127,22 @@
     <center>
     <div id="chat-container">
         <div id="message-container"></div>
-        <input type="text" id="poem" placeholder="空山新雨后，天气晚来秋" autocomplete="off">
-        <button id="reply">确认</button>
-        <p id="response"></p>
         <p>分数: <span id="score">0</span></p>
-        <button id="start">开始游戏</button>
-        <button id="restart" style="display:none;">重新开始</button>
+        <button id="start">start</button>
+        <button id="restart" style="display:none;">restart</button>
+    </div>
+    <div class="chatbox flex-1  flex flex-col">
+        <div class="flex-1 flex flex-col" id="chatarea">
+          <div class="chatleft flex">
+            <img class="gptlogo" style="margin-right: 10px;" src="/static/chatgpt.png">
+            <div class="chatitem" style="max-width: 80%;">欢迎体验智能飞花令，请单击“start”按钮开始游戏。</div>
+          </div>
+
+
+        </div>
+    </div>
+    <div class="flex" style="height: 30px;width:600px;">
+        <input class="flex-1" id="poem"></input><button id="reply">发送</button>
     </div>
     </center>
     <script>
@@ -94,6 +153,7 @@
 
             $('#start').click(function() {
                 score = 0;
+                $('#start').text('restart')
                 $('#poem').prop('disabled', false);
                 $('#reply').prop('disabled', false);
                 answeredPoems = [];
@@ -103,8 +163,14 @@
                     type: 'POST',
                     url: '/fhl/start_game',
                     success: function(response) {
-                        $('#message-container').html('<div class="system-message">关键词：' + response.c_keyword
-                        + '。请回答诗中带有"' + response.c_keyword + '"字的诗句，用逗号分隔。<br>例：空山新雨后，天气晚来秋</div>');
+                    var poem = response.poem
+                    answeredPoems.push(poem)
+                        $('#chatarea').append(`
+                <div class="chatleft flex">
+                    <img class="gptlogo" style="margin-right: 10px;" src="/static/chatgpt.png">
+                    <div class="chatitem" style="max-width: 80%;">关键词：`+response.c_keyword+`。请回答诗中带有"`
+                    +response.c_keyword+`"字的诗句，用逗号分隔。<br>我先来：${poem}</div>
+                </div>`);
                         globalKeyword = response.c_keyword
                     },
                     error: function(xhr, status, error) {
@@ -117,8 +183,15 @@
                 var c_keyword = globalKeyword;
                 var poem = $('#poem').val();
 
+                document.getElementById('chatarea').innerHTML += `<div class="chatright chatitem self-end">${poem}</div>`;
+
                 if (answeredPoems.includes(poem)) {
-                    $('#response').text('你已经答过这句诗了！');
+                    $('#chatarea').append(`
+                            <div class="chatleft flex">
+                                <img class="gptlogo" style="margin-right: 10px;" src="/static/chatgpt.png">
+                                <div class="chatitem" style="max-width: 80%;">已经说过这首诗了哦。</div>
+                            </div>`);
+                    $('#response').text('你已经回答过这首诗了哦。');
                     return;
                 }
 
@@ -128,18 +201,21 @@
                     data: {
                         c_keyword: c_keyword,
                         poem: poem,
+                        answeredPoems:answeredPoems,
                         csrfmiddlewaretoken: '{{ csrf_token }}'
                     },
                     success: function(response) {
+                         $('#chatarea').append(`
+                            <div class="chatleft flex">
+                                <img class="gptlogo" style="margin-right: 10px;" src="/static/chatgpt.png">
+                                <div class="chatitem" style="max-width: 80%;">`+response.message+`</div>
+                            </div>`);
                         $('#response').text(response.message);
                         if (response.correct) {
                             score++;
                             $('#score').text(score);
                             answeredPoems.push(poem);
-                        } else {
-                            $('#restart').show();
-                            $('#poem').prop('disabled', true);
-                            $('#reply').prop('disabled', true);
+                            answeredPoems.push(response.replyPoem);
                         }
                     },
                     error: function(xhr, status, error) {
