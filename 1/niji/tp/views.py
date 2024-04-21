@@ -12,6 +12,9 @@ from fuzzywuzzy import fuzz
 from neo4j import GraphDatabase
 from django.conf import settings
 from django.http import JsonResponse
+from . import question_classifier
+from . import gpttest
+
 
 def index(request):
     names = ["靖康之变", "夏日绝句", "汴州", "宋徽宗", "满江红·写怀", "示儿", "菩萨蛮·书江西造口壁", "诉衷情·当年万里觅封侯", "书愤", "秋夜将晓出篱门迎凉有感二首其二", "病起书怀",
@@ -104,8 +107,9 @@ def search(request):
         marks = dict(marks)
     return render(request, 'search.html', {'sea_list': marks})
 
+
 def QA(request):
-    return render(request,'QA.html')
+    return render(request, 'test.html')
 
 
 def gushiciliebiao(request):
@@ -114,6 +118,7 @@ def gushiciliebiao(request):
 
 def lishiliebiao(request):
     return render(request, '历史列表.html')
+
 
 def One(request):
     return render(request, '1.html')
@@ -246,20 +251,25 @@ def YueYangLouLiShiYanGeTuPu(request):
 def YueYangLouXiangGuanShiWen(request):
     return render(request, "岳阳楼相关诗文.html")
 
+
 def LiShiLieBiao(request):
     return render(request, "历史列表.html")
+
 
 def ShiYiYueSiRiFengYuDaZuo(request):
     return render(request, "十一月四日风雨大作.html")
 
+
 def YuMenGuan(request):
     return render(request, "玉门关.html")
+
 
 def test(request):
     if request.method == 'GET':
         poem = paper.objects.filter(Title="声声慢·寻寻觅觅").first()
         que = poem.selection_set.filter(Title2_id=poem.Id)
         return render(request, 'test.html', {'que': que, 'title': poem.Title})
+
 
 def tpshow(request):
     driver = GraphDatabase.driver(
@@ -316,13 +326,13 @@ def tpshow(request):
                     """
 
             if selected_dynasty:
-                query += "\nAND dynasty.name = '"+selected_dynasty+"'"
+                query += "\nAND dynasty.name = '" + selected_dynasty + "'"
 
             if input_author:
-                query += "\nAND author.name = '"+input_author+"'"
+                query += "\nAND author.name = '" + input_author + "'"
 
             if input_title:
-                query += "\nAND poem.title CONTAINS '"+input_title+"'"
+                query += "\nAND poem.title CONTAINS '" + input_title + "'"
 
             query += "\nRETURN poem.title AS title, poem.content AS content,dynasty.name AS dynasty, author.name AS author LIMIT 200"
 
@@ -357,14 +367,15 @@ def tpshow(request):
         context = {
             "nodes": nodes,
             "links": links,
-            "query_result": len(nodes)>0
+            "query_result": len(nodes) > 0
         }
 
     driver.close()
-    #print(nodes)
-    #print(links)
+    # print(nodes)
+    # print(links)
 
     return render(request, 'tpshow.html', context)
+
 
 def chat(request):
     if request.method == 'POST':
@@ -374,6 +385,112 @@ def chat(request):
         return JsonResponse({'user_message': user_message, 'system_message': system_message})
     return render(request, 'QA.html')
 
+
 def get_system_response(user_message):
     # 这里是一个简单的示例，你可以根据实际需求进行修改
     return "1"
+
+
+def build_entitydict(args):
+    entity_dict = {}
+    for arg, types in args.items():
+        for type in types:
+            if type not in entity_dict:
+                entity_dict[type] = [arg]
+            else:
+                entity_dict[type].append(arg)
+
+    return entity_dict
+
+
+handler = question_classifier.QuestionClassifier()
+gptModel = gpttest.GPTModel()
+
+
+def getAnswer(request):
+    if request.method == 'POST':
+        data = request.POST
+        question = data.get('question')
+
+        res_classify = handler.classify(question)
+        if "question_types" not in res_classify:
+            response = {'message': "抱歉，小助手暂时回答不了这个问题"}
+            return JsonResponse(response)
+
+        question_type = res_classify['question_types'][0]
+        entity_dict = build_entitydict(res_classify['args'])
+
+        driver = GraphDatabase.driver(
+            f"bolt://{settings.NEO4J_HOST}:{settings.NEO4J_PORT}",
+            auth=(settings.NEO4J_USERNAME, settings.NEO4J_PASSWORD)
+        )
+        with driver.session() as session:
+            message = ""
+            if question_type == 'author_create':
+                author = entity_dict.get('author')[0]
+                sql = 'MATCH p = (m)-[r:WRITTEN_BY]->(n) where n.name = "' + author + \
+                      '" return m.title AS title limit 25'
+                result = session.run(sql)
+                message = author + "的作品有："
+                i = 0
+                for record in result:
+                    if i == 5:
+                        break
+                    i += 1
+                    title = record["title"]
+                    title_ = "《" + title + "》，"
+                    message += title_
+                message = message[:-1]
+                message += "等等"
+
+
+            elif question_type == 'poem_belong':
+                poem = entity_dict.get('poem')[0]
+                sql = 'MATCH p = (m)-[r:WRITTEN_BY]->(n) where m.title = "' + entity_dict.get('poem')[0] \
+                      + '" return n.name AS name'
+                result = session.run(sql)
+                author = ''
+                for record in result:
+                    author = record["name"]
+                message = "《" + poem + "》的作者是" + author
+
+            elif question_type == 'author_belong':
+                author = entity_dict.get('author')[0]
+                sql = 'MATCH p=(author)<-[r2:WRITTEN_BY]-(poem)-[r1:BELONGS_TO]->(dynasty) WHERE author.name = "' \
+                      + author + '" RETURN dynasty.name AS name LIMIT 1'
+                result = session.run(sql)
+                dynasty = ''
+                for record in result:
+                    dynasty = record["name"]
+                message = author + "是" + dynasty + "朝的诗人"
+
+            elif question_type == 'dynasty_has':
+                dynasty = entity_dict.get('dynasty')[0]
+                if "朝" in dynasty:
+                    dynasty = dynasty[:-1]
+                sql = 'MATCH p=(author)<-[r2:WRITTEN_BY]-(poem)-[r1:BELONGS_TO]->(dynasty) WHERE dynasty.name = "' + \
+                      dynasty + '"return DISTINCT author.name AS name limit 25'
+                result = session.run(sql)
+                message = dynasty + "朝的诗人有："
+                i = 0
+                for record in result:
+                    if i == 5:
+                        break
+                    i += 1
+                    name = record["name"]
+                    name_ = name + "，"
+                    message += name_
+                message = message[:-1]
+                message += "等等"
+                print(result)
+            else:
+                message = "抱歉，小助手暂时回答不了这个问题"
+        driver.close()
+        if message != "抱歉，小助手暂时回答不了这个问题":
+            print("???????")
+            prompt = "问题：" + question + " 事实信息：" + message
+            print(prompt)
+            message = gptModel.chat_gpt(prompt)
+        response = {'message': message}
+
+        return JsonResponse(response)

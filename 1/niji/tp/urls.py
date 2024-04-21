@@ -49,5 +49,6 @@ urlpatterns = [
     path('十一月四日风雨大作/', views.ShiYiYueSiRiFengYuDaZuo),
     path('玉门关/', views.YuMenGuan),
     path('tpshow/', views.tpshow),
-    path('chat',views.chat)
+    path('chat',views.chat),
+    path('get_answer',views.getAnswer)
 ]

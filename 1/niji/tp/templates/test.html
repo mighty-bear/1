@@ -1,19 +1,189 @@
-<html>
-    <head> 
-        <meta charset='utf-8'>
-        <title>test</title>
-    </head>
-    <body>
-    <h1>{{title}}</h1>
-    <form method='POST' action='/声声慢·寻寻觅觅/test'>
-    {% for i in que %}
-        <p>{{i.Question}}</p>
-        <label><input type="radio" value="A" name='{{forloop.counter}}'>{{i.A}}</label>
-        <label><input type="radio" value="B" name='{{forloop.counter}}'>{{i.B}}</label>
-        <label><input type="radio" value="C" name="{{forloop.counter}}">{{i.C}}</label>
-        <label><input type="radio" value="D" name="{{forloop.counter}}">{{i.D}}</label>
-        </select>
-    {% endfor %}
-    </form>
-    </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.0/dist/echarts.min.js"></script>
+    <style type="text/css">
+        .chat-container{
+            width: 600px;
+            height: 100px;
+            position: relative;
+            top: 50px;
+            left: 0px;
+        }
+        .logo{
+            width: 300px;
+            height: 300px;
+            /* position: fixed; */
+            top: 50px;
+            left: 200px;
+        }
+        .back1{
+            position: absolute;
+            width: 100px;
+            height: 30px;
+            top: 10px;
+            right: 120px;
+        }
+        .back2{
+            position: absolute;
+            width: 100px;
+            height: 30px;
+            top: 10px;
+            right: 10px;
+        }
+        .chatbox {
+          background: rgba(255, 255, 255, 0.5);
+          padding: 10px;
+          margin:0 auto;
+          height:800px;
+          overflow-y: auto;
+          width:600px;
+        }
+        .chatleft {
+          /* width:fit-content; */
+          margin-top: 10px;
+          max-width: 90%;
+          word-wrap:break-word;
+        }
+        .chatright {
+          margin-top: 10px;
+          max-width: 90%;
+        }
+        .flex {
+          display: flex;
+        }
+        .flex-col {
+          flex-direction: column;
+        }
+        .flex-1 {
+          flex: 1;
+        }
+        .p-5 {
+          padding: 5rem;
+        }
+        .m-5 {
+          margin: 5rem;
+        }
+        .gptlogo {
+          width: 40px;
+          height: 40px;
+        }
+        .chatitem {
+          background: rgba(000, 000, 000, 0.3);
+          display: inline-block;
+          width:fit-content;
+          padding: 10px;
+          color:white;
+          border-radius:15px;
+          word-wrap:break-word;
+        }
+        .self-end {
+          align-self: flex-end;
+        }
+        #wrapper{
+            display: flex;
+            justify-content: space-between;
+            align-content: flex-start;
+        }
+        div#result {
+            font-size: 25px;
+            width: 30%;
+        }
+        div#echats-chart{
+            width: 50%;
+        }
+    </style>
+    <title>古诗词智能问答</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body background="/static/background.png">
+
+    <!-- Logo -->
+    <!-- <div class="logo">
+        <img src="/static/IMG_09081.jpg" alt="Logo" class="img-circle" width="140px" height="140px">
+    </div> -->
+
+    <!-- system name -->
+    <center>
+    <div>
+        <h2 style="position: relative; left: 10px;color: black;">古诗词智能问答</h2>
+    </div>
+    </center>
+
+    <div class="back1">
+        <input type="button" style="width: 90px;" name="Submit" onclick="window.location.href='/'" value="返回首页">
+    </div>
+    <div class="back2">
+        <input type="button" style="width: 90px;" name="Submit" onclick="javascript:history.back(-1);" value="返回上一页">
+    </div>
+
+
+
+    <!-- 搜索框 -->
+    <center>
+    <div id="chat-container">
+        <div id="message-container"></div>
+        <button id="restart" style="display:none;">restart</button>
+    </div>
+    <div class="chatbox flex-1  flex flex-col">
+        <div class="flex-1 flex flex-col" id="chatarea">
+          <div class="chatleft flex">
+            <img class="gptlogo" style="margin-right: 10px;" src="/static/chatgpt.png">
+            <div class="chatitem" style="max-width: 80%;">我是古诗词智能问答小助手，你有什么问题吗？</div>
+          </div>
+
+
+        </div>
+    </div>
+    <div class="flex" style="height: 30px;width:600px;">
+        <input class="flex-1" id="question"></input><button id="reply">发送</button>
+    </div>
+    </center>
+    <script>
+        $(document).ready(function() {
+        $('#reply').click(function() {
+            var question = $('#question').val();
+
+            document.getElementById('chatarea').innerHTML += `<div class="chatright chatitem self-end">${question}</div>`;
+
+            $.ajax({
+                type: 'POST',
+                url: '/tp/get_answer',
+                data: {
+                    question: question,
+                    csrfmiddlewaretoken: 'YOUR_CSRF_TOKEN_HERE' // 替换为有效的 CSRF 令牌
+                },
+                success: function(response) {
+                    $('#chatarea').append(`
+                        <div class="chatleft flex">
+                            <img class="gptlogo" style="margin-right: 10px;" src="/static/chatgpt.png">
+                            <div class="chatitem" style="max-width: 80%;">${response.message}</div>
+                        </div>`);
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
+
+    </script>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <!-- 输出框 -->
+    <div id="wrapper">
+    <div id="chart" style="width: 70%;height: 700px;position: relative;"></div>
+
+    </div>
+
+</body>
 </html>
+
+
