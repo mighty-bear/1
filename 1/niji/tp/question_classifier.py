@@ -14,11 +14,8 @@ class QuestionClassifier:
         self.dynasty_path = os.path.join('tp/static/dynasties.txt')
         # 加载特征词
         self.author_wds = [i.strip() for i in open(self.author_path, encoding='utf-8') if i.strip()]
-        print(1)
         self.poem_wds = [i.strip() for i in open(self.poem_path, encoding='utf-8') if i.strip()]
-        print(1)
         self.dynasty_wds = [i.strip() for i in open(self.dynasty_path, encoding='utf-8') if i.strip()]
-        print(1)
         '''
         connection = mysql.connector.connect(
             host="localhost",
