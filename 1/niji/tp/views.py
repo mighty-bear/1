@@ -413,84 +413,115 @@ def getAnswer(request):
         question = data.get('question')
 
         res_classify = handler.classify(question)
-        if "question_types" not in res_classify:
-            response = {'message': "抱歉，小助手暂时回答不了这个问题"}
-            return JsonResponse(response)
+        print(res_classify)
+        message = ""
+        maxToken = gptModel.max_token
+        if "question_types" not in res_classify or not res_classify['question_types']:
+            message = "无"
+        else:
+            question_type = res_classify['question_types'][0]
+            entity_dict = build_entitydict(res_classify['args'])
 
-        question_type = res_classify['question_types'][0]
-        entity_dict = build_entitydict(res_classify['args'])
-
-        driver = GraphDatabase.driver(
-            f"bolt://{settings.NEO4J_HOST}:{settings.NEO4J_PORT}",
-            auth=(settings.NEO4J_USERNAME, settings.NEO4J_PASSWORD)
-        )
-        with driver.session() as session:
-            message = ""
-            if question_type == 'author_create':
-                author = entity_dict.get('author')[0]
-                sql = 'MATCH p = (m)-[r:WRITTEN_BY]->(n) where n.name = "' + author + \
-                      '" return m.title AS title limit 25'
-                result = session.run(sql)
-                message = author + "的作品有："
-                i = 0
-                for record in result:
-                    if i == 5:
-                        break
-                    i += 1
-                    title = record["title"]
-                    title_ = "《" + title + "》，"
-                    message += title_
-                message = message[:-1]
-                message += "等等"
+            driver = GraphDatabase.driver(
+                f"bolt://{settings.NEO4J_HOST}:{settings.NEO4J_PORT}",
+                auth=(settings.NEO4J_USERNAME, settings.NEO4J_PASSWORD)
+            )
+            with driver.session() as session:
+                if question_type == 'author_create':
+                    author = entity_dict.get('author')[0]
+                    sql = 'MATCH p = (m)-[r:WRITTEN_BY]->(n) where n.name = "' + author + \
+                          '" return m.title AS title limit 25'
+                    result = session.run(sql)
+                    message = author + "的作品有："
+                    i = 0
+                    for record in result:
+                        if i == 5:
+                            break
+                        i += 1
+                        title = record["title"]
+                        title_ = "《" + title + "》，"
+                        message += title_
+                    message = message[:-1]
+                    message += "等等"
 
 
-            elif question_type == 'poem_belong':
-                poem = entity_dict.get('poem')[0]
-                sql = 'MATCH p = (m)-[r:WRITTEN_BY]->(n) where m.title = "' + entity_dict.get('poem')[0] \
-                      + '" return n.name AS name'
-                result = session.run(sql)
-                author = ''
-                for record in result:
-                    author = record["name"]
-                message = "《" + poem + "》的作者是" + author
+                elif question_type == 'poem_belong':
+                    poem = entity_dict.get('poem')[0]
+                    sql = 'MATCH p = (m)-[r:WRITTEN_BY]->(n) where m.title = "' + entity_dict.get('poem')[0] \
+                          + '" return n.name AS name'
+                    result = session.run(sql)
+                    author = ''
+                    for record in result:
+                        author = record["name"]
+                    message = "《" + poem + "》的作者是" + author
 
-            elif question_type == 'author_belong':
-                author = entity_dict.get('author')[0]
-                sql = 'MATCH p=(author)<-[r2:WRITTEN_BY]-(poem)-[r1:BELONGS_TO]->(dynasty) WHERE author.name = "' \
-                      + author + '" RETURN dynasty.name AS name LIMIT 1'
-                result = session.run(sql)
-                dynasty = ''
-                for record in result:
-                    dynasty = record["name"]
-                message = author + "是" + dynasty + "朝的诗人"
+                elif question_type == 'author_belong':
+                    author = entity_dict.get('author')[0]
+                    sql = 'MATCH p=(author)<-[r2:WRITTEN_BY]-(poem)-[r1:BELONGS_TO]->(dynasty) WHERE author.name = "' \
+                          + author + '" RETURN dynasty.name AS name LIMIT 1'
+                    result = session.run(sql)
+                    dynasty = ''
+                    for record in result:
+                        dynasty = record["name"]
+                    message = author + "是" + dynasty + "朝的诗人"
 
-            elif question_type == 'dynasty_has':
-                dynasty = entity_dict.get('dynasty')[0]
-                if "朝" in dynasty:
-                    dynasty = dynasty[:-1]
-                sql = 'MATCH p=(author)<-[r2:WRITTEN_BY]-(poem)-[r1:BELONGS_TO]->(dynasty) WHERE dynasty.name = "' + \
-                      dynasty + '"return DISTINCT author.name AS name limit 25'
-                result = session.run(sql)
-                message = dynasty + "朝的诗人有："
-                i = 0
-                for record in result:
-                    if i == 5:
-                        break
-                    i += 1
-                    name = record["name"]
-                    name_ = name + "，"
-                    message += name_
-                message = message[:-1]
-                message += "等等"
-                print(result)
-            else:
-                message = "抱歉，小助手暂时回答不了这个问题"
-        driver.close()
-        if message != "抱歉，小助手暂时回答不了这个问题":
-            print("???????")
-            prompt = "问题：" + question + " 事实信息：" + message
-            print(prompt)
-            message = gptModel.chat_gpt(prompt)
+                elif question_type == 'dynasty_has':
+                    dynasty = entity_dict.get('dynasty')[0]
+                    if "朝" in dynasty:
+                        dynasty = dynasty[:-1]
+                    sql = 'MATCH p=(author)<-[r2:WRITTEN_BY]-(poem)-[r1:BELONGS_TO]->(dynasty) WHERE dynasty.name = "' + \
+                          dynasty + '"return DISTINCT author.name AS name limit 25'
+                    result = session.run(sql)
+                    message = dynasty + "朝的诗人有："
+                    i = 0
+                    for record in result:
+                        if i == 5:
+                            break
+                        i += 1
+                        name = record["name"]
+                        name_ = name + "，"
+                        message += name_
+                    message = message[:-1]
+                    message += "等等"
+
+                elif question_type == 'poem_content':
+                    poem = entity_dict.get('poem')[0]
+                    sql = 'MATCH (n:Poem) WHERE n.title = "' + poem + '" RETURN n.content AS content LIMIT 1'
+                    result = session.run(sql)
+                    message = "《" + poem + "》的内容是："
+                    for record in result:
+                        print(record)
+                        message += record["content"]
+                    response = {'message': message}
+                    return JsonResponse(response)
+
+                elif question_type == 'poem_intro':
+                    poem = entity_dict.get('poem')[0]
+                    sql = 'MATCH (n:Poem) WHERE n.title = "' + poem + '" RETURN n.introduction AS intro LIMIT 1'
+                    result = session.run(sql)
+                    message = ""
+                    maxToken += 150
+                    for record in result:
+                        message += record["intro"]
+
+                elif question_type == 'author_desc':
+                    author = entity_dict.get('author')[0]
+                    sql = 'MATCH (n:Author) WHERE n.name = "' + author + '" RETURN n.description AS desc LIMIT 1'
+                    result = session.run(sql)
+                    message = ""
+                    maxToken += 150
+                    for record in result:
+                        print(record)
+                        message += record["desc"]
+
+                else:
+                    message = "无"
+            driver.close()
+        print("???????")
+        prompt = "问题：" + question + " 事实信息：" + message
+        print(prompt)
+        gptModel.max_token = maxToken
+        message = gptModel.chat_gpt(prompt)
         response = {'message': message}
 
         return JsonResponse(response)

@@ -49,9 +49,12 @@ class QuestionClassifier:
 
         # 疑问词
         self.create_qwds = ['创作', '写', '代表作', '创造', '创作了', '写了', '作品', '诗', '词', '曲', '歌']
-        self.belongA_qwds = ['作者', '创作者', '谁写的', '是谁的', '哪位诗人的', '哪位作家的', '属于谁的']
+        self.belongA_qwds = ['作者', '创作者', '谁写的', '哪位诗人的', '哪位作家的', '属于谁的']
         self.belongD_qwds = ['属于', '来自', '哪个朝代', '哪个年代的', '是哪个时代的', '在哪个时期的']
         self.Dhas_qwds = ['有哪些诗人', '包括哪些诗人', '出现过哪些诗人', '哪些诗人']
+        self.poemContent_qwds = ['内容', '全文', '全诗', '原文', '内容是什么']
+        self.poemIntro_qwds = ['讲解', '解释', '分析', '解析', '说明', '阐释', '讨论', '赏析', '意思', '含义', '诠释', '介绍']
+        self.authorDesc_qwds = ['介绍', '是谁', '生平', '简介', '背景', '来历']
 
     def classify(self, question):
         data = {}
@@ -80,6 +83,18 @@ class QuestionClassifier:
 
         if self.check_words(self.Dhas_qwds, question) and ('dynasty' in types):
             question_type = 'dynasty_has'
+            question_types.append(question_type)
+
+        if self.check_words(self.poemContent_qwds, question) and ('poem' in types):
+            question_type = 'poem_content'
+            question_types.append(question_type)
+
+        if self.check_words(self.poemIntro_qwds, question) and ('poem' in types):
+            question_type = 'poem_intro'
+            question_types.append(question_type)
+
+        if self.check_words(self.authorDesc_qwds, question) and ('author' in types):
+            question_type = 'author_desc'
             question_types.append(question_type)
 
         data['question_types'] = question_types
