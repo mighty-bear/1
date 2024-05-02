@@ -34,6 +34,26 @@
             top: 10px;
             right: 10px;
         }
+        .feihua-contain {
+          width: 100%;
+          height: 100%;
+          max-height: 100%;
+          background: url('./bg.jpg') no-repeat;
+
+          background-size:100% 100%;
+          background-attachment:fixed;
+          display: flex
+        }
+        .feihua-left {
+          width: 50%;
+          display: flex;
+        }
+        .feihua-right {
+          width: 50%;
+        }
+        .text-center {
+        text-align: center;
+        }
         .chatbox {
           background: rgba(255, 255, 255, 0.5);
           padding: 10px;
@@ -100,7 +120,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
-<body background="/static/background.png">
+<body background="/static/background.png" style="height: 900px">
 
     <!-- Logo -->
     <!-- <div class="logo">
@@ -124,27 +144,34 @@
 
 
     <!-- 搜索框 -->
-    <center>
-    <div id="chat-container">
-        <div id="message-container"></div>
-        <p>分数: <span id="score">0</span></p>
-        <button id="start">start</button>
-        <button id="restart" style="display:none;">restart</button>
-    </div>
-    <div class="chatbox flex-1  flex flex-col">
-        <div class="flex-1 flex flex-col" id="chatarea">
-          <div class="chatleft flex">
-            <img class="gptlogo" style="margin-right: 10px;" src="/static/chatgpt.png">
-            <div class="chatitem" style="max-width: 80%;">欢迎体验智能飞花令，请单击“start”按钮开始游戏。</div>
-          </div>
-
-
+    <div class="feihua-contain">
+        <div class="feihua-left flex flex-col">
+            <div id="chat-container">
+            <h2 class="text-center">分数: <span id="score">0</span></h2>
+                <div class="text-center">
+                <button id="start">start</button>
+                <button id="restart" style="display:none;">restart</button>
+                </div>
+            </div>
+            <div class="chatbox flex-1 flex flex-col">
+                <div id="chatarea" class="flex-1 flex flex-col" style="overflow-y: auto;max-height: 800px;"> <!-- 为聊天区域设置滚动条和最大高度 -->
+                    <div class="chatleft flex">
+                        <img class="gptlogo" style="margin-right: 10px;" src="/static/chatgpt.png">
+                        <div class="chatitem" style="max-width: 80%;">欢迎体验智能飞花令，请单击“start”按钮开始游戏。</div>
+                    </div>
+        <!-- 可以添加更多聊天内容 -->
+                </div>
+                <div class="flex" style="height: 30px; width: 100%;">
+                    <input class="flex-1" id="poem" style="margin-right: 10px;"></input>
+                    <button id="reply">发送</button>
+                </div>
+            </div>
+        </div>
+        <div class="feihua-right">
+            <h2 class="text-center">知识图谱学习栏</h2>
+            <div id="feihuaechart" style="width: 600px;height: 600px;"></div>
         </div>
     </div>
-    <div class="flex" style="height: 30px;width:600px;">
-        <input class="flex-1" id="poem"></input><button id="reply">发送</button>
-    </div>
-    </center>
     <script>
         var globalKeyword
         $(document).ready(function() {

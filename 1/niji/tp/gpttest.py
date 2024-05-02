@@ -6,7 +6,7 @@ class GPTModel:
     def __init__(self):
         self.api_key = os.getenv('OPENAI_API_KEY')
         self.model = "gpt-3.5-turbo"
-        self.max_token = 250
+        self.max_token = 200
 
     def chat_gpt(self, prompt):
         openai.api_key = self.api_key

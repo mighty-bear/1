@@ -34,6 +34,16 @@
             top: 10px;
             right: 10px;
         }
+        .feihua-contain {
+          width: 100%;
+          height: 100%;
+          max-height: 100%;
+          background: url('./bg.jpg') no-repeat;
+
+          background-size:100% 100%;
+          background-attachment:fixed;
+          display: flex
+        }
         .feihua-left {
           width: 50%;
           display: flex;
@@ -47,7 +57,6 @@
           padding: 10px;
           margin:0 auto;
           height:800px;
-          overflow-y: auto;
           width:600px;
         }
         .chatleft {
@@ -108,7 +117,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
-<body background="/static/background.png">
+<body background="/static/background.png" style="height: 900px">
 
     <!-- Logo -->
     <!-- <div class="logo">
@@ -132,25 +141,25 @@
 
 
     <!-- 搜索框 -->
-    <center>
-    <div id="chat-container">
-        <div id="message-container"></div>
-        <button id="restart" style="display:none;">restart</button>
-    </div>
-    <div class="chatbox flex-1  flex flex-col">
-        <div class="flex-1 flex flex-col" id="chatarea">
-          <div class="chatleft flex">
-            <img class="gptlogo" style="margin-right: 10px;" src="/static/chatgpt.png">
-            <div class="chatitem" style="max-width: 80%;">我是古诗词智能问答小助手，你有什么问题吗？</div>
-          </div>
-
-
+     <div class="feihua-contain">
+        <div class="feihua-left flex flex-col">
+            <div class="chatbox flex-1  flex flex-col">
+                <div class="flex-1 flex flex-col" id="chatarea" style="overflow-y: auto">
+                  <div class="chatleft flex">
+                    <img class="gptlogo" style="margin-right: 10px;" src="/static/chatgpt.png">
+                    <div class="chatitem" style="max-width: 80%;">我是古诗词智能问答小助手，你有什么问题吗？</div>
+                  </div>
+                </div>
+            <div class="flex" style="height: 30px;width:100%;">
+                <input class="flex-1" id="question"></input><button id="reply">发送</button>
+            </div>
+            </div>
         </div>
-    </div>
-    <div class="flex" style="height: 30px;width:600px;">
-        <input class="flex-1" id="question"></input><button id="reply">发送</button>
-    </div>
-    </center>
+         <div class="feihua-right">
+             <h2 class="text-center">知识图谱学习栏</h2>
+            <div id="feihuaechart" style="width: 600px;height: 600px;"></div>
+         </div>
+     </div>
     <script>
         $(document).ready(function() {
         $('#reply').click(function() {

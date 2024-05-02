@@ -429,8 +429,7 @@ def getAnswer(request):
             with driver.session() as session:
                 if question_type == 'author_create':
                     author = entity_dict.get('author')[0]
-                    sql = 'MATCH p = (m)-[r:WRITTEN_BY]->(n) where n.name = "' + author + \
-                          '" return m.title AS title limit 25'
+                    sql = 'MATCH (n:Poem) WHERE n.author = "' + author + '" RETURN n.title as title'
                     result = session.run(sql)
                     message = author + "的作品有："
                     i = 0
@@ -447,12 +446,11 @@ def getAnswer(request):
 
                 elif question_type == 'poem_belong':
                     poem = entity_dict.get('poem')[0]
-                    sql = 'MATCH p = (m)-[r:WRITTEN_BY]->(n) where m.title = "' + entity_dict.get('poem')[0] \
-                          + '" return n.name AS name'
+                    sql = 'MATCH (n:Poem) WHERE n.title = "'+ poem +'" RETURN n.author AS author'
                     result = session.run(sql)
                     author = ''
                     for record in result:
-                        author = record["name"]
+                        author = record["author"]
                     message = "《" + poem + "》的作者是" + author
 
                 elif question_type == 'author_belong':

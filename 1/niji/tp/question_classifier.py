@@ -53,7 +53,7 @@ class QuestionClassifier:
         self.belongD_qwds = ['属于', '来自', '哪个朝代', '哪个年代的', '是哪个时代的', '在哪个时期的']
         self.Dhas_qwds = ['有哪些诗人', '包括哪些诗人', '出现过哪些诗人', '哪些诗人']
         self.poemContent_qwds = ['内容', '全文', '全诗', '原文', '内容是什么']
-        self.poemIntro_qwds = ['讲解', '解释', '分析', '解析', '说明', '阐释', '讨论', '赏析', '意思', '含义', '诠释', '介绍']
+        self.poemIntro_qwds = ['讲解', '解释', '分析', '解析', '说明', '阐释', '讨论', '赏析', '意思', '含义', '诠释', '介绍', '表达', '蕴含']
         self.authorDesc_qwds = ['介绍', '是谁', '生平', '简介', '背景', '来历']
 
     def classify(self, question):
