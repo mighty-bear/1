@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/backgroundimg.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        .poem-section {
+            margin-top: 30px;
+        }
+        .btn-back {
+            margin-top: 10px;
+        }
+        #poem-title {
+            font-size: 24px;
+            text-align: center;
+        }
+        #poem-content {
+            font-size: 20px;
+            text-align: center;
+        }
+        #poem-analysis, #poem-annotation, #poem-translation {
+            margin-top: 20px;
+        }
+        #poem-analysis h2, #poem-annotation h2, #poem-translation h2 {
+            font-size: 20px;
+        }
+        #poem-analysis p, #poem-annotation p, #poem-translation p {
+            font-size: 16px;
+        }
+    </style>
+    <title>{{poem.title}}</title>
+</head>
+<body>
+    <!--背景-->
+    <div class="wrapper">
+        <div id="web_bg" style="background-image: url(/static/古诗词背景.jpg);"></div>
+    </div>
+    <div class="container">
+        <!-- 返回按钮 -->
+        <div class="row">
+            <div class="col-xs-6">
+                <button class="btn btn-default btn-back" onclick="window.location.href='/'">返回首页</button>
+            </div>
+            <div class="col-xs-6 text-right">
+                <button class="btn btn-default btn-back" onclick="javascript:history.back(-1);">返回上一页</button>
+            </div>
+        </div>
+
+        <!-- 古诗内容 -->
+        <div class="row poem-section">
+            <div class="col-md-12">
+                <div id="poem-title">
+                    <h1>{{poem.title}}</h1>
+                    <h2>{{poem.dynasty}} <a href="{% url 'poem_to_author' author=poem.author %}">{{ poem.author }}</a></h2>
+                </div>
+                <div id="poem-content">
+                    <p>{{poem.content}}</p>
+                </div>
+                <div id="poem-analysis">
+                    <h2>赏析：</h2>
+                    <p>{{poem.intro}}</p>
+                </div>
+                <div id="poem-annotation">
+                    <h2>注释：</h2>
+                    <p>{{poem.annotation}}</p>
+                </div>
+                <div id="poem-translation">
+                    <h2>翻译：</h2>
+                    <p>{{poem.translation}}</p>
+                </div>
+                <div>
+                    <form action="{% url 'poem_to_yx' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="poem_content" value="{{ poem.content }}">
+                    <button type="submit" style="background: none; border: none; color: blue; text-decoration: underline; cursor: pointer;">
+                    识别这首诗的意象
+                    </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

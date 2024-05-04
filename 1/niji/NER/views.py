@@ -67,6 +67,80 @@ def test(request):
     return render(request, '诗人行迹.html')
 
 
+def process_yx(input_sentence):
+    res = []
+    yx_list = main.yx_recognition(input_sentence)
+    count_dict = {"战争": 0, "思乡": 0, "爱国": 0, "离别": 0, "闺怨": 0}
+    yx_list = list(set(yx_list))
+    print(yx_list)
+    for yx in yx_list:
+        flag = 1
+        for k, v in yx_dict.items():
+            if yx in v:
+                res.append(yx + "——" + k)
+                count_dict[k] += 1
+                flag = 0
+        if flag == 1:
+            res.append(yx)
+    res = list(set(res))
+    key_max = max(count_dict.keys(), key=(lambda t: count_dict[t]))
+    print(res)
+    print(count_dict)
+    print(key_max)
+
+    return res, count_dict, key_max
+
+
+def yxProcess(request=None, input_sentence=None):
+    if not input_sentence:
+        input_sentence = request.POST.get('input_sentence')
+
+    if input_sentence:
+        res, count_dict, key_max = process_yx(input_sentence)
+
+        # 下面的代码依赖于 Neo4j 数据库连接和图形结构生成逻辑
+        driver = GraphDatabase.driver(
+            f"bolt://{settings.NEO4J_HOST}:{settings.NEO4J_PORT}",
+            auth=(settings.NEO4J_USERNAME, settings.NEO4J_PASSWORD)
+        )
+        with driver.session() as session:
+            query = "MATCH p=(a)-[r:Classified]->(b) WHERE b.name='" + key_max + "' RETURN a.title as title, a.content as content, b.name as yx"
+            result = session.run(query)
+            nodes = []
+            links = []
+            for record in result:
+                nodes_links_append(nodes, links, record)
+
+            context = {
+                "nodes": nodes,
+                "links": links,
+                "query_result": len(nodes) > 0
+            }
+            print(nodes)
+            print(links)
+            driver.close()
+
+        if request:
+            return render(request, '意象搜索.html', {"res": res, "nodes": nodes, "links": links})
+        return res, nodes, links
+
+    if request:
+        return render(request, '意象搜索.html')
+    return "No input sentence provided."
+
+
+def nodes_links_append(nodes, links, record):
+    poem_title = record["title"]
+    poem_content = record["content"]
+    yx_name = record["yx"]
+    if {"name": poem_title, "category": 0, "content": poem_content} not in nodes:
+        nodes.append({"name": poem_title, "category": 0, "content": poem_content})
+    if {"name": yx_name, "category": 1} not in nodes:
+        nodes.append({"name": yx_name, "category": 1})
+    links.append({"source": poem_title, "target": yx_name, "value": "Classified"})
+
+
+'''
 def yxProcess(request):
     # yxScript()
     if request.method == 'POST':
@@ -130,11 +204,13 @@ def yxProcess(request):
             driver.close()
         return render(request, '意象搜索.html', {"res": res, "nodes": nodes, "links": links})
     return render(request, '意象搜索.html')
+'''
 
 
-def locationProcess(request):
-    if request.method == 'POST':
+def locationProcess(request=None, input_sentence=None):
+    if not input_sentence and request.method == 'POST':
         input_sentence = request.POST['input_sentence']
+    if input_sentence:
         loc_list = main.location_recognition(input_sentence)
         print(loc_list)
         return render(request, '诗人行迹.html', {"res": loc_list})
@@ -170,7 +246,7 @@ def create_and_link_nodes(session, myTitle, nyContent):
         "MERGE (y:YX {name: $nyContent}) "
         "MERGE (p)-[:classified]->(y)"
     )
-    print(myTitle+"->"+nyContent)
+    print(myTitle + "->" + nyContent)
     session.run(query, myTitle=myTitle, nyContent=nyContent)
 
 

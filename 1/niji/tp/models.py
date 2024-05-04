@@ -45,3 +45,18 @@ class selection(models.Model):
     C = models.CharField(max_length=100, default='')
     D = models.CharField(max_length=100, default='')
     Answer = models.CharField(max_length=2, default='')
+
+class Poem(models.Model):
+    title = models.CharField(max_length=2000)
+    author_id = models.IntegerField(null=True)
+    author = models.CharField(max_length=255)
+    dynasty = models.CharField(max_length=10)
+    content = models.TextField(null=True)
+    intro = models.TextField(null=True)
+    annotation = models.TextField(null=True)
+    translation = models.TextField(null=True)
+
+class Author(models.Model):
+    name = models.CharField(max_length=255)
+    desc = models.TextField(null=True)
+    dynasty = models.CharField(max_length=10)

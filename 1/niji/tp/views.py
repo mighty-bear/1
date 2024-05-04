@@ -1,6 +1,6 @@
 # 各页面主函数
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from docx.api import Document
 import pymysql
 from .models import *
@@ -14,6 +14,11 @@ from django.conf import settings
 from django.http import JsonResponse
 from . import question_classifier
 from . import gpttest
+import json
+from .models import Poem
+from .models import Author
+from django.urls import reverse
+from NER.views import yxProcess, locationProcess
 
 
 def index(request):
@@ -376,6 +381,49 @@ def tpshow(request):
 
     return render(request, 'tpshow.html', context)
 
+def nodeClicked(request):
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        category = data.get('category')
+        name = data.get('name')
+
+        # 古诗
+        if category == 0:
+            p = Poem.objects.filter(title=name).first()
+            if p:
+                redirect_url = reverse('poem_info', kwargs={'poem_id': p.id})
+                return JsonResponse({'redirect': redirect_url})
+
+        # 诗人
+        if category == 2:
+            a = Author.objects.filter(name=name).first()
+            if a:
+                redirect_url = reverse('author_info', kwargs={'author_id': a.id})
+                return JsonResponse({'redirect': redirect_url})
+        return JsonResponse({'error': 'Not found'}, status=404)
+    return JsonResponse({'error': 'Invalid request'}, status=400)
+
+def poemInfo(request, poem_id):
+    p = get_object_or_404(Poem, id=poem_id)
+    return render(request, 'poem_info.html', {'poem': p})
+
+def authorInfo(request, author_id):
+    a = get_object_or_404(Author, id=author_id)
+    return render(request, 'author_info.html', {'author': a})
+
+def poemToAuthor(request, author):
+    a = Author.objects.filter(name=author).first()
+    if a:
+        return render(request, 'author_info.html', {'author': a})
+    return JsonResponse({'error': 'Not found'}, status=404)
+
+def poemToYx(request):
+    poem_content = request.POST.get('poem_content', '')
+    return yxProcess(request, poem_content)
+
+def authorToLocation(request):
+    author_desc = request.POST.get('author_desc', '')
+    return locationProcess(request, author_desc)
 
 def chat(request):
     if request.method == 'POST':

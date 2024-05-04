@@ -50,5 +50,11 @@ urlpatterns = [
     path('玉门关/', views.YuMenGuan),
     path('tpshow/', views.tpshow),
     path('chat',views.chat),
-    path('get_answer',views.getAnswer)
+    path('get_answer',views.getAnswer),
+    path('node_clicked',views.nodeClicked),
+    path('poem_info/<int:poem_id>/', views.poemInfo, name='poem_info'),
+    path('author_info/<int:author_id>', views.authorInfo, name='author_info'),
+    path('poem_to_author/<str:author>', views.poemToAuthor, name='poem_to_author'),
+    path('poem_to_yx',views.poemToYx,name='poem_to_yx'),
+    path('author_to_Location',views.authorToLocation,name='author_to_location')
 ]
