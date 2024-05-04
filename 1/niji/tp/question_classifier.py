@@ -48,7 +48,7 @@ class QuestionClassifier:
         self.wdtype_dict = self.build_wdtype_dict()
 
         # 疑问词
-        self.create_qwds = ['创作', '写', '代表作', '创造', '创作了', '写了', '作品', '诗', '词', '曲', '歌']
+        self.create_qwds = ['创作', '写', '代表作', '创造', '创作了', '写了', '作品']
         self.belongA_qwds = ['作者', '创作者', '谁写的', '哪位诗人的', '哪位作家的', '属于谁的']
         self.belongD_qwds = ['属于', '来自', '哪个朝代', '哪个年代的', '是哪个时代的', '在哪个时期的']
         self.Dhas_qwds = ['有哪些诗人', '包括哪些诗人', '出现过哪些诗人', '哪些诗人']

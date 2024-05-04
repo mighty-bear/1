@@ -2,7 +2,7 @@ from django.db import models
 
 
 # Create your models here.
-class puzzle(models.Model):
+class Puzzle(models.Model):
     title = models.CharField(max_length=2000)
     author = models.CharField(max_length=255)
     dynasty = models.CharField(max_length=10)
@@ -10,5 +10,5 @@ class puzzle(models.Model):
     keyword = models.CharField(max_length=10)
 
 
-class keywords(models.Model):
+class Keywords(models.Model):
     name = models.CharField(max_length=10)

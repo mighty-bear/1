@@ -169,7 +169,7 @@
         </div>
         <div class="feihua-right">
             <h2 class="text-center">知识图谱学习栏</h2>
-            <div id="feihuaechart" style="width: 600px;height: 600px;"></div>
+            <div id="feihuaechart" style="width: 1000px;height: 800px;"></div>
         </div>
     </div>
     <script>
@@ -190,6 +190,7 @@
                     type: 'POST',
                     url: '/fhl/start_game',
                     success: function(response) {
+                    updateChart(response.nodes, response.links);
                     var poem = response.poem
                     answeredPoems.push(poem)
                         $('#chatarea').append(`
@@ -243,6 +244,8 @@
                             $('#score').text(score);
                             answeredPoems.push(poem);
                             answeredPoems.push(response.replyPoem);
+                            // 更新图谱
+                            updateChart(response.nodes, response.links);
                         }
                     },
                     error: function(xhr, status, error) {
@@ -260,6 +263,85 @@
                 $('#response').text('');
             });
         });
+        function updateChart(nodes, links) {
+         console.log('Updating chart with nodes:', nodes, 'and links:', links);
+            // 初始化echarts实例
+        var chart = echarts.init(document.getElementById('feihuaechart'));
+
+        // 设置节点和关系的类别
+        nodes.forEach(function (node) {
+            node.category = node.category || 0;
+        });
+
+        // 配置项
+        var option = {
+            tooltip: {
+                show: true
+                },
+            series: [
+                {
+                    draggable:true,
+                    type: 'graph',
+                    layout: 'force',
+                    roam: true,
+                    label: {
+                        show: true
+                    },
+                    force: {
+                        repulsion: 100,
+                        edgeLength:100
+                    },
+                    data: nodes,
+                    links: links,
+                    categories: [
+                        {name: '诗'},
+                        {name: '朝代'},
+                        {name: '作者'},
+                        {name: '诗句'},
+                        {name: '关键词'}
+                    ],
+                    label: {
+                        show: true,
+                        position: 'right',
+                        formatter: '{b}'
+                    },
+                    emphasis: {
+                        focus: 'adjacency',
+                        lineStyle: {
+                            width: 10
+                        }
+                    }
+                }
+            ]
+        };
+
+        // 使用配置项绘制知识图谱
+        chart.setOption(option);
+        chart.on('click', function (params) {
+            if (params.dataType === 'node' && params.data.category!==1) {
+                // 当点击的是节点时执行操作
+                // AJAX请求发送节点数据到后端
+                var nodeData = {
+                    category: params.data.category, // 假设每个节点数据中包含type
+                    name: params.data.name
+                };
+
+                fetch('/tp/node_clicked', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json' // Django需要CSRF token
+                    },
+                    body: JSON.stringify(nodeData)
+                }).then(response => response.json())
+                  .then(data => {
+                    if (data.redirect) {
+                        // 如果后端处理成功并返回跳转URL，则在此跳转
+                        window.open(data.redirect, '_blank');
+                    }
+                }).catch(error => console.error('Error:', error));
+            }
+        });
+        }
     </script>
 
     <br>

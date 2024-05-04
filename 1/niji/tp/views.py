@@ -365,7 +365,7 @@ def tpshow(request):
             if {"name": author_name, "category": 2} not in nodes:
                 nodes.append({"name": author_name, "category": 2})
             # 添加BELONGS_TO关系
-            links.append({"source": poem_title, "target": dynasty_name, "value": "BELONGS_TO"})
+            links.append({"source": author_name, "target": dynasty_name, "value": "BELONGS_TO"})
             # 添加WRITTEN_BY关系
             links.append({"source": poem_title, "target": author_name, "value": "WRITTEN_BY"})
 
@@ -380,6 +380,7 @@ def tpshow(request):
     # print(links)
 
     return render(request, 'tpshow.html', context)
+
 
 def nodeClicked(request):
     if request.method == 'POST':
@@ -403,13 +404,16 @@ def nodeClicked(request):
         return JsonResponse({'error': 'Not found'}, status=404)
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
+
 def poemInfo(request, poem_id):
     p = get_object_or_404(Poem, id=poem_id)
     return render(request, 'poem_info.html', {'poem': p})
 
+
 def authorInfo(request, author_id):
     a = get_object_or_404(Author, id=author_id)
     return render(request, 'author_info.html', {'author': a})
+
 
 def poemToAuthor(request, author):
     a = Author.objects.filter(name=author).first()
@@ -417,13 +421,16 @@ def poemToAuthor(request, author):
         return render(request, 'author_info.html', {'author': a})
     return JsonResponse({'error': 'Not found'}, status=404)
 
+
 def poemToYx(request):
     poem_content = request.POST.get('poem_content', '')
     return yxProcess(request, poem_content)
 
+
 def authorToLocation(request):
     author_desc = request.POST.get('author_desc', '')
     return locationProcess(request, author_desc)
+
 
 def chat(request):
     if request.method == 'POST':
@@ -475,30 +482,38 @@ def getAnswer(request):
                 auth=(settings.NEO4J_USERNAME, settings.NEO4J_PASSWORD)
             )
             with driver.session() as session:
+                nodes = []
+                links = []
                 if question_type == 'author_create':
                     author = entity_dict.get('author')[0]
-                    sql = 'MATCH (n:Poem) WHERE n.author = "' + author + '" RETURN n.title as title'
+                    nodes.append({"name": author, "category": 2, "symbolSize": 30})
+                    sql = 'MATCH (n:Poem) WHERE n.author = "' + author + '" RETURN n.title as title limit 20'
                     result = session.run(sql)
                     message = author + "的作品有："
                     i = 0
                     for record in result:
-                        if i == 5:
-                            break
                         i += 1
-                        title = record["title"]
-                        title_ = "《" + title + "》，"
-                        message += title_
+                        poem_title = record["title"]
+                        nodes.append({"name": poem_title, "category": 0})
+                        links.append({"source": poem_title, "target": author, "value": "WRITTEN_BY"})
+                        if i <= 5:
+                            title_ = "《" + poem_title + "》，"
+                            message += title_
+
                     message = message[:-1]
                     message += "等等"
 
 
                 elif question_type == 'poem_belong':
                     poem = entity_dict.get('poem')[0]
-                    sql = 'MATCH (n:Poem) WHERE n.title = "'+ poem +'" RETURN n.author AS author'
+                    sql = 'MATCH (n:Poem) WHERE n.title = "' + poem + '" RETURN n.author AS author'
                     result = session.run(sql)
                     author = ''
                     for record in result:
                         author = record["author"]
+                    nodes.append({"name": poem, "category": 0, "symbolSize": 30})
+                    nodes.append({"name": author, "category": 2, "symbolSize": 30})
+                    links.append({"source": poem, "target": author, "value": "WRITTEN_BY"})
                     message = "《" + poem + "》的作者是" + author
 
                 elif question_type == 'author_belong':
@@ -509,6 +524,9 @@ def getAnswer(request):
                     dynasty = ''
                     for record in result:
                         dynasty = record["name"]
+                    nodes.append({"name": author, "category": 2, "symbolSize": 30})
+                    nodes.append({"name": dynasty, "category": 1, "symbolSize": 30})
+                    links.append({"source": author, "target": dynasty, "value": "BELONGS_TO"})
                     message = author + "是" + dynasty + "朝的诗人"
 
                 elif question_type == 'dynasty_has':
@@ -516,17 +534,19 @@ def getAnswer(request):
                     if "朝" in dynasty:
                         dynasty = dynasty[:-1]
                     sql = 'MATCH p=(author)<-[r2:WRITTEN_BY]-(poem)-[r1:BELONGS_TO]->(dynasty) WHERE dynasty.name = "' + \
-                          dynasty + '"return DISTINCT author.name AS name limit 25'
+                          dynasty + '"return DISTINCT author.name AS name limit 20'
                     result = session.run(sql)
+                    nodes.append({"name": dynasty, "category": 1, "symbolSize": 30})
                     message = dynasty + "朝的诗人有："
                     i = 0
                     for record in result:
-                        if i == 5:
-                            break
                         i += 1
                         name = record["name"]
-                        name_ = name + "，"
-                        message += name_
+                        nodes.append({"name": name, "category": 2})
+                        links.append({"source": name, "target": dynasty, "value": "BELONGS_TO"})
+                        if i < 5:
+                            name_ = name + "，"
+                            message += name_
                     message = message[:-1]
                     message += "等等"
 
@@ -534,17 +554,19 @@ def getAnswer(request):
                     poem = entity_dict.get('poem')[0]
                     sql = 'MATCH (n:Poem) WHERE n.title = "' + poem + '" RETURN n.content AS content LIMIT 1'
                     result = session.run(sql)
+                    nodes.append({"name": poem, "category": 0, "symbolSize": 50})
                     message = "《" + poem + "》的内容是："
                     for record in result:
                         print(record)
                         message += record["content"]
-                    response = {'message': message}
+                    response = {'message': message, 'nodes': nodes, 'links': links}
                     return JsonResponse(response)
 
                 elif question_type == 'poem_intro':
                     poem = entity_dict.get('poem')[0]
                     sql = 'MATCH (n:Poem) WHERE n.title = "' + poem + '" RETURN n.introduction AS intro LIMIT 1'
                     result = session.run(sql)
+                    nodes.append({"name": poem, "category": 0, "symbolSize": 50})
                     message = ""
                     maxToken += 150
                     for record in result:
@@ -554,6 +576,7 @@ def getAnswer(request):
                     author = entity_dict.get('author')[0]
                     sql = 'MATCH (n:Author) WHERE n.name = "' + author + '" RETURN n.description AS desc LIMIT 1'
                     result = session.run(sql)
+                    nodes.append({"name": author, "category": 2, "symbolSize": 50})
                     message = ""
                     maxToken += 150
                     for record in result:
@@ -568,6 +591,6 @@ def getAnswer(request):
         print(prompt)
         gptModel.max_token = maxToken
         message = gptModel.chat_gpt(prompt)
-        response = {'message': message}
+        response = {'message': message, 'nodes': nodes, 'links': links}
 
         return JsonResponse(response)
